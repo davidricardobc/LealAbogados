@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #070707;
+  --color-inkSoft: #151515;
+  --color-brand-red: #a62e2e;
+  --color-brand-redDark: #7f1f1f;
+  --color-brand-redDeep: #4a1111;
+  --color-muted: #606060;
+  --color-line: #e8e4e1;
+  --color-paper: #ffffff;
+  --color-smoke: #f6f5f3;
+  --font-sans: "Aptos", "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Georgia, ui-serif, serif;
+}
+
+:root {
+  color-scheme: light;
+  background: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #070707;
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #a62e2e;
+  color: white;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.legal-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+.red-rule {
+  position: relative;
+}
+
+.red-rule::before {
+  background: #a62e2e;
+  content: "";
+  height: 1px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 4rem;
+}
