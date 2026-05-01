@@ -8,7 +8,7 @@ import { companyPackages, enterpriseServices, whatsappUrl } from "@/data/site";
 export const metadata: Metadata = {
   title: "Servicios empresariales",
   description:
-    "Servicios juridicos empresariales para reglamento interno de trabajo, SG-SST, revision documental y acompanamiento preventivo mensual.",
+    "Servicios jurídicos empresariales para reglamento interno de trabajo, contratación laboral, seguridad social, riesgos laborales y acompañamiento preventivo mensual.",
   alternates: {
     canonical: "/servicios-empresariales",
   },
@@ -18,8 +18,8 @@ export default function EnterpriseServicesPage() {
   return (
     <>
       <PageHero
-        title="Acompaniamiento juridico preventivo para empresas que quieren reducir contingencias."
-        description="Servicios para ordenar documentos, revisar decisiones laborales y construir una operacion con menos exposicion juridica."
+        title="Acompañamiento jurídico preventivo para empresas que quieren reducir contingencias."
+        description="Servicios para ordenar documentos, revisar decisiones laborales y construir una operación con menos exposición jurídica."
         secondaryHref="/contacto"
         secondaryLabel="Solicitar contacto"
       />
@@ -28,7 +28,7 @@ export default function EnterpriseServicesPage() {
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             title="Servicios empresariales de alta utilidad operativa."
-            description="La propuesta no es responder emergencias aisladas, sino crear soporte juridico recurrente para decisiones que se repiten dentro de la empresa."
+            description="La propuesta no es responder emergencias aisladas, sino crear soporte jurídico recurrente para decisiones que se repiten dentro de la empresa."
           />
           <div className="mt-12 grid gap-5 md:grid-cols-2">
             {enterpriseServices.map((service) => (
@@ -53,7 +53,7 @@ export default function EnterpriseServicesPage() {
           <div>
             <SectionHeader
               title="Paquetes editables para conversaciones comerciales."
-              description="Estos paquetes sirven como estructura inicial. El alcance final debe ajustarse segun tamano de la empresa, volumen documental y frecuencia de consultas."
+              description="Estos paquetes sirven como estructura inicial. El alcance final debe ajustarse según tamaño de la empresa, volumen documental y frecuencia de consultas."
             />
             <div className="mt-8">
               <ButtonLink external href={whatsappUrl}>
@@ -80,8 +80,8 @@ export default function EnterpriseServicesPage() {
       </section>
 
       <CtaBand
-        title="La prevencion juridica tambien es una decision de gestion."
-        text="Una empresa ordenada juridicamente responde mejor, negocia con mas claridad y reduce el costo de conflictos evitables."
+        title="La prevención jurídica también es una decisión de gestión."
+        text="Una empresa ordenada jurídicamente responde mejor, negocia con más claridad y reduce el costo de conflictos evitables."
       />
     </>
   );

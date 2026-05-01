@@ -1,6 +1,6 @@
 # LealAbogados.co
 
-Primera version profesional del sitio de Leal Abogados: una base Next.js orientada a conversion de consultas juridicas, autoridad de marca y escalamiento a servicios legales de mayor valor.
+Primera versión profesional del sitio de Leal Abogados Compañía: una base Next.js orientada a conversión de consultas jurídicas, autoridad de marca y escalamiento a servicios legales de mayor valor.
 
 ## Stack
 
@@ -24,7 +24,7 @@ npm run dev
 
 Abre `http://localhost:3000`.
 
-Si el puerto `3000` ya esta ocupado:
+Si el puerto `3000` ya está ocupado:
 
 ```bash
 npm run dev -- --port 3001
@@ -60,7 +60,7 @@ docs/
 
 ## Contenido editable
 
-Los datos principales de marca, telefono, correo, WhatsApp, areas de practica, servicios empresariales y paquetes estan en:
+Los datos principales de marca, teléfono, correo, WhatsApp, áreas de práctica, servicios empresariales y paquetes están en:
 
 ```text
 src/data/site.ts
@@ -68,16 +68,22 @@ src/data/site.ts
 
 Tambien desde ese archivo puedes editar:
 
-- Areas de practica.
+- Áreas de práctica.
 - Servicios empresariales.
 - Paquetes sugeridos.
-- Checklist de preparacion de consulta.
+- Checklist de preparación de consulta.
 - Posibles rutas de escalamiento.
 - Principios de confianza.
 
+El catálogo base enviado por el cliente quedó documentado en:
+
+```text
+docs/service-catalog-source.md
+```
+
 ## Formularios y crecimiento
 
-Los formularios quedan preparados con nombres de campos estables y atributos `data-crm-ready` / `data-form-context` para una futura integracion con CRM, analitica, automatizaciones, atribucion de leads o A/B testing.
+Los formularios quedan preparados con nombres de campos estables y atributos `data-crm-ready` / `data-form-context` para una futura integración con CRM, analítica, automatizaciones, atribución de leads o A/B testing.
 
 Eventos disponibles para tracking:
 
@@ -92,9 +98,9 @@ Los CTAs usan atributos `data-event`, `data-event-label` y `data-event-location`
 ## Checklist antes de publicar
 
 1. Cambiar telefono, WhatsApp, correo y ciudad en `src/data/site.ts`.
-2. Revisar copy legal definitivo con el equipo juridico.
-3. Conectar el formulario a CRM, email o automatizacion.
-4. Instalar analitica y conversion tracking.
+2. Revisar copy legal definitivo con el equipo jurídico.
+3. Conectar el formulario a CRM, email o automatización.
+4. Instalar analítica y conversion tracking.
 5. Configurar dominio y revisar Open Graph.
 6. Ejecutar `npm run lint`, `npm run build` y `npm audit --audit-level=moderate`.
 
@@ -104,7 +110,7 @@ Los CTAs usan atributos `data-event`, `data-event-label` y `data-event-location`
 2. En Vercel, crea un nuevo proyecto desde el repositorio.
 3. Framework preset: `Next.js`.
 4. Build command: `npm run build`.
-5. Output: automatico para Next.js.
+5. Output: automático para Next.js.
 6. Configura el dominio `lealabogados.co`.
 
 Antes de publicar, actualiza los placeholders de contacto en `src/data/site.ts`.

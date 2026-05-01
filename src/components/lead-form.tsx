@@ -31,7 +31,7 @@ export function LeadForm({ context }: LeadFormProps) {
           />
         </label>
         <label className="space-y-2">
-          <span className="text-sm font-semibold text-ink">Telefono</span>
+          <span className="text-sm font-semibold text-ink">Teléfono</span>
           <input
             className="h-12 w-full border border-ink/12 bg-white px-4 text-sm text-ink outline-none transition placeholder:text-muted/70 focus:border-brand-red"
             name="phone"
@@ -41,7 +41,7 @@ export function LeadForm({ context }: LeadFormProps) {
           />
         </label>
         <label className="space-y-2 sm:col-span-2">
-          <span className="text-sm font-semibold text-ink">Correo electronico</span>
+          <span className="text-sm font-semibold text-ink">Correo electrónico</span>
           <input
             className="h-12 w-full border border-ink/12 bg-white px-4 text-sm text-ink outline-none transition placeholder:text-muted/70 focus:border-brand-red"
             name="email"
@@ -50,13 +50,13 @@ export function LeadForm({ context }: LeadFormProps) {
           />
         </label>
         <label className="space-y-2 sm:col-span-2">
-          <span className="text-sm font-semibold text-ink">Area del caso</span>
+          <span className="text-sm font-semibold text-ink">Área del caso</span>
           <select
             className="h-12 w-full border border-ink/12 bg-white px-4 text-sm text-ink outline-none transition focus:border-brand-red"
             name="practice_area"
             required
           >
-            <option value="">Selecciona una opcion</option>
+            <option value="">Selecciona una opción</option>
             {practiceAreas.map((area) => (
               <option key={area.slug} value={area.slug}>
                 {area.title}
@@ -73,8 +73,8 @@ export function LeadForm({ context }: LeadFormProps) {
             name="urgency"
             required
           >
-            <option value="">Selecciona una opcion</option>
-            <option value="inmediata">Necesito orientacion inmediata</option>
+            <option value="">Selecciona una opción</option>
+            <option value="inmediata">Necesito orientación inmediata</option>
             <option value="esta-semana">Esta semana</option>
             <option value="preventiva">Es preventivo, puedo programar</option>
           </select>
@@ -86,7 +86,7 @@ export function LeadForm({ context }: LeadFormProps) {
             name="preferred_channel"
             required
           >
-            <option value="">Selecciona una opcion</option>
+            <option value="">Selecciona una opción</option>
             <option value="whatsapp">WhatsApp</option>
             <option value="llamada">Llamada</option>
             <option value="correo">Correo</option>
@@ -97,7 +97,7 @@ export function LeadForm({ context }: LeadFormProps) {
           <textarea
             className="min-h-32 w-full resize-y border border-ink/12 bg-white px-4 py-3 text-sm text-ink outline-none transition placeholder:text-muted/70 focus:border-brand-red"
             name="case_summary"
-            placeholder="Cuentanos que ocurrio, que necesitas decidir y si tienes documentos relacionados."
+            placeholder="Cuéntanos qué ocurrió, qué necesitas decidir y si tienes documentos relacionados."
             required
           />
         </label>
@@ -112,7 +112,7 @@ export function LeadForm({ context }: LeadFormProps) {
         Enviar solicitud de consulta
       </button>
       <p className="mt-4 text-xs leading-6 text-muted">
-        Formulario preparado para integracion futura con CRM, analitica y automatizaciones.
+        Formulario preparado para integración futura con CRM, analítica y automatizaciones.
       </p>
     </form>
   );

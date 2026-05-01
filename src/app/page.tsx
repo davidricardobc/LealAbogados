@@ -6,7 +6,12 @@ import { ProcessSteps } from "@/components/process-steps";
 import { SectionHeader } from "@/components/section-header";
 import { companyPackages, enterpriseServices, practiceAreas, whatsappUrl } from "@/data/site";
 
-const trustPoints = ["Criterio antes de actuar", "Prevencion de errores", "Rutas legales claras", "Atencion a personas y empresas"];
+const trustPoints = [
+  "Más de 18 años de experiencia",
+  "Estrategia jurídica sólida",
+  "Comunicación clara y transparente",
+  "Atención confidencial",
+];
 
 export default function Home() {
   return (
@@ -18,17 +23,18 @@ export default function Home() {
           <div className="max-w-3xl">
             <div className="mb-8 h-px w-20 bg-brand-red" />
             <h1 className="font-serif text-5xl font-semibold leading-[1.02] tracking-normal sm:text-6xl lg:text-7xl">
-              Consulta juridica clara para decidir con criterio y actuar a tiempo.
+              Consulta jurídica clara para proteger derechos, patrimonio y tranquilidad.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-white/72">
-              Leal Abogados orienta personas y empresas con una ruta legal seria: primero se entiende el caso, luego se define si conviene prevenir, negociar, reclamar o iniciar una accion.
+              Leal Abogados Compañía asesora y representa a personas, familias y empresas con una ruta legal seria:
+              primero se entiende el caso, luego se define si conviene prevenir, negociar, reclamar o iniciar una acción.
             </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <ButtonLink external href={whatsappUrl} variant="dark">
-                Agendar consulta juridica
+                Agendar consulta jurídica
               </ButtonLink>
               <ButtonLink href="/areas-de-practica" variant="ghost" className="text-white hover:bg-white/8 hover:text-white">
-                Ver areas de practica
+                Ver áreas de práctica
               </ButtonLink>
             </div>
           </div>
@@ -37,9 +43,9 @@ export default function Home() {
             <div className="absolute inset-x-6 top-6 h-px bg-white/12" />
             <div className="absolute bottom-6 left-6 top-6 w-px bg-white/12" />
             <div className="flex h-full flex-col justify-end">
-              <p className="max-w-sm text-sm uppercase tracking-[0.3em] text-white/42">Metodo de entrada</p>
+              <p className="max-w-sm text-sm uppercase tracking-[0.3em] text-white/42">Método de entrada</p>
               <div className="mt-8 grid gap-3">
-                {["Consulta", "Criterio", "Ruta legal", "Accion"].map((item, index) => (
+                {["Consulta", "Criterio", "Ruta legal", "Acción"].map((item, index) => (
                   <div className="grid grid-cols-[3rem_1fr] items-center border border-white/10 bg-inkSoft/80" key={item}>
                     <span className="flex h-14 items-center justify-center border-r border-white/10 font-serif text-xl text-brand-red">
                       0{index + 1}
@@ -49,7 +55,7 @@ export default function Home() {
                 ))}
               </div>
               <p className="mt-8 max-w-md text-sm leading-7 text-white/58">
-                La consulta filtra el caso, aclara riesgos y permite escalar solo cuando existe una ruta juridica razonable.
+                La consulta filtra el caso, aclara riesgos y permite escalar solo cuando existe una ruta jurídica razonable.
               </p>
             </div>
           </div>
@@ -70,11 +76,11 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
             <SectionHeader
-              title="Areas donde la consulta evita decisiones costosas."
-              description="Cada caso entra por un diagnostico juridico. Si hay base, se estructura la accion adecuada: tutela, proceso, tramite, queja, denuncia o acompanamiento preventivo."
+              title="Áreas donde la consulta evita decisiones costosas."
+              description="Cada caso entra por un diagnóstico jurídico. Si hay base, se estructura la acción adecuada: tutela, proceso, trámite, reclamación o acompañamiento preventivo."
             />
             <p className="text-base leading-8 text-muted lg:pb-2">
-              La web esta pensada para que el cliente entienda rapido si su problema encaja y avance hacia una consulta con informacion suficiente para filtrar mejor el caso.
+              La web está pensada para que el cliente entienda rápido si su problema encaja y avance hacia una consulta con información suficiente para filtrar mejor el caso.
             </p>
           </div>
           <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -90,7 +96,7 @@ export default function Home() {
           <div>
             <SectionHeader
               title="La consulta es la puerta de entrada, no un paso menor."
-              description="Sirve para ordenar hechos, documentos y expectativas. Tambien permite saber si el siguiente paso debe ser preventivo, administrativo, judicial o empresarial."
+              description="Sirve para ordenar hechos, documentos y expectativas. También permite saber si el siguiente paso debe ser preventivo, administrativo, judicial o empresarial."
             />
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink external href={whatsappUrl}>
@@ -107,7 +113,7 @@ export default function Home() {
                 "Claridad sobre viabilidad",
                 "Riesgos y tiempos probables",
                 "Documentos necesarios",
-                "Siguiente accion posible",
+                "Siguiente acción posible",
               ].map((item) => (
                 <div className="min-h-32 border border-ink/8 p-5" key={item}>
                   <span className="block h-px w-10 bg-brand-red" />
@@ -123,8 +129,8 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             align="center"
-            title="Un recorrido legal con menos improvisacion."
-            description="El objetivo no es empujar todos los casos a litigio. Es decidir con estructura que camino conviene y cuando vale la pena escalar."
+            title="Un recorrido legal con menos improvisación."
+            description="El objetivo no es empujar todos los casos a litigio. Es decidir con estructura qué camino conviene y cuándo vale la pena escalar."
           />
           <div className="mt-12">
             <ProcessSteps />
@@ -138,9 +144,9 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.75fr_1.25fr]">
           <div>
             <div className="mb-5 h-px w-16 bg-brand-red" />
-            <h2 className="font-serif text-4xl font-semibold">Soporte juridico preventivo para empresas.</h2>
+            <h2 className="font-serif text-4xl font-semibold">Soporte jurídico preventivo para empresas.</h2>
             <p className="mt-5 leading-8 text-white/66">
-              Servicios pensados para reducir contingencias, ordenar documentacion y acompanar decisiones laborales antes de que se vuelvan conflictos.
+              Servicios pensados para reducir contingencias, ordenar documentación y acompañar decisiones laborales antes de que se vuelvan conflictos.
             </p>
             <div className="mt-8">
               <ButtonLink href="/servicios-empresariales" variant="dark">
@@ -162,8 +168,8 @@ export default function Home() {
       <section className="bg-white px-5 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
-            title="Paquetes sugeridos para crecer sin perder control juridico."
-            description="Los paquetes funcionan como punto de partida para conversaciones empresariales de mayor valor y se ajustan segun alcance, riesgo y recurrencia."
+            title="Paquetes sugeridos para crecer sin perder control jurídico."
+            description="Los paquetes funcionan como punto de partida para conversaciones empresariales de mayor valor y se ajustan según alcance, riesgo y recurrencia."
           />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {companyPackages.map((pack) => (

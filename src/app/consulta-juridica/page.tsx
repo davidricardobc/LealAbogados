@@ -8,16 +8,16 @@ import { SectionHeader } from "@/components/section-header";
 import { journeySteps, whatsappUrl } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Consulta juridica",
+  title: "Consulta jurídica",
   description:
-    "Consulta juridica estrategica para ordenar hechos, revisar riesgos y definir si el caso debe escalar a tutela, tramite, proceso o acompanamiento preventivo.",
+    "Consulta jurídica estratégica para ordenar hechos, revisar riesgos y definir si el caso debe escalar a tutela, trámite, proceso o acompañamiento preventivo.",
   alternates: {
     canonical: "/consulta-juridica",
   },
 };
 
 const benefits = [
-  "Entender si existe una ruta juridica razonable.",
+  "Entender si existe una ruta jurídica razonable.",
   "Priorizar documentos y hechos relevantes.",
   "Evitar respuestas impulsivas o firmas riesgosas.",
   "Definir el siguiente paso: prevenir, reclamar, negociar o demandar.",
@@ -27,8 +27,8 @@ export default function ConsultationPage() {
   return (
     <>
       <PageHero
-        title="Consulta juridica para convertir incertidumbre en una ruta de accion."
-        description="La consulta es el punto de entrada a Leal Abogados. Permite evaluar el caso con criterio, explicar escenarios y decidir si conviene una accion legal concreta."
+        title="Consulta jurídica para convertir incertidumbre en una ruta de acción."
+        description="La consulta es el punto de entrada a Leal Abogados Compañía. Permite evaluar el caso con criterio, explicar escenarios y decidir si conviene una acción legal concreta."
         secondaryHref="/contacto"
         secondaryLabel="Enviar formulario"
       />
@@ -37,7 +37,7 @@ export default function ConsultationPage() {
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr]">
           <SectionHeader
             title="Que obtiene el cliente en la consulta."
-            description="No se trata de una respuesta rapida sin contexto. La consulta estructura el caso para que la siguiente decision tenga respaldo."
+            description="No se trata de una respuesta rápida sin contexto. La consulta estructura el caso para que la siguiente decisión tenga respaldo."
           />
           <div className="grid gap-4 sm:grid-cols-2">
             {benefits.map((benefit) => (
@@ -75,7 +75,7 @@ export default function ConsultationPage() {
           <div className="lg:sticky lg:top-28">
             <SectionHeader
               title="Agenda por WhatsApp o deja el caso por formulario."
-              description="WhatsApp reduce friccion cuando el caso es urgente. El formulario ayuda a preparar informacion para una revision mas ordenada."
+              description="WhatsApp reduce fricción cuando el caso es urgente. El formulario ayuda a preparar información para una revisión más ordenada."
             />
             <div className="mt-8">
               <ButtonLink external href={whatsappUrl}>
@@ -88,8 +88,8 @@ export default function ConsultationPage() {
       </section>
 
       <CtaBand
-        title="La primera decision tambien es juridica."
-        text="Antes de iniciar un tramite, responder una comunicacion o firmar un documento, una consulta puede cambiar la ruta completa del caso."
+        title="La primera decisión también es jurídica."
+        text="Antes de iniciar un trámite, responder una comunicación o firmar un documento, una consulta puede cambiar la ruta completa del caso."
       />
     </>
   );

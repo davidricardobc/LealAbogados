@@ -9,7 +9,7 @@ type CtaBandProps = {
 
 export function CtaBand({
   title = "Antes de actuar, ordenemos el caso.",
-  text = "La consulta juridica permite entender hechos, riesgos y rutas posibles antes de invertir tiempo y dinero en una accion legal.",
+  text = "La consulta jurídica permite entender hechos, riesgos y rutas posibles antes de invertir tiempo y dinero en una acción legal.",
   dark = true,
 }: CtaBandProps) {
   return (

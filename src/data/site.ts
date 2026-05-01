@@ -18,17 +18,17 @@ export type ConversionItem = {
 };
 
 export const siteConfig = {
-  name: "Leal Abogados",
+  name: "Leal Abogados Compañía",
   domain: "LealAbogados.co",
   url: "https://lealabogados.co",
   description:
-    "Firma juridica colombiana orientada a consulta estrategica, prevencion y accion legal bien estructurada para personas y empresas.",
+    "Firma jurídica colombiana con más de 18 años de experiencia en asesoría y representación legal para personas, familias y empresas.",
   phone: "+57 300 000 0000",
   whatsappNumber: "573000000000",
   email: "contacto@lealabogados.co",
   address: "Ciudad, Colombia",
   consultationMessage:
-    "Hola, quiero agendar una consulta juridica con Leal Abogados. Mi caso esta relacionado con: ",
+    "Hola, quiero agendar una consulta jurídica con Leal Abogados. Mi caso está relacionado con: ",
 };
 
 export const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
@@ -37,7 +37,7 @@ export const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${en
 
 export const navItems = [
   { label: "Inicio", href: "/" },
-  { label: "Areas", href: "/areas-de-practica" },
+  { label: "Áreas", href: "/areas-de-practica" },
   { label: "Empresas", href: "/servicios-empresariales" },
   { label: "Consulta", href: "/consulta-juridica" },
   { label: "Contacto", href: "/contacto" },
@@ -45,95 +45,102 @@ export const navItems = [
 
 export const practiceAreas: PracticeArea[] = [
   {
-    title: "Laboral y seguridad social",
-    slug: "laboral-seguridad-social",
+    title: "Derecho de familia",
+    slug: "derecho-familia",
     summary:
-      "Orientacion para conflictos laborales, prestaciones, incapacidades, pensiones, despidos y decisiones que requieren soporte juridico claro.",
+      "Asesoría y representación en asuntos familiares sensibles, priorizando soluciones justas, protección de derechos y claridad patrimonial.",
     signals: [
-      "Terminacion o presion laboral",
-      "Pago de acreencias e incapacidades",
-      "Pension, afiliaciones o riesgos",
+      "Divorcios de mutuo acuerdo o contenciosos",
+      "Custodia, régimen de visitas y cuota alimentaria",
+      "Unión marital de hecho, filiación o medidas de protección",
+      "Liquidación de sociedad conyugal u ocultamiento de bienes",
     ],
     escalation:
-      "Puede escalar a reclamacion, conciliacion, proceso laboral o acompaniamiento preventivo.",
+      "Puede escalar a acuerdo, conciliación, trámite notarial, medida de protección o proceso judicial.",
   },
   {
-    title: "Familia",
-    slug: "familia",
+    title: "Sucesiones y testamentos",
+    slug: "sucesiones-testamentos",
     summary:
-      "Acompaniamiento en decisiones familiares sensibles con enfoque de claridad, proteccion patrimonial y actuacion oportuna.",
+      "Acompañamiento en procesos sucesorales, conflictos entre herederos, planificación patrimonial y revisión de testamentos.",
     signals: [
-      "Cuotas alimentarias y custodia",
-      "Divorcio o union marital",
-      "Acuerdos familiares complejos",
+      "Sucesión notarial o judicial",
+      "Petición de herencia o conflicto entre herederos",
+      "Elaboración, revisión o nulidad de testamento",
+      "Desheredamiento, indignidad sucesoral o planificación patrimonial",
     ],
     escalation:
-      "Puede escalar a acuerdo, tramite notarial, conciliacion o proceso judicial.",
+      "Puede escalar a trámite notarial, proceso judicial, estrategia patrimonial o representación en controversia sucesoral.",
   },
   {
-    title: "Testamentos y sucesiones",
-    slug: "testamentos",
+    title: "Derecho laboral",
+    slug: "derecho-laboral",
     summary:
-      "Estructuracion preventiva para proteger la voluntad, reducir friccion familiar y ordenar decisiones patrimoniales.",
+      "Defensa de derechos de trabajadores y asesoría a empleadores en relaciones laborales, contratación, reglamentos y conflictos.",
     signals: [
-      "Planeacion de herencia",
-      "Redaccion o revision de testamento",
-      "Sucesion con desacuerdos",
+      "Despido sin justa causa, liquidación o prestaciones sociales",
+      "Acoso laboral, indemnización o estabilidad laboral reforzada",
+      "Contratos de trabajo, reglamento interno o trámites ante el Ministerio",
+      "Procesos judiciales, tutelas o recurso de casación",
     ],
     escalation:
-      "Puede escalar a tramite notarial, sucesion, revision documental o estrategia preventiva.",
+      "Puede escalar a reclamación, conciliación, proceso laboral, tutela, casación o acompañamiento preventivo empresarial.",
+  },
+  {
+    title: "Seguridad social",
+    slug: "seguridad-social",
+    summary:
+      "Orientación y representación en pensiones, incapacidades, licencias y calificación de origen o pérdida de capacidad laboral.",
+    signals: [
+      "Pensión de vejez, invalidez o sobrevivientes",
+      "Calificación de origen o pérdida de capacidad laboral",
+      "Licencias de maternidad, incapacidades o pagos pendientes",
+      "Tutelas por afectación de derechos en seguridad social",
+    ],
+    escalation:
+      "Puede escalar a reclamación administrativa, tutela, proceso judicial o seguimiento frente a entidad responsable.",
+  },
+  {
+    title: "Derecho civil y trámites notariales",
+    slug: "derecho-civil-tramites",
+    summary:
+      "Soluciones jurídicas en relaciones civiles, patrimoniales, contractuales y trámites notariales que requieren precisión documental.",
+    signals: [
+      "Contratos de arrendamiento o compraventa",
+      "Responsabilidad civil, daños y perjuicios",
+      "Procesos ejecutivos, cobro de cartera o restitución de inmueble",
+      "Conflictos contractuales o demandas de simulación",
+    ],
+    escalation:
+      "Puede escalar a revisión contractual, trámite notarial, reclamación, proceso ejecutivo o demanda civil.",
   },
   {
     title: "Tutelas y acciones constitucionales",
     slug: "tutelas-acciones-constitucionales",
     summary:
-      "Analisis de vulneracion de derechos fundamentales y construccion de una ruta juridica accionable.",
+      "Análisis de vulneración de derechos fundamentales y construcción de una ruta jurídica accionable cuando existe urgencia.",
     signals: [
-      "Salud, minimo vital o educacion",
-      "Respuesta insuficiente de entidad",
-      "Riesgo urgente de derecho",
+      "Salud, mínimo vital, pensiones, educación o estabilidad laboral",
+      "Respuesta insuficiente de entidad pública o privada",
+      "Riesgo urgente de derecho fundamental",
+      "Necesidad de incidente, desacato o seguimiento posterior",
     ],
     escalation:
-      "Puede escalar a tutela, incidente, desacato o acompaniamiento posterior.",
+      "Puede escalar a tutela, incidente de desacato, reclamación previa o acompañamiento posterior.",
   },
   {
-    title: "Denuncias, quejas y tramites",
-    slug: "denuncias-quejas-tramites",
+    title: "Empresas y prevención laboral",
+    slug: "empresas-prevencion-laboral",
     summary:
-      "Revision del caso para decidir si conviene denunciar, quejarse, solicitar informacion o agotar una via previa.",
-    signals: [
-      "Abuso, incumplimiento o negligencia",
-      "Entidad publica o privada no responde",
-      "Necesidad de dejar constancia formal",
-    ],
-    escalation:
-      "Puede escalar a denuncia, queja, derecho de peticion, reclamacion o representacion.",
-  },
-  {
-    title: "Acompaniamiento preventivo",
-    slug: "acompanamiento-preventivo",
-    summary:
-      "Criterio legal antes de firmar, responder, contratar, renunciar, conciliar o tomar una decision irreversible.",
-    signals: [
-      "Revision antes de firmar",
-      "Riesgo de conflicto",
-      "Decision con impacto economico",
-    ],
-    escalation:
-      "Puede escalar a revision documental, concepto, negociacion o seguimiento mensual.",
-  },
-  {
-    title: "Empresas y compliance laboral",
-    slug: "empresas-compliance-laboral",
-    summary:
-      "Soporte juridico preventivo para ordenar documentos, reducir contingencias laborales y tomar decisiones con respaldo.",
+      "Soporte jurídico preventivo para empleadores que necesitan ordenar contratos, reglamentos, trámites y decisiones laborales.",
     signals: [
       "Reglamento interno de trabajo",
-      "SG-SST y soporte laboral",
-      "Revision documental recurrente",
+      "Contratación laboral y revisión documental",
+      "Trámites ante el Ministerio de Trabajo",
+      "Riesgos laborales, accidentes y culpa patronal",
     ],
     escalation:
-      "Puede escalar a paquete mensual, auditoria documental o implementacion de medidas preventivas.",
+      "Puede escalar a paquete mensual, auditoría documental, implementación preventiva o representación en conflicto laboral.",
   },
 ];
 
@@ -141,40 +148,40 @@ export const enterpriseServices: EnterpriseService[] = [
   {
     title: "Reglamento interno de trabajo",
     summary:
-      "Revision, actualizacion o estructuracion del reglamento con enfoque preventivo y coherencia operativa.",
+      "Revisión, actualización o estructuración del reglamento interno con enfoque preventivo, claridad operativa y soporte legal.",
     deliverables: [
-      "Diagnostico documental inicial",
+      "Diagnóstico documental inicial",
       "Mapa de ajustes prioritarios",
-      "Version editable lista para revision final",
+      "Versión editable lista para revisión final",
     ],
   },
   {
-    title: "Sistema de seguridad y salud en el trabajo",
+    title: "Contratación laboral y documentos internos",
     summary:
-      "Acompaniamiento juridico para ordenar responsabilidades, soportes y decisiones asociadas al SG-SST.",
+      "Elaboración y revisión de contratos de trabajo, comunicaciones internas y documentos laborales sensibles antes de firmar o enviar.",
     deliverables: [
-      "Revision de documentos clave",
+      "Contratos y otrosíes revisados",
+      "Comentarios jurídicos accionables",
+      "Recomendaciones de redacción y archivo",
+    ],
+  },
+  {
+    title: "Seguridad social y riesgos laborales",
+    summary:
+      "Acompañamiento jurídico en asuntos asociados a incapacidades, licencias, accidentes laborales, enfermedad laboral y culpa patronal.",
+    deliverables: [
+      "Revisión de soportes y cronología",
       "Alertas de riesgo laboral",
-      "Ruta de cumplimiento gradual",
+      "Ruta de reclamación o defensa",
     ],
   },
   {
-    title: "Revision de documentos",
+    title: "Acompañamiento preventivo mensual",
     summary:
-      "Analisis de contratos, comunicaciones, politicas internas y documentos sensibles antes de firmar o enviar.",
-    deliverables: [
-      "Comentarios juridicos accionables",
-      "Riesgos identificados",
-      "Recomendaciones de redaccion",
-    ],
-  },
-  {
-    title: "Acompaniamiento preventivo mensual",
-    summary:
-      "Soporte recurrente para decisiones laborales, consultas internas y revision de casos antes de que escalen.",
+      "Soporte recurrente para consultas laborales, revisión de casos y decisiones preventivas antes de que escalen a conflicto.",
     deliverables: [
       "Canal de consulta programado",
-      "Revision de casos priorizados",
+      "Revisión de casos priorizados",
       "Informe ejecutivo mensual",
     ],
   },
@@ -186,12 +193,12 @@ export const journeySteps = [
     text: "El caso se ordena con hechos, documentos y objetivo del cliente. La prioridad es entender antes de prometer.",
   },
   {
-    title: "2. Criterio juridico",
+    title: "2. Criterio jurídico",
     text: "Se identifican riesgos, escenarios, rutas posibles y el costo de actuar o esperar.",
   },
   {
-    title: "3. Ruta de accion",
-    text: "Si el caso lo amerita, la consulta se convierte en tutela, queja, tramite, proceso o acompanamiento preventivo.",
+    title: "3. Ruta de acción",
+    text: "Si el caso lo amerita, la consulta se convierte en tutela, trámite, reclamación, proceso o acompañamiento preventivo.",
   },
   {
     title: "4. Seguimiento",
@@ -203,24 +210,24 @@ export const companyPackages = [
   {
     name: "Base preventiva",
     fit: "Empresas que necesitan ordenar documentos y resolver dudas puntuales.",
-    includes: ["Consulta mensual", "Revision documental limitada", "Alertas de riesgo"],
+    includes: ["Consulta mensual", "Revisión documental limitada", "Alertas de riesgo"],
   },
   {
-    name: "Gestion laboral",
+    name: "Gestión laboral",
     fit: "Equipos con decisiones laborales recurrentes y necesidad de soporte preventivo.",
-    includes: ["Canal de consultas", "Revision de casos", "Informe ejecutivo"],
+    includes: ["Canal de consultas", "Revisión de casos", "Informe ejecutivo"],
   },
   {
     name: "Compliance laboral",
     fit: "Empresas que quieren reducir contingencias y mejorar soporte documental.",
-    includes: ["Diagnostico inicial", "Plan de ajustes", "Acompaniamiento mensual"],
+    includes: ["Diagnóstico inicial", "Plan de ajustes", "Acompañamiento mensual"],
   },
 ];
 
 export const consultationChecklist: ConversionItem[] = [
   {
     title: "Hechos principales",
-    text: "Que ocurrio, cuando ocurrio, quienes intervinieron y que respuesta necesitas tomar ahora.",
+    text: "Qué ocurrió, cuándo ocurrió, quiénes intervinieron y qué respuesta necesitas tomar ahora.",
   },
   {
     title: "Documentos disponibles",
@@ -228,36 +235,40 @@ export const consultationChecklist: ConversionItem[] = [
   },
   {
     title: "Objetivo del cliente",
-    text: "Prevenir un riesgo, responder una comunicacion, reclamar, negociar, demandar o proteger un derecho urgente.",
+    text: "Prevenir un riesgo, responder una comunicación, reclamar, negociar, demandar o proteger un derecho urgente.",
   },
   {
     title: "Nivel de urgencia",
-    text: "Si hay fechas limite, audiencias, despidos, amenazas, vencimientos o afectacion inmediata de derechos.",
+    text: "Si hay fechas límite, audiencias, despidos, amenazas, vencimientos o afectación inmediata de derechos.",
   },
 ];
 
 export const escalationPaths: ConversionItem[] = [
   {
-    title: "Accion constitucional",
-    text: "Cuando existe vulneracion de derechos fundamentales y una respuesta ordinaria no es suficiente.",
+    title: "Acción constitucional",
+    text: "Cuando existe vulneración de derechos fundamentales y una respuesta ordinaria no es suficiente.",
   },
   {
-    title: "Reclamacion o queja",
-    text: "Cuando conviene dejar constancia formal, exigir respuesta o agotar una via previa.",
+    title: "Reclamación o queja",
+    text: "Cuando conviene dejar constancia formal, exigir respuesta o agotar una vía previa.",
   },
   {
     title: "Proceso judicial",
     text: "Cuando hay base probatoria, pretension clara y una estrategia razonable para litigar.",
   },
   {
-    title: "Prevencion o acompanamiento",
+    title: "Prevención o acompañamiento",
     text: "Cuando actuar antes de firmar, responder o contratar reduce el costo del problema.",
   },
 ];
 
 export const trustPrinciples = [
+  "Más de 18 años de experiencia.",
+  "Atención personalizada y confidencial.",
+  "Estrategia jurídica sólida.",
+  "Comunicación clara y transparente.",
   "Sin promesas de resultado.",
   "Alcance y honorarios claros antes de escalar.",
-  "Recomendacion basada en hechos y documentos.",
+  "Recomendación basada en hechos y documentos.",
   "Prioridad en prevenir errores evitables.",
 ];

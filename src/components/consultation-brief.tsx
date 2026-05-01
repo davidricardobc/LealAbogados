@@ -10,7 +10,7 @@ export function ConsultationBrief() {
             Una consulta mejor preparada filtra mejor el caso.
           </h2>
           <p className="mt-5 text-base leading-8 text-muted sm:text-lg">
-            La web debe ayudar a que el cliente llegue con informacion util. Esto reduce friccion, mejora la calidad del lead y permite orientar con mas criterio.
+            La web debe ayudar a que el cliente llegue con información útil. Esto reduce fricción, mejora la calidad del lead y permite orientar con más criterio.
           </p>
           <div className="mt-8 border border-ink/10 p-5">
             <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-ink/46">Criterios de confianza</h3>

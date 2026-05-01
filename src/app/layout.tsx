@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Leal Abogados | Consulta juridica estrategica en Colombia",
+    default: "Leal Abogados | Consulta jurídica estratégica en Colombia",
     template: "%s | Leal Abogados",
   },
   description: siteConfig.description,
@@ -17,11 +17,13 @@ export const metadata: Metadata = {
   publisher: siteConfig.name,
   keywords: [
     "abogados Colombia",
-    "consulta juridica",
+    "consulta jurídica",
     "derecho laboral",
     "tutela",
     "familia",
-    "servicios juridicos empresas",
+    "sucesiones",
+    "derecho civil",
+    "servicios jurídicos empresas",
     "compliance laboral",
   ],
   alternates: {
@@ -37,12 +39,12 @@ export const metadata: Metadata = {
     locale: "es_CO",
     url: siteConfig.url,
     siteName: siteConfig.name,
-    title: "Leal Abogados | Consulta juridica estrategica",
+    title: "Leal Abogados | Consulta jurídica estratégica",
     description: siteConfig.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Leal Abogados | Consulta juridica estrategica",
+    title: "Leal Abogados | Consulta jurídica estratégica",
     description: siteConfig.description,
   },
   robots: {
