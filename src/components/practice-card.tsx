@@ -9,9 +9,11 @@ type PracticeCardProps = {
 
 export function PracticeCard({ area, compact = false }: PracticeCardProps) {
   return (
-    <article className="group border border-ink/10 bg-white p-6 transition duration-200 hover:-translate-y-1 hover:border-brand-red/40 hover:shadow-2xl hover:shadow-ink/8">
+    <article className="group border border-ink/10 bg-white p-6 shadow-[0_24px_70px_rgba(7,7,7,0.05)] transition duration-200 hover:-translate-y-1 hover:border-brand-red/40 hover:shadow-2xl hover:shadow-ink/8">
       <div className="flex items-start justify-between gap-5">
-        <ShieldIcon className="h-7 w-7 shrink-0 text-brand-red" />
+        <span className="flex h-12 w-12 items-center justify-center border border-brand-red/25 bg-brand-red/5 text-brand-red">
+          <ShieldIcon className="h-6 w-6 shrink-0" />
+        </span>
         <span className="text-xs font-semibold uppercase tracking-[0.22em] text-ink/36">Area</span>
       </div>
       <h3 className="mt-7 font-serif text-2xl font-semibold text-ink">{area.title}</h3>

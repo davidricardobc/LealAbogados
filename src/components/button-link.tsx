@@ -19,12 +19,12 @@ type ButtonLinkProps = {
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "bg-brand-red text-white shadow-[0_18px_40px_rgba(166,46,46,0.24)] hover:bg-brand-redDark hover:shadow-[0_20px_46px_rgba(166,46,46,0.34)] active:translate-y-px",
+    "border border-brand-red bg-brand-red text-white shadow-[0_18px_44px_rgba(166,46,46,0.28)] hover:bg-brand-redDark hover:shadow-[0_22px_54px_rgba(166,46,46,0.38)] active:translate-y-px",
   secondary:
     "border border-ink/15 bg-white text-ink hover:border-brand-red/50 hover:text-brand-red active:translate-y-px",
   ghost: "text-ink hover:bg-ink/5 hover:text-brand-red active:translate-y-px",
   dark:
-    "border border-white/16 bg-white text-ink hover:bg-brand-red hover:text-white active:translate-y-px",
+    "border border-white/18 bg-white text-ink shadow-[0_18px_48px_rgba(0,0,0,0.24)] hover:border-brand-red hover:bg-brand-red hover:text-white active:translate-y-px",
 };
 
 export function ButtonLink({
@@ -46,7 +46,7 @@ export function ButtonLink({
   const trackingEvent = eventName ?? inferredEvent;
   const resolvedLabel = eventLabel ?? (typeof children === "string" ? children : undefined);
   const sharedClassName = cn(
-    "group inline-flex min-h-12 items-center justify-center gap-2 rounded-sm px-5 py-3 text-sm font-semibold tracking-[0.01em] transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-red",
+    "group inline-flex min-h-12 items-center justify-center gap-2 rounded-sm px-5 py-3 text-sm font-semibold tracking-[0.01em] transition duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-red",
     variants[variant],
     className,
   );

@@ -7,9 +7,7 @@ export function SiteFooter() {
     <footer className="bg-ink text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 md:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-8">
         <div>
-          <div className="[&_span]:text-white">
-            <Logo />
-          </div>
+          <Logo inverse />
           <p className="mt-6 max-w-md text-sm leading-7 text-white/68">
             Firma jurídica colombiana con más de 18 años de experiencia en asesoría, representación y prevención legal.
           </p>

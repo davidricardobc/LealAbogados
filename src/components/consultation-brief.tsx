@@ -12,7 +12,7 @@ export function ConsultationBrief() {
           <p className="mt-5 text-base leading-8 text-muted sm:text-lg">
             La web debe ayudar a que el cliente llegue con información útil. Esto reduce fricción, mejora la calidad del lead y permite orientar con más criterio.
           </p>
-          <div className="mt-8 border border-ink/10 p-5">
+          <div className="mt-8 border border-ink/10 bg-smoke p-5">
             <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-ink/46">Criterios de confianza</h3>
             <ul className="mt-5 space-y-3">
               {trustPrinciples.map((principle) => (
@@ -30,7 +30,7 @@ export function ConsultationBrief() {
             <h3 className="font-serif text-2xl font-semibold text-ink">Que preparar antes de escribir</h3>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {consultationChecklist.map((item) => (
-                <article className="bg-white p-5" key={item.title}>
+                <article className="bg-white p-5 shadow-[0_18px_44px_rgba(7,7,7,0.04)]" key={item.title}>
                   <span className="block h-px w-10 bg-brand-red" />
                   <h4 className="mt-5 font-serif text-xl font-semibold text-ink">{item.title}</h4>
                   <p className="mt-3 text-sm leading-7 text-muted">{item.text}</p>
@@ -39,7 +39,9 @@ export function ConsultationBrief() {
             </div>
           </div>
 
-          <div className="border border-ink/10 bg-ink p-5 text-white sm:p-6">
+          <div className="relative overflow-hidden border border-ink/10 bg-ink p-5 text-white sm:p-6">
+            <div className="absolute inset-0 bg-[url('/assets/brand-pattern-v2.svg')] bg-right-top bg-no-repeat opacity-22" />
+            <div className="relative">
             <h3 className="font-serif text-2xl font-semibold">A que puede escalar</h3>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {escalationPaths.map((item) => (
@@ -49,6 +51,7 @@ export function ConsultationBrief() {
                   <p className="mt-3 text-sm leading-7 text-white/62">{item.text}</p>
                 </article>
               ))}
+            </div>
             </div>
           </div>
         </div>

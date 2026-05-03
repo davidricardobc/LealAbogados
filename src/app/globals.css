@@ -29,7 +29,7 @@ html {
 
 body {
   margin: 0;
-  background: #ffffff;
+  background: #070707;
   color: #070707;
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
@@ -65,6 +65,50 @@ details > summary::-webkit-details-marker {
     linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
   background-size: 34px 34px;
+}
+
+.legal-grid-dark {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    url("/assets/brand-pattern-v2.svg");
+  background-position:
+    0 0,
+    0 0,
+    right top;
+  background-repeat:
+    repeat,
+    repeat,
+    no-repeat;
+  background-size:
+    38px 38px,
+    38px 38px,
+    min(48rem, 80vw) min(48rem, 80vw);
+}
+
+.premium-panel {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025)),
+    #101010;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.section-shell {
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .section-shell {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-shell {
+    padding-inline: 2rem;
+  }
 }
 
 .red-rule {

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="760" viewBox="0 0 980 760" fill="none">
+  <rect width="980" height="760" fill="#070707"/>
+  <g opacity=".5">
+    <path d="M34 80h912M34 176h912M34 272h912M34 368h912M34 464h912M34 560h912M34 656h912" stroke="#fff" stroke-opacity=".05"/>
+    <path d="M122 34v692M258 34v692M394 34v692M530 34v692M666 34v692M802 34v692" stroke="#fff" stroke-opacity=".05"/>
+  </g>
+  <path d="M0 0h980v760H0z" fill="url(#a)"/>
+  <g filter="url(#b)">
+    <rect x="148" y="96" width="408" height="554" rx="10" fill="#111"/>
+    <rect x="163" y="111" width="378" height="524" rx="7" stroke="#fff" stroke-opacity=".08"/>
+    <text x="216" y="277" fill="#2A2A2A" font-family="Georgia, serif" font-size="118" font-weight="700">LA</text>
+    <text x="224" y="322" fill="#2B2B2B" font-family="Arial, sans-serif" font-size="24" letter-spacing="1">Leal Abogados</text>
+    <text x="225" y="352" fill="#232323" font-family="Arial, sans-serif" font-size="15" letter-spacing="4">COMPANIA</text>
+  </g>
+  <g filter="url(#c)">
+    <rect x="435" y="74" width="370" height="582" rx="4" fill="#F5F3F0"/>
+    <path d="M480 140h280M480 177h242M480 248h280M480 280h280M480 312h224M480 384h280M480 416h280M480 448h190" stroke="#1A1A1A" stroke-opacity=".28" stroke-width="3"/>
+    <path d="M480 206h120" stroke="#A62E2E" stroke-width="5"/>
+    <text x="568" y="122" fill="#161616" font-family="Georgia, serif" font-size="28" font-weight="700">CRITERIO</text>
+    <text x="579" y="152" fill="#5A5A5A" font-family="Arial, sans-serif" font-size="12" letter-spacing="3">REVISION DEL CASO</text>
+    <path d="M521 520c33-25 82-12 101 25 21-45 79-41 103-12" stroke="#A62E2E" stroke-width="3" stroke-linecap="round"/>
+    <path d="M503 548h244" stroke="#111" stroke-opacity=".22" stroke-width="3"/>
+  </g>
+  <g filter="url(#d)">
+    <rect x="633" y="516" width="214" height="40" rx="2" fill="#141414"/>
+    <rect x="651" y="531" width="178" height="10" rx="5" fill="#1D1D1D"/>
+    <path d="M650 545h180" stroke="#080808" stroke-width="9" stroke-linecap="round"/>
+  </g>
+  <path d="M296 468 450 320 626 408 755 184" stroke="#A62E2E" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="296" cy="468" r="8" fill="#A62E2E"/>
+  <circle cx="450" cy="320" r="8" fill="#A62E2E"/>
+  <circle cx="626" cy="408" r="8" fill="#A62E2E"/>
+  <circle cx="755" cy="184" r="8" fill="#A62E2E"/>
+  <g filter="url(#e)">
+    <rect x="263" y="507" width="142" height="92" rx="2" fill="#A62E2E"/>
+    <text x="291" y="543" fill="#140707" font-family="Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="2">ESTRATEGIA</text>
+    <text x="291" y="571" fill="#140707" font-family="Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="2">ACCION</text>
+  </g>
+  <defs>
+    <linearGradient id="a" x1="0" y1="0" x2="922" y2="716" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#070707"/>
+      <stop offset=".48" stop-color="#111"/>
+      <stop offset="1" stop-color="#A62E2E" stop-opacity=".2"/>
+    </linearGradient>
+    <filter id="b" x="108" y="56" width="488" height="634" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="12" dy="22" stdDeviation="24" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+    <filter id="c" x="395" y="34" width="450" height="662" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="18" dy="24" stdDeviation="22" flood-color="#000" flood-opacity=".45"/>
+    </filter>
+    <filter id="d" x="593" y="476" width="294" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="12" dy="20" stdDeviation="18" flood-color="#000" flood-opacity=".45"/>
+    </filter>
+    <filter id="e" x="239" y="483" width="190" height="140" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="8" dy="14" stdDeviation="12" flood-color="#000" flood-opacity=".35"/>
+    </filter>
+  </defs>
+</svg>
