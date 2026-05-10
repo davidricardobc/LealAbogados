@@ -7,10 +7,10 @@ export function ConsultationBrief() {
         <div>
           <div className="mb-5 h-px w-16 bg-brand-red" />
           <h2 className="font-serif text-3xl font-semibold tracking-normal text-ink sm:text-4xl lg:text-5xl">
-            Una consulta mejor preparada filtra mejor el caso.
+            Una consulta bien preparada acelera una mejor decisión.
           </h2>
           <p className="mt-5 text-base leading-8 text-muted sm:text-lg">
-            La web debe ayudar a que el cliente llegue con información útil. Esto reduce fricción, mejora la calidad del lead y permite orientar con más criterio.
+            Cuando el caso llega con contexto, documentos y objetivo claro, es más fácil definir si conviene prevenir, reclamar, negociar o escalar a una acción legal concreta.
           </p>
           <div className="mt-8 border border-ink/10 bg-smoke p-5">
             <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-ink/46">Criterios de confianza</h3>
@@ -27,7 +27,7 @@ export function ConsultationBrief() {
 
         <div className="grid gap-5">
           <div className="border border-ink/10 bg-smoke p-5 sm:p-6">
-            <h3 className="font-serif text-2xl font-semibold text-ink">Que preparar antes de escribir</h3>
+            <h3 className="font-serif text-2xl font-semibold text-ink">Qué preparar antes de escribir</h3>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {consultationChecklist.map((item) => (
                 <article className="bg-white p-5 shadow-[0_18px_44px_rgba(7,7,7,0.04)]" key={item.title}>
@@ -42,7 +42,7 @@ export function ConsultationBrief() {
           <div className="relative overflow-hidden border border-ink/10 bg-ink p-5 text-white sm:p-6">
             <div className="absolute inset-0 bg-[url('/assets/brand-pattern-v2.svg')] bg-right-top bg-no-repeat opacity-22" />
             <div className="relative">
-            <h3 className="font-serif text-2xl font-semibold">A que puede escalar</h3>
+            <h3 className="font-serif text-2xl font-semibold">A qué puede escalar</h3>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {escalationPaths.map((item) => (
                 <article className="border border-white/12 bg-white/[0.03] p-5" key={item.title}>

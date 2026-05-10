@@ -1,16 +1,27 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { navItems, siteConfig, whatsappUrl } from "@/data/site";
+import { navItems, siteConfig, socialProfiles, whatsappUrl } from "@/data/site";
 
 export function SiteFooter() {
   return (
     <footer className="bg-ink text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 md:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 md:grid-cols-[1.15fr_0.75fr_0.95fr] lg:px-8">
         <div>
           <Logo inverse />
           <p className="mt-6 max-w-md text-sm leading-7 text-white/68">
-            Firma jurídica colombiana con más de 18 años de experiencia en asesoría, representación y prevención legal.
+            Firma jurídica colombiana orientada a consulta, representación y acompañamiento legal estratégico para personas, familias y empresas.
           </p>
+          <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/72">
+            {socialProfiles.map((profile) =>
+              profile.href ? (
+                <a className="transition hover:text-white" href={profile.href} key={profile.label} rel="noreferrer" target="_blank">
+                  {profile.label} · {profile.handle}
+                </a>
+              ) : (
+                <span key={profile.label}>{profile.label} · {profile.handle}</span>
+              ),
+            )}
+          </div>
         </div>
 
         <div>
@@ -31,6 +42,7 @@ export function SiteFooter() {
           <ul className="mt-5 space-y-3 text-sm text-white/72">
             <li>{siteConfig.phone}</li>
             <li>{siteConfig.email}</li>
+            <li>{siteConfig.domain}</li>
             <li>{siteConfig.address}</li>
             <li>
               <a className="text-white underline decoration-brand-red underline-offset-4" href={whatsappUrl} rel="noreferrer" target="_blank">

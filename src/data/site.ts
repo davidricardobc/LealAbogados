@@ -17,16 +17,34 @@ export type ConversionItem = {
   text: string;
 };
 
+export type TeamProfile = {
+  name: string;
+  role: string;
+  summary: string;
+  highlights: string[];
+};
+
+export type SocialProfile = {
+  label: string;
+  handle: string;
+  href?: string;
+};
+
 export const siteConfig = {
   name: "Leal Abogados Compañía",
-  domain: "LealAbogados.co",
+  domain: "lealabogados.co",
   url: "https://lealabogados.co",
   description:
-    "Firma jurídica colombiana con más de 18 años de experiencia en asesoría y representación legal para personas, familias y empresas.",
+    "Firma jurídica colombiana con más de 18 años de experiencia en asesoría, representación y acompañamiento legal estratégico para personas, familias y empresas.",
   phone: "+57 300 000 0000",
   whatsappNumber: "573000000000",
   email: "contacto@lealabogados.co",
-  address: "Ciudad, Colombia",
+  address: "Colombia",
+  instagram: "https://www.instagram.com/lealabogados2015",
+  instagramHandle: "@lealabogados2015",
+  facebookLabel: "Abogado LEAL",
+  facebookUrl: "",
+  founder: "Juan Berley Leal Bernal",
   consultationMessage:
     "Hola, quiero agendar una consulta jurídica con Leal Abogados. Mi caso está relacionado con: ",
 };
@@ -41,6 +59,62 @@ export const navItems = [
   { label: "Empresas", href: "/servicios-empresariales" },
   { label: "Consulta", href: "/consulta-juridica" },
   { label: "Contacto", href: "/contacto" },
+];
+
+export const socialProfiles: SocialProfile[] = [
+  {
+    label: "Instagram",
+    handle: "@lealabogados2015",
+    href: siteConfig.instagram,
+  },
+  {
+    label: "Facebook",
+    handle: "Abogado LEAL",
+    href: siteConfig.facebookUrl || undefined,
+  },
+];
+
+export const trustHighlights = [
+  "Más de 18 años de experiencia.",
+  "Especialista en Derechos Humanos.",
+  "Atención 100% remota en toda Colombia.",
+  "Respuesta ágil, confidencial y personalizada.",
+];
+
+export const teamProfiles: TeamProfile[] = [
+  {
+    name: "Juan Berley Leal Bernal",
+    role: "Fundador · Abogado litigante",
+    summary:
+      "Especialista en Derechos Humanos y conciliador extrajudicial en Derecho. Ha combinado litigio, docencia universitaria, consultoría y asesoría empresarial con un enfoque firme y estratégico.",
+    highlights: ["Litigio y representación", "Docencia universitaria", "Consultoría y asesoría a empresas"],
+  },
+  {
+    name: "Diana Carolina Leal Neira",
+    role: "Gerencia general",
+    summary:
+      "Administradora de Empresas con experiencia en sector financiero, gestión de calidad y procesos. Refuerza una experiencia de cliente responsable, moderna y ordenada.",
+    highlights: ["Atención personalizada", "Gestión de calidad", "Mejora continua y procesos"],
+  },
+];
+
+export const valuePillars = [
+  {
+    title: "Compromiso real",
+    text: "Cada caso se asume con responsabilidad, lealtad y seguimiento serio de principio a fin.",
+  },
+  {
+    title: "Estrategia clara",
+    text: "La consulta busca ordenar hechos, riesgos y documentos antes de actuar o escalar el caso.",
+  },
+  {
+    title: "Confianza y transparencia",
+    text: "Comunicación honesta, alcance claro y recomendación basada en hechos, no en promesas vacías.",
+  },
+  {
+    title: "Cobertura nacional remota",
+    text: "La firma puede orientar y acompañar casos en toda Colombia con atención remota, rápida y ordenada desde el primer contacto.",
+  },
 ];
 
 export const practiceAreas: PracticeArea[] = [
@@ -265,7 +339,7 @@ export const escalationPaths: ConversionItem[] = [
 export const trustPrinciples = [
   "Más de 18 años de experiencia.",
   "Atención personalizada y confidencial.",
-  "Estrategia jurídica sólida.",
+  "Especialista en Derechos Humanos y conciliación extrajudicial.",
   "Comunicación clara y transparente.",
   "Sin promesas de resultado.",
   "Alcance y honorarios claros antes de escalar.",
