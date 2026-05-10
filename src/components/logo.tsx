@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { MarkIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
@@ -7,6 +8,24 @@ type LogoProps = {
 };
 
 export function Logo({ inverse = false }: LogoProps) {
+  if (inverse) {
+    return (
+      <Link
+        className="group inline-flex overflow-hidden border border-white/10 bg-black/70 shadow-[0_18px_44px_rgba(0,0,0,0.24)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-red"
+        href="/"
+      >
+        <Image
+          alt="Leal Abogados Compañía"
+          className="h-14 w-auto object-contain sm:h-16"
+          height={1254}
+          priority
+          src="/assets/leal-logo.png"
+          width={1254}
+        />
+      </Link>
+    );
+  }
+
   return (
     <Link className="group flex items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-red" href="/">
       <MarkIcon className="h-10 w-10 text-brand-red transition duration-200 group-hover:text-brand-redDark" />
