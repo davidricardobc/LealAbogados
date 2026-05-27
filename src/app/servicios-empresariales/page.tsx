@@ -19,7 +19,7 @@ export default function EnterpriseServicesPage() {
     <>
       <PageHero
         title="Acompañamiento jurídico preventivo para empresas que quieren reducir contingencias."
-        description="Servicios para ordenar documentos, revisar decisiones laborales y construir una operación con menos exposición jurídica."
+        description="Servicios para revisar documentos clave, respaldar decisiones laborales y construir una operación con menos exposición jurídica."
         secondaryHref="/contacto"
         secondaryLabel="Solicitar contacto"
       />
@@ -51,9 +51,9 @@ export default function EnterpriseServicesPage() {
       <section className="bg-smoke px-5 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.72fr_1.28fr]">
           <div>
-            <SectionHeader
+          <SectionHeader
               title="Paquetes editables para conversaciones comerciales."
-              description="Estos paquetes sirven como estructura inicial. El alcance final debe ajustarse según tamaño de la empresa, volumen documental y frecuencia de consultas."
+              description="Estos paquetes sirven como estructura inicial. El alcance final debe ajustarse según tamaño de la empresa, complejidad de los asuntos y frecuencia de consultas."
             />
             <div className="mt-8">
               <ButtonLink external href={whatsappUrl}>

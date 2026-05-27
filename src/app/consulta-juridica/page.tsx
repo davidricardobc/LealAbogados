@@ -10,7 +10,7 @@ import { journeySteps, whatsappUrl } from "@/data/site";
 export const metadata: Metadata = {
   title: "Consulta jurídica",
   description:
-    "Consulta jurídica estratégica para ordenar hechos, revisar riesgos y definir si el caso debe escalar a tutela, trámite, proceso o acompañamiento preventivo.",
+    "Consulta jurídica estratégica para revisar hechos, valorar riesgos y definir si el caso debe escalar a tutela, reclamación, proceso o acompañamiento preventivo.",
   alternates: {
     canonical: "/consulta-juridica",
   },
@@ -27,8 +27,8 @@ export default function ConsultationPage() {
   return (
     <>
       <PageHero
-        title="Consulta jurídica remota para convertir incertidumbre en una ruta de acción."
-        description="La consulta es el punto de entrada a Leal Abogados Compañía. Permite evaluar el caso con criterio, explicar escenarios y decidir de forma ágil desde cualquier lugar de Colombia si conviene una acción legal concreta."
+        title="Consulta jurídica para convertir incertidumbre en una ruta de acción."
+        description="La consulta es el punto de entrada a Leal Abogados Compañía. Permite evaluar el caso con criterio, explicar escenarios y decidir de forma ágil desde cualquier lugar de Colombia si conviene reclamar, negociar, controvertir judicialmente o iniciar una acción."
         secondaryHref="/contacto"
         secondaryLabel="Enviar formulario"
       />
@@ -37,7 +37,7 @@ export default function ConsultationPage() {
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr]">
           <SectionHeader
             title="Qué obtiene el cliente en la consulta."
-            description="No se trata de una respuesta rápida sin contexto. La consulta estructura el caso para que la siguiente decisión tenga respaldo, incluso cuando todo el proceso inicial ocurre de forma remota."
+            description="No se trata de una respuesta rápida sin contexto. La consulta estructura el caso para que la siguiente decisión tenga respaldo, con atención inicial remota y posibilidad de coordinación presencial cuando el asunto lo requiera."
           />
           <div className="grid gap-4 sm:grid-cols-2">
             {benefits.map((benefit) => (
@@ -75,7 +75,7 @@ export default function ConsultationPage() {
           <div className="lg:sticky lg:top-28">
             <SectionHeader
               title="Agenda por WhatsApp o deja el caso por formulario."
-              description="WhatsApp reduce fricción cuando el caso es urgente. El formulario ayuda a preparar información para una revisión remota más ordenada desde cualquier lugar de Colombia."
+              description="WhatsApp reduce fricción cuando el caso es urgente. El formulario ayuda a preparar la información inicial del caso y los documentos clave desde cualquier lugar de Colombia."
             />
             <div className="mt-8">
               <ButtonLink external href={whatsappUrl}>

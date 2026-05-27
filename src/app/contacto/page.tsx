@@ -17,8 +17,8 @@ export default function ContactPage() {
   return (
     <>
       <PageHero
-        title="Contacto directo para iniciar una consulta remota bien preparada."
-        description="Comparte el contexto inicial del caso y el equipo podrá orientar el siguiente paso de forma ágil desde cualquier lugar de Colombia: consulta, revisión documental, acción legal o acompañamiento empresarial."
+        title="Contacto directo para iniciar una consulta bien preparada."
+        description="Comparte el contexto inicial del caso y el equipo podrá orientar el siguiente paso de forma ágil desde cualquier lugar de Colombia: consulta, revisión del caso, acción legal o acompañamiento empresarial."
         secondaryHref="/consulta-juridica"
         secondaryLabel="Ver consulta"
       />
@@ -28,7 +28,7 @@ export default function ContactPage() {
           <div>
             <SectionHeader
               title="Canales directos para iniciar la conversación."
-              description="WhatsApp sigue siendo la vía más rápida para una primera consulta. También puedes dejar el caso por formulario para una revisión remota más ordenada en cualquier lugar de Colombia."
+              description="WhatsApp sigue siendo la vía más rápida para una primera consulta. También puedes dejar el caso por formulario para una revisión más ordenada en cualquier lugar de Colombia, con atención remota y coordinación presencial cuando aplique."
             />
             <div className="mt-8 space-y-4 border border-ink/10 p-6">
               <p className="text-sm text-muted">Teléfono</p>

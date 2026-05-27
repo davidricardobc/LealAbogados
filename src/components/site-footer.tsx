@@ -6,8 +6,8 @@ export function SiteFooter() {
   return (
     <footer className="bg-ink text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 md:grid-cols-[1.15fr_0.75fr_0.95fr] lg:px-8">
-        <div>
-          <Logo inverse />
+        <div className="md:pr-8">
+          <Logo inverse className="border-white/15 bg-black/85 shadow-[0_22px_60px_rgba(0,0,0,0.34)]" imageClassName="h-28 sm:h-32 lg:h-36" />
           <p className="mt-6 max-w-md text-sm leading-7 text-white/68">
             Firma jurídica colombiana orientada a consulta, representación y acompañamiento legal estratégico para personas, familias y empresas.
           </p>

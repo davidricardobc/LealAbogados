@@ -9,8 +9,8 @@ import { SectionHeader } from "@/components/section-header";
 import { companyPackages, enterpriseServices, practiceAreas, teamProfiles, trustHighlights, valuePillars, whatsappUrl } from "@/data/site";
 
 const trustPoints = [
-  { value: "18+", label: "años de experiencia asesorando personas, familias y empresas." },
-  { value: "Remoto", label: "atención 100% remota con cobertura para casos en toda Colombia." },
+  { value: "18 años", label: "de experiencia asesorando personas, familias y empresas." },
+  { value: "Cobertura", label: "atención remota en toda Colombia con posibilidad de reuniones coordinadas según el caso." },
   { value: "Ágil", label: "diagnóstico, documentos y siguiente paso con respuesta rápida y ordenada." },
 ];
 
@@ -32,10 +32,10 @@ export default function Home() {
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.26em] text-white/54">Leal Abogados Compañía</p>
             <div className="mb-6 h-px w-16 bg-brand-red sm:w-20" />
             <h1 className="max-w-3xl text-balance font-serif text-3xl font-semibold leading-[1.04] tracking-normal sm:text-5xl lg:text-7xl">
-              Atención jurídica remota para actuar con criterio en toda Colombia.
+              Atención jurídica ágil para actuar con criterio en toda Colombia.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8">
-              Acompañamos a personas, familias y empresas con una ruta legal seria y ágil: entender el caso, ordenar los documentos y definir desde cualquier lugar del país si conviene prevenir, reclamar, negociar o iniciar una acción.
+              Acompañamos a personas, familias y empresas con una ruta legal seria y ágil: entender el caso, revisar los documentos clave y definir desde cualquier lugar del país, con atención remota y reuniones coordinadas cuando se requiera, si conviene prevenir, reclamar, negociar o iniciar una acción.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink external href={whatsappUrl} variant="primary" eventLocation="hero-v2">
@@ -140,8 +140,8 @@ export default function Home() {
       <section className="bg-white px-5 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
-            title="Una firma que combina litigio, criterio y atención remota bien estructurada."
-            description="Tomamos del perfil de la firma lo que más construye confianza: trayectoria real, liderazgo visible y una forma de trabajo clara para acompañar casos en toda Colombia."
+            title="Una firma que combina litigio, criterio y atención jurídica bien estructurada."
+            description="Tomamos del perfil de la firma lo que más construye confianza: trayectoria real, liderazgo visible y una forma de trabajo clara para acompañar casos en toda Colombia, de forma remota o con encuentros coordinados cuando haga falta."
           />
           <div className="mt-12 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
             <div className="grid gap-6 md:grid-cols-2">
@@ -196,7 +196,7 @@ export default function Home() {
               Apoyo preventivo para empresas en cualquier lugar de Colombia.
             </h2>
             <p className="mt-6 max-w-2xl leading-8 text-muted">
-              Servicios pensados para reducir contingencias, ordenar documentación y acompañar decisiones laborales de forma remota antes de que se vuelvan conflictos.
+              Servicios pensados para reducir contingencias, revisar documentación clave y acompañar decisiones laborales con atención remota y reuniones coordinadas cuando la operación lo necesite.
             </p>
             <div className="mt-10 grid gap-5 sm:grid-cols-2">
               {enterpriseServices.map((service) => (
@@ -241,7 +241,7 @@ export default function Home() {
 
       <CtaBand
         title="Cada decisión legal cuenta. Hablemos."
-        text="Desde el primer mensaje, la firma puede orientar el caso de forma remota, rápida y estratégica en cualquier lugar de Colombia."
+        text="Desde el primer mensaje, la firma puede orientar el caso de forma remota, rápida y estratégica en cualquier lugar de Colombia, con posibilidad de encuentros coordinados cuando se requiera."
       />
     </>
   );

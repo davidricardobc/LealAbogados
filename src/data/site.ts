@@ -36,8 +36,8 @@ export const siteConfig = {
   url: "https://lealabogados.co",
   description:
     "Firma jurídica colombiana con más de 18 años de experiencia en asesoría, representación y acompañamiento legal estratégico para personas, familias y empresas.",
-  phone: "+57 300 000 0000",
-  whatsappNumber: "573000000000",
+  phone: "+57 315 284 9591",
+  whatsappNumber: "573152849591",
   email: "contacto@lealabogados.co",
   address: "Colombia",
   instagram: "https://www.instagram.com/lealabogados2015",
@@ -77,7 +77,7 @@ export const socialProfiles: SocialProfile[] = [
 export const trustHighlights = [
   "Más de 18 años de experiencia.",
   "Especialista en Derechos Humanos.",
-  "Atención 100% remota en toda Colombia.",
+  "Atención remota en toda Colombia con reuniones coordinadas según el caso.",
   "Respuesta ágil, confidencial y personalizada.",
 ];
 
@@ -113,7 +113,7 @@ export const valuePillars = [
   },
   {
     title: "Cobertura nacional remota",
-    text: "La firma puede orientar y acompañar casos en toda Colombia con atención remota, rápida y ordenada desde el primer contacto.",
+    text: "La firma puede orientar y acompañar casos en toda Colombia con atención remota desde el primer contacto y reuniones coordinadas cuando el caso o la empresa lo requieran.",
   },
 ];
 
@@ -127,7 +127,7 @@ export const practiceAreas: PracticeArea[] = [
       "Divorcios de mutuo acuerdo o contenciosos",
       "Custodia, régimen de visitas y cuota alimentaria",
       "Unión marital de hecho, filiación o medidas de protección",
-      "Liquidación de sociedad conyugal u ocultamiento de bienes",
+      "Liquidación de sociedad conyugal o sociedad patrimonial",
     ],
     escalation:
       "Puede escalar a acuerdo, conciliación, trámite notarial, medida de protección o proceso judicial.",
@@ -172,13 +172,13 @@ export const practiceAreas: PracticeArea[] = [
       "Tutelas por afectación de derechos en seguridad social",
     ],
     escalation:
-      "Puede escalar a reclamación administrativa, tutela, proceso judicial o seguimiento frente a entidad responsable.",
+      "Puede escalar a reclamación administrativa, tutela o proceso judicial.",
   },
   {
     title: "Derecho civil y trámites notariales",
     slug: "derecho-civil-tramites",
     summary:
-      "Soluciones jurídicas en relaciones civiles, patrimoniales, contractuales y trámites notariales que requieren precisión documental.",
+      "Soluciones jurídicas en relaciones civiles, patrimoniales, contractuales y trámites notariales que exigen claridad y soporte jurídico.",
     signals: [
       "Contratos de arrendamiento o compraventa",
       "Responsabilidad civil, daños y perjuicios",
@@ -192,12 +192,12 @@ export const practiceAreas: PracticeArea[] = [
     title: "Tutelas y acciones constitucionales",
     slug: "tutelas-acciones-constitucionales",
     summary:
-      "Análisis de vulneración de derechos fundamentales y construcción de una ruta jurídica accionable cuando existe urgencia.",
+      "Defensa de derechos fundamentales y definición de una ruta jurídica urgente cuando el caso lo exige.",
     signals: [
       "Salud, mínimo vital, pensiones, educación o estabilidad laboral",
       "Respuesta insuficiente de entidad pública o privada",
-      "Riesgo urgente de derecho fundamental",
-      "Necesidad de incidente, desacato o seguimiento posterior",
+      "Mora judicial injustificada o vía de hecho",
+      "Necesidad de incidente de desacato o seguimiento al cumplimiento",
     ],
     escalation:
       "Puede escalar a tutela, incidente de desacato, reclamación previa o acompañamiento posterior.",
@@ -209,12 +209,12 @@ export const practiceAreas: PracticeArea[] = [
       "Soporte jurídico preventivo para empleadores que necesitan ordenar contratos, reglamentos, trámites y decisiones laborales.",
     signals: [
       "Reglamento interno de trabajo",
-      "Contratación laboral y revisión documental",
+      "Contratación laboral y documentos internos",
       "Trámites ante el Ministerio de Trabajo",
       "Riesgos laborales, accidentes y culpa patronal",
     ],
     escalation:
-      "Puede escalar a paquete mensual, auditoría documental, implementación preventiva o representación en conflicto laboral.",
+      "Puede escalar a acompañamiento mensual, ajuste de documentos laborales, concepto jurídico o representación en conflicto laboral.",
   },
 ];
 
@@ -224,7 +224,7 @@ export const enterpriseServices: EnterpriseService[] = [
     summary:
       "Revisión, actualización o estructuración del reglamento interno con enfoque preventivo, claridad operativa y soporte legal.",
     deliverables: [
-      "Diagnóstico documental inicial",
+      "Diagnóstico inicial",
       "Mapa de ajustes prioritarios",
       "Versión editable lista para revisión final",
     ],
@@ -235,7 +235,7 @@ export const enterpriseServices: EnterpriseService[] = [
       "Elaboración y revisión de contratos de trabajo, comunicaciones internas y documentos laborales sensibles antes de firmar o enviar.",
     deliverables: [
       "Contratos y otrosíes revisados",
-      "Comentarios jurídicos accionables",
+      "Observaciones jurídicas claras",
       "Recomendaciones de redacción y archivo",
     ],
   },
@@ -283,8 +283,8 @@ export const journeySteps = [
 export const companyPackages = [
   {
     name: "Base preventiva",
-    fit: "Empresas que necesitan ordenar documentos y resolver dudas puntuales.",
-    includes: ["Consulta mensual", "Revisión documental limitada", "Alertas de riesgo"],
+    fit: "Empresas que necesitan revisar documentos clave y resolver dudas puntuales.",
+    includes: ["Consulta mensual", "Revisión inicial de documentos prioritarios", "Alertas de riesgo"],
   },
   {
     name: "Gestión laboral",
@@ -293,7 +293,7 @@ export const companyPackages = [
   },
   {
     name: "Compliance laboral",
-    fit: "Empresas que quieren reducir contingencias y mejorar soporte documental.",
+    fit: "Empresas que quieren reducir contingencias y fortalecer su soporte jurídico laboral.",
     includes: ["Diagnóstico inicial", "Plan de ajustes", "Acompañamiento mensual"],
   },
 ];
@@ -309,7 +309,7 @@ export const consultationChecklist: ConversionItem[] = [
   },
   {
     title: "Objetivo del cliente",
-    text: "Prevenir un riesgo, responder una comunicación, reclamar, negociar, demandar o proteger un derecho urgente.",
+    text: "Prevenir un riesgo, responder una comunicación, reclamar, negociar, controvertir judicialmente o proteger un derecho urgente.",
   },
   {
     title: "Nivel de urgencia",
@@ -320,7 +320,7 @@ export const consultationChecklist: ConversionItem[] = [
 export const escalationPaths: ConversionItem[] = [
   {
     title: "Acción constitucional",
-    text: "Cuando existe vulneración de derechos fundamentales y una respuesta ordinaria no es suficiente.",
+    text: "Cuando es necesario defender un derecho fundamental y la vía ordinaria no ofrece una respuesta oportuna.",
   },
   {
     title: "Reclamación o queja",

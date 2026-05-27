@@ -10,7 +10,7 @@ export function ConsultationBrief() {
             Una consulta bien preparada acelera una mejor decisión.
           </h2>
           <p className="mt-5 text-base leading-8 text-muted sm:text-lg">
-            Cuando el caso llega con contexto, documentos y objetivo claro, es más fácil definir si conviene prevenir, reclamar, negociar o escalar a una acción legal concreta.
+            Cuando el caso llega con contexto, documentos y objetivo claro, es más fácil definir si conviene prevenir, reclamar, negociar, controvertir judicialmente o iniciar una acción.
           </p>
           <div className="mt-8 border border-ink/10 bg-smoke p-5">
             <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-ink/46">Criterios de confianza</h3>
