@@ -30,6 +30,11 @@ export type SocialProfile = {
   href?: string;
 };
 
+export type InstitutionalValue = {
+  title: string;
+  text: string;
+};
+
 export const siteConfig = {
   name: "Leal Abogados Compañía",
   domain: "lealabogados.co",
@@ -55,10 +60,9 @@ export const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${en
 
 export const navItems = [
   { label: "Inicio", href: "/" },
+  { label: "Quiénes somos", href: "/quienes-somos" },
   { label: "Áreas", href: "/areas-de-practica" },
   { label: "Empresas", href: "/servicios-empresariales" },
-  { label: "Consulta", href: "/consulta-juridica" },
-  { label: "Contacto", href: "/contacto" },
 ];
 
 export const socialProfiles: SocialProfile[] = [
@@ -86,14 +90,14 @@ export const teamProfiles: TeamProfile[] = [
     name: "Juan Berley Leal Bernal",
     role: "Fundador · Abogado litigante",
     summary:
-      "Especialista en Derechos Humanos y conciliador extrajudicial en Derecho. Ha combinado litigio, docencia universitaria, consultoría y asesoría empresarial con un enfoque firme y estratégico.",
+      "Especialista en Derechos Humanos y conciliador extrajudicial en Derecho. Ha combinado litigio, docencia universitaria, consultoría y asesoría empresarial con un enfoque empático, firme y estratégico.",
     highlights: ["Litigio y representación", "Docencia universitaria", "Consultoría y asesoría a empresas"],
   },
   {
     name: "Diana Carolina Leal Neira",
     role: "Gerencia general",
     summary:
-      "Administradora de Empresas con experiencia en sector financiero, gestión de calidad y procesos. Refuerza una experiencia de cliente responsable, moderna y ordenada.",
+      "Administradora de Empresas con experiencia en sector financiero, gestión de calidad y procesos. Lidera una experiencia de cliente responsable, moderna y enfocada en la mejora continua.",
     highlights: ["Atención personalizada", "Gestión de calidad", "Mejora continua y procesos"],
   },
 ];
@@ -287,15 +291,52 @@ export const companyPackages = [
     includes: ["Consulta mensual", "Revisión inicial de documentos prioritarios", "Alertas de riesgo"],
   },
   {
-    name: "Gestión laboral",
+    name: "Acompañamiento laboral",
     fit: "Equipos con decisiones laborales recurrentes y necesidad de soporte preventivo.",
     includes: ["Canal de consultas", "Revisión de casos", "Informe ejecutivo"],
   },
   {
-    name: "Compliance laboral",
+    name: "Soporte jurídico recurrente",
     fit: "Empresas que quieren reducir contingencias y fortalecer su soporte jurídico laboral.",
     includes: ["Diagnóstico inicial", "Plan de ajustes", "Acompañamiento mensual"],
   },
+];
+
+export const firmProfile =
+  "Leal Abogados nace ante la necesidad del cliente de que quien defienda sus derechos lo haga con compromiso real, transparencia y firmeza. La firma entiende que detrás de cada caso existen situaciones personales, familiares y patrimoniales que requieren no solo atención jurídica formal, sino un trabajo combativo, estratégico y eficaz.";
+
+export const firmApproach =
+  "Cada asunto se asume con seriedad, empatía y criterio. Quienes acuden a la firma buscan respaldo, confianza y un equipo legal que realmente se comprometa con su situación; por eso la atención combina claridad, seguimiento y determinación al momento de negociar, reclamar o controvertir judicialmente cuando haga falta.";
+
+export const firmMission =
+  "Ejercer el derecho como una forma de acompañar a personas, familias y empresas en momentos importantes de sus vidas, brindándoles respaldo, orientación y tranquilidad mediante una asesoría cercana, honesta y profesional.";
+
+export const firmVision =
+  "Consolidarse como una firma jurídica de alto reconocimiento nacional e internacional, destacada por su experiencia, la solidez de su equipo profesional y la confianza que genera en cada cliente.";
+
+export const institutionalValues: InstitutionalValue[] = [
+  {
+    title: "Compromiso",
+    text: "Cada proceso se asume con responsabilidad, lealtad y entrega, acompañando al cliente con valentía y respaldo real.",
+  },
+  {
+    title: "Eficacia",
+    text: "La gestión jurídica se orienta a obtener soluciones efectivas, útiles y favorables para cada situación.",
+  },
+  {
+    title: "Confiabilidad",
+    text: "La trayectoria de la firma busca sostener una asistencia jurídica humana, estratégica, clara y transparente.",
+  },
+];
+
+export const generalObjective =
+  "Defender y proteger los derechos e intereses de quienes depositan su confianza en la firma, asumiendo cada caso con compromiso, eficacia y confiabilidad.";
+
+export const specificObjectives = [
+  "Brindar una atención clara y personalizada a cada cliente.",
+  "Ofrecer soluciones jurídicas efectivas y estratégicas.",
+  "Mantener una comunicación honesta y constante en cada etapa del proceso.",
+  "Mantenerse a la vanguardia en la práctica jurídica.",
 ];
 
 export const consultationChecklist: ConversionItem[] = [
