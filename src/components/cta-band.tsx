@@ -25,7 +25,7 @@ export function CtaBand({
             Agendar consulta
           </ButtonLink>
           <ButtonLink href="/consulta-juridica" variant={dark ? "ghost" : "secondary"} className={dark ? "text-white hover:bg-white/8 hover:text-white" : ""}>
-            Como funciona
+            Cómo funciona
           </ButtonLink>
         </div>
       </div>

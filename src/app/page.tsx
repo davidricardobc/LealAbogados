@@ -11,13 +11,13 @@ import { companyPackages, enterpriseServices, practiceAreas, teamProfiles, trust
 const trustPoints = [
   { value: "18 años", label: "de experiencia asesorando personas, familias y empresas." },
   { value: "Cobertura", label: "atención remota en toda Colombia con posibilidad de reuniones coordinadas según el caso." },
-  { value: "Ágil", label: "diagnóstico, documentos y siguiente paso con respuesta rápida y ordenada." },
+  { value: "Ágil", label: "diagnóstico, valoración y siguiente paso con respuesta rápida y ordenada." },
 ];
 
 const consultationOutcomes = [
   "Claridad sobre viabilidad",
   "Riesgos y tiempos probables",
-  "Documentos necesarios",
+  "Soportes relevantes",
   "Siguiente acción posible",
 ];
 
@@ -104,7 +104,7 @@ export default function Home() {
               La consulta jurídica es el primer paso hacia la solución.
             </h2>
             <p className="mt-6 max-w-xl leading-8 text-white/66">
-              Sirve para ordenar hechos, documentos y expectativas. También permite saber si el siguiente paso debe ser
+              Sirve para ordenar hechos, soportes y expectativas. También permite saber si el siguiente paso debe ser
               preventivo, administrativo, judicial o empresarial.
             </p>
             <div className="mt-8">

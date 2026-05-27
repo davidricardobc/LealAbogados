@@ -18,8 +18,8 @@ export default function EnterpriseServicesPage() {
   return (
     <>
       <PageHero
-        title="Acompañamiento jurídico preventivo para empresas que quieren reducir contingencias."
-        description="Servicios para respaldar decisiones laborales, ordenar frentes sensibles y construir una operación con menos exposición jurídica."
+        title="Acompañamiento jurídico preventivo para empresas que necesitan decidir mejor."
+        description="Servicios para respaldar decisiones laborales, ordenar frentes sensibles y responder con más criterio antes de que un asunto escale."
         secondaryHref="/contacto"
         secondaryLabel="Solicitar contacto"
       />
@@ -57,7 +57,7 @@ export default function EnterpriseServicesPage() {
             />
             <div className="mt-8">
               <ButtonLink external href={whatsappUrl}>
-                Hablar de mi empresa
+                Solicitar orientación empresarial
               </ButtonLink>
             </div>
           </div>

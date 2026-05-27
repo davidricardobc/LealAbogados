@@ -97,7 +97,7 @@ export function LeadForm({ context }: LeadFormProps) {
           <textarea
             className="min-h-32 w-full resize-y border border-ink/12 bg-white px-4 py-3 text-sm text-ink outline-none transition placeholder:text-muted/70 focus:border-brand-red"
             name="case_summary"
-            placeholder="Cuéntanos qué ocurrió, qué necesitas decidir y si tienes documentos relacionados."
+            placeholder="Cuéntanos qué ocurrió, qué necesitas decidir y si tienes soportes relacionados."
             required
           />
         </label>
