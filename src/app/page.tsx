@@ -35,7 +35,7 @@ export default function Home() {
               Atención jurídica ágil para actuar con criterio en toda Colombia.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8">
-              Acompañamos a personas, familias y empresas con una ruta legal seria y ágil: entender el caso, revisar los documentos clave y definir desde cualquier lugar del país, con atención remota y reuniones coordinadas cuando se requiera, si conviene prevenir, reclamar, negociar o iniciar una acción.
+              Acompañamos a personas, familias y empresas con una ruta legal seria y ágil: entender el caso, valorar la situación y definir desde cualquier lugar del país, con atención remota y reuniones coordinadas cuando se requiera, si conviene prevenir, reclamar, negociar o iniciar una acción.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink external href={whatsappUrl} variant="primary" eventLocation="hero-v2">
@@ -72,7 +72,7 @@ export default function Home() {
           <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:items-end">
             <SectionHeader
               title="Áreas de práctica que empiezan por una consulta bien hecha."
-              description="El visitante debe identificar rápido si su caso encaja y avanzar hacia una consulta con información suficiente para filtrar mejor el asunto."
+            description="El visitante debe identificar rápido si su caso encaja y avanzar hacia una consulta con información suficiente para valorar el asunto con criterio."
             />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {practiceAreas.slice(0, 6).map((area) => (
@@ -196,7 +196,7 @@ export default function Home() {
               Apoyo preventivo para empresas en cualquier lugar de Colombia.
             </h2>
             <p className="mt-6 max-w-2xl leading-8 text-muted">
-              Servicios pensados para reducir contingencias, revisar documentación clave y acompañar decisiones laborales con atención remota y reuniones coordinadas cuando la operación lo necesite.
+              Servicios pensados para reducir contingencias, respaldar decisiones laborales y acompañar situaciones sensibles con atención remota y reuniones coordinadas cuando la operación lo necesite.
             </p>
             <div className="mt-10 grid gap-5 sm:grid-cols-2">
               {enterpriseServices.map((service) => (

@@ -131,7 +131,7 @@ export const practiceAreas: PracticeArea[] = [
       "Divorcios de mutuo acuerdo o contenciosos",
       "Custodia, régimen de visitas y cuota alimentaria",
       "Unión marital de hecho, filiación o medidas de protección",
-      "Liquidación de sociedad conyugal o sociedad patrimonial",
+      "Liquidación de sociedad conyugal o declaratoria de sociedad patrimonial",
     ],
     escalation:
       "Puede escalar a acuerdo, conciliación, trámite notarial, medida de protección o proceso judicial.",
@@ -173,7 +173,7 @@ export const practiceAreas: PracticeArea[] = [
       "Pensión de vejez, invalidez o sobrevivientes",
       "Calificación de origen o pérdida de capacidad laboral",
       "Licencias de maternidad, incapacidades o pagos pendientes",
-      "Tutelas por afectación de derechos en seguridad social",
+      "Defensa de derechos en salud, pensión o prestaciones del sistema de seguridad social",
     ],
     escalation:
       "Puede escalar a reclamación administrativa, tutela o proceso judicial.",
@@ -201,7 +201,7 @@ export const practiceAreas: PracticeArea[] = [
       "Salud, mínimo vital, pensiones, educación o estabilidad laboral",
       "Respuesta insuficiente de entidad pública o privada",
       "Mora judicial injustificada o vía de hecho",
-      "Necesidad de incidente de desacato o seguimiento al cumplimiento",
+      "Necesidad de incidente de desacato o defensa urgente del derecho afectado",
     ],
     escalation:
       "Puede escalar a tutela, incidente de desacato, reclamación previa o acompañamiento posterior.",
@@ -210,10 +210,10 @@ export const practiceAreas: PracticeArea[] = [
     title: "Empresas y prevención laboral",
     slug: "empresas-prevencion-laboral",
     summary:
-      "Soporte jurídico preventivo para empleadores que necesitan ordenar contratos, reglamentos, trámites y decisiones laborales.",
+      "Soporte jurídico preventivo para empleadores que necesitan respaldo en contratación, reglamentos, trámites y decisiones laborales sensibles.",
     signals: [
       "Reglamento interno de trabajo",
-      "Contratación laboral y documentos internos",
+      "Contratación laboral, otrosíes y comunicaciones sensibles",
       "Trámites ante el Ministerio de Trabajo",
       "Riesgos laborales, accidentes y culpa patronal",
     ],
@@ -230,17 +230,17 @@ export const enterpriseServices: EnterpriseService[] = [
     deliverables: [
       "Diagnóstico inicial",
       "Mapa de ajustes prioritarios",
-      "Versión editable lista para revisión final",
+      "Versión lista para validación final",
     ],
   },
   {
-    title: "Contratación laboral y documentos internos",
+    title: "Contratación laboral y soporte documental",
     summary:
-      "Elaboración y revisión de contratos de trabajo, comunicaciones internas y documentos laborales sensibles antes de firmar o enviar.",
+      "Elaboración y revisión de contratos de trabajo, otrosíes, comunicaciones internas y soportes laborales sensibles antes de firmar o comunicar.",
     deliverables: [
       "Contratos y otrosíes revisados",
       "Observaciones jurídicas claras",
-      "Recomendaciones de redacción y archivo",
+      "Recomendaciones de ajuste y uso interno",
     ],
   },
   {
@@ -268,7 +268,7 @@ export const enterpriseServices: EnterpriseService[] = [
 export const journeySteps = [
   {
     title: "1. Consulta con contexto",
-    text: "El caso se ordena con hechos, documentos y objetivo del cliente. La prioridad es entender antes de prometer.",
+    text: "El caso se estudia con hechos, soportes y objetivo del cliente. La prioridad es entender antes de prometer.",
   },
   {
     title: "2. Criterio jurídico",
@@ -287,8 +287,8 @@ export const journeySteps = [
 export const companyPackages = [
   {
     name: "Base preventiva",
-    fit: "Empresas que necesitan revisar documentos clave y resolver dudas puntuales.",
-    includes: ["Consulta mensual", "Revisión inicial de documentos prioritarios", "Alertas de riesgo"],
+    fit: "Empresas que necesitan resolver dudas puntuales y revisar decisiones laborales antes de asumir riesgos.",
+    includes: ["Consulta mensual", "Revisión inicial de situaciones prioritarias", "Alertas de riesgo"],
   },
   {
     name: "Acompañamiento laboral",

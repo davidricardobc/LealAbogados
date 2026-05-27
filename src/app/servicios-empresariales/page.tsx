@@ -19,7 +19,7 @@ export default function EnterpriseServicesPage() {
     <>
       <PageHero
         title="Acompañamiento jurídico preventivo para empresas que quieren reducir contingencias."
-        description="Servicios para revisar documentos clave, respaldar decisiones laborales y construir una operación con menos exposición jurídica."
+        description="Servicios para respaldar decisiones laborales, ordenar frentes sensibles y construir una operación con menos exposición jurídica."
         secondaryHref="/contacto"
         secondaryLabel="Solicitar contacto"
       />

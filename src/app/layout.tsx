@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "sucesiones",
     "derecho civil",
     "servicios jurídicos empresas",
-    "compliance laboral",
+    "prevención laboral empresarial",
   ],
   alternates: {
     canonical: "/",
