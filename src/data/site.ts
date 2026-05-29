@@ -12,6 +12,11 @@ export type EnterpriseService = {
   deliverables: string[];
 };
 
+export type EnterpriseScenario = {
+  title: string;
+  points: string[];
+};
+
 export type ConversionItem = {
   title: string;
   text: string;
@@ -130,8 +135,9 @@ export const practiceAreas: PracticeArea[] = [
     signals: [
       "Divorcios de mutuo acuerdo o contenciosos",
       "Custodia, régimen de visitas y cuota alimentaria",
-      "Unión marital de hecho, filiación o medidas de protección",
-      "Liquidación de sociedad conyugal o declaratoria de sociedad patrimonial",
+      "Privación de patria potestad, filiación o medidas de protección",
+      "Liquidación de sociedad conyugal, sociedad patrimonial u ocultamiento de bienes",
+      "Unión marital de hecho o adopción de persona mayor de edad",
     ],
     escalation:
       "Puede escalar a acuerdo, conciliación, trámite notarial, medida de protección o proceso judicial.",
@@ -142,7 +148,7 @@ export const practiceAreas: PracticeArea[] = [
     summary:
       "Acompañamiento en procesos sucesorales, conflictos entre herederos, planificación patrimonial y revisión de testamentos.",
     signals: [
-      "Sucesión notarial o judicial",
+      "Procesos de sucesión notariales o judiciales",
       "Petición de herencia o conflicto entre herederos",
       "Elaboración, revisión o nulidad de testamento",
       "Desheredamiento, indignidad sucesoral o planificación patrimonial",
@@ -156,8 +162,8 @@ export const practiceAreas: PracticeArea[] = [
     summary:
       "Defensa de derechos de trabajadores y asesoría a empleadores en relaciones laborales, contratación, reglamentos y conflictos.",
     signals: [
-      "Despido sin justa causa, liquidación o prestaciones sociales",
-      "Acoso laboral, indemnización o estabilidad laboral reforzada",
+      "Despido sin justa causa, liquidaciones laborales o prestaciones sociales",
+      "Acoso laboral, indemnizaciones o estabilidad laboral reforzada",
       "Contratos de trabajo, reglamento interno o trámites ante el Ministerio",
       "Procesos judiciales, tutelas o recurso de casación",
     ],
@@ -170,7 +176,7 @@ export const practiceAreas: PracticeArea[] = [
     summary:
       "Orientación y representación en pensiones, incapacidades, licencias y calificación de origen o pérdida de capacidad laboral.",
     signals: [
-      "Pensión de vejez, invalidez o sobrevivientes",
+      "Pensión de vejez, pensión de invalidez o de sobrevivientes",
       "Calificación de origen o pérdida de capacidad laboral",
       "Licencias de maternidad, incapacidades o pagos pendientes",
       "Defensa de derechos en salud, pensión o prestaciones del sistema de seguridad social",
@@ -186,7 +192,7 @@ export const practiceAreas: PracticeArea[] = [
     signals: [
       "Contratos de arrendamiento o compraventa",
       "Responsabilidad civil, daños y perjuicios",
-      "Procesos ejecutivos, cobro de cartera o restitución de inmueble",
+      "Procesos ejecutivos, cobro de cartera o restitución de inmuebles",
       "Conflictos contractuales o demandas de simulación",
     ],
     escalation:
@@ -265,6 +271,33 @@ export const enterpriseServices: EnterpriseService[] = [
   },
 ];
 
+export const enterpriseScenarios: EnterpriseScenario[] = [
+  {
+    title: "Contratación y estructura laboral",
+    points: [
+      "Contratos de trabajo y otrosíes",
+      "Reglamento interno de trabajo",
+      "Comunicaciones laborales sensibles",
+    ],
+  },
+  {
+    title: "Riesgos, seguridad social y contingencias",
+    points: [
+      "Incapacidades y licencias",
+      "Accidentes o enfermedad laboral",
+      "Culpa patronal y alertas de riesgo",
+    ],
+  },
+  {
+    title: "Trámites y defensa jurídica",
+    points: [
+      "Actuaciones ante el Ministerio de Trabajo",
+      "Procesos judiciales laborales",
+      "Acciones de tutela y recurso de casación",
+    ],
+  },
+];
+
 export const journeySteps = [
   {
     title: "1. Consulta con contexto",
@@ -287,17 +320,17 @@ export const journeySteps = [
 export const companyPackages = [
   {
     name: "Base preventiva",
-    fit: "Empresas que necesitan resolver dudas puntuales y revisar decisiones laborales antes de asumir riesgos.",
+    fit: "Empresas que necesitan resolver dudas puntuales y revisar decisiones laborales antes de asumir riesgos innecesarios.",
     includes: ["Consulta mensual", "Revisión inicial de situaciones prioritarias", "Alertas de riesgo"],
   },
   {
     name: "Acompañamiento laboral",
-    fit: "Equipos con decisiones laborales recurrentes y necesidad de soporte preventivo.",
-    includes: ["Canal de consultas", "Revisión de casos", "Informe ejecutivo"],
+    fit: "Equipos con decisiones laborales recurrentes y necesidad de soporte preventivo con seguimiento claro.",
+    includes: ["Canal de consultas programado", "Revisión de casos priorizados", "Informe ejecutivo"],
   },
   {
     name: "Soporte jurídico recurrente",
-    fit: "Empresas que quieren reducir contingencias y fortalecer su soporte jurídico laboral.",
+    fit: "Empresas que quieren reducir contingencias y fortalecer su soporte jurídico laboral de forma continua.",
     includes: ["Diagnóstico inicial", "Plan de ajustes", "Acompañamiento mensual"],
   },
 ];

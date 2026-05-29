@@ -3,7 +3,7 @@ import { ButtonLink } from "@/components/button-link";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
-import { companyPackages, enterpriseServices, whatsappUrl } from "@/data/site";
+import { companyPackages, enterpriseScenarios, enterpriseServices, whatsappUrl } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Servicios empresariales",
@@ -49,11 +49,35 @@ export default function EnterpriseServicesPage() {
       </section>
 
       <section className="bg-smoke px-5 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeader
+            title="Frentes empresariales en los que la firma ya puede intervenir."
+            description="Aquí se aterriza el tipo de apoyo confirmado en el material fuente del cliente, para que el visitante entienda mejor dónde encaja su necesidad."
+          />
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {enterpriseScenarios.map((scenario) => (
+              <article className="border border-ink/10 bg-white p-6" key={scenario.title}>
+                <h2 className="font-serif text-2xl font-semibold text-ink">{scenario.title}</h2>
+                <ul className="mt-6 space-y-3">
+                  {scenario.points.map((point) => (
+                    <li className="flex gap-3 text-sm leading-7 text-ink/76" key={point}>
+                      <span className="mt-3 h-1.5 w-1.5 shrink-0 bg-brand-red" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-5 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.72fr_1.28fr]">
           <div>
-          <SectionHeader
-              title="Paquetes editables para conversaciones comerciales."
-              description="Estos paquetes sirven como estructura inicial. El alcance final debe ajustarse según tamaño de la empresa, complejidad de los asuntos y frecuencia de consultas."
+            <SectionHeader
+              title="Modalidades de acompañamiento para supervisión comercial."
+              description="Estas modalidades sirven como base de conversación y deben cerrarse según volumen de consultas, complejidad jurídica y frecuencia real del soporte requerido."
             />
             <div className="mt-8">
               <ButtonLink external href={whatsappUrl}>
