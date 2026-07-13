@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
@@ -26,8 +27,8 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        title="Una firma construida para defender con criterio, compromiso y claridad."
-        description="Leal Abogados Compañía reúne experiencia jurídica, liderazgo visible y una forma de trabajo enfocada en acompañar con seriedad a personas, familias y empresas en toda Colombia."
+        title="Firmeza al defender. Compromiso hasta el final."
+        description="Leal Abogados Compañía defiende derechos e intereses con compromiso real, atención transparente y una forma de trabajo combativa, eficaz y humana."
         secondaryHref="/contacto"
         secondaryLabel="Hablar con la firma"
       />
@@ -36,7 +37,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             title="Perfil de la firma"
-            description="La historia y el enfoque institucional deben construir confianza sin recargar el inicio. Aquí vive el contenido corporativo completo."
+            description="Una firma jurídica construida para acompañar casos personales, familiares, patrimoniales y empresariales con seriedad, empatía y firmeza."
           />
           <div className="mt-10 grid gap-6 lg:grid-cols-2">
             <article className="border border-ink/10 bg-white p-7 shadow-[0_24px_70px_rgba(7,7,7,0.05)]">
@@ -55,22 +56,35 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             title="Liderazgo de la firma"
-            description="La estructura familiar y profesional se vuelve una fortaleza cuando el visitante puede identificar quién dirige y cómo trabaja el equipo."
+            description="La confianza nace cuando el cliente identifica quién dirige la defensa y qué experiencia respalda cada decisión jurídica."
           />
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {teamProfiles.map((profile) => (
-              <article className="border border-ink/10 bg-white p-7 shadow-[0_24px_70px_rgba(7,7,7,0.04)]" key={profile.name}>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-red">{profile.role}</p>
-                <h2 className="mt-4 font-serif text-3xl font-semibold text-ink">{profile.name}</h2>
-                <p className="mt-5 text-sm leading-7 text-muted">{profile.summary}</p>
-                <ul className="mt-6 space-y-3">
-                  {profile.highlights.map((item) => (
-                    <li className="flex gap-3 text-sm text-ink/76" key={item}>
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-brand-red" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+              <article className="overflow-hidden border border-ink/10 bg-white shadow-[0_24px_70px_rgba(7,7,7,0.04)]" key={profile.name}>
+                {profile.portrait ? (
+                  <div className="relative aspect-[4/3] bg-ink/5">
+                    <Image
+                      alt={`Retrato profesional de ${profile.name}`}
+                      className="object-cover object-center"
+                      fill
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      src={profile.portrait}
+                    />
+                  </div>
+                ) : null}
+                <div className="p-7">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-red">{profile.role}</p>
+                  <h2 className="mt-4 font-serif text-3xl font-semibold text-ink">{profile.name}</h2>
+                  <p className="mt-5 text-sm leading-7 text-muted">{profile.summary}</p>
+                  <ul className="mt-6 space-y-3">
+                    {profile.highlights.map((item) => (
+                      <li className="flex gap-3 text-sm text-ink/76" key={item}>
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-brand-red" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </article>
             ))}
           </div>
@@ -100,7 +114,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             title="Valores y objetivos"
-            description="La promesa institucional se sostiene en principios visibles y en una meta clara de defensa jurídica seria."
+            description="La confianza se construye a través de la manera en que la firma acompaña y defiende a sus clientes."
           />
           <div className="mt-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="grid gap-5">

@@ -27,6 +27,7 @@ export type TeamProfile = {
   role: string;
   summary: string;
   highlights: string[];
+  portrait?: string;
 };
 
 export type SocialProfile = {
@@ -94,9 +95,14 @@ export const teamProfiles: TeamProfile[] = [
   {
     name: "Juan Berley Leal Bernal",
     role: "Fundador · Abogado litigante",
+    portrait: "/assets/juan-berley-leal-bernal.png",
     summary:
-      "Especialista en Derechos Humanos y conciliador extrajudicial en Derecho. Ha combinado litigio, docencia universitaria, consultoría y asesoría empresarial con un enfoque empático, firme y estratégico.",
-    highlights: ["Litigio y representación", "Docencia universitaria", "Consultoría y asesoría a empresas"],
+      "Especialista en Derechos Humanos y conciliador extrajudicial en Derecho. Además de su amplia experiencia en litigio, se ha desempeñado como docente universitario en pregrado y posgrado, jurado de preparatorios, asesor y consultor de empresas.",
+    highlights: [
+      "Atención clara, confiable y estratégica",
+      "Docencia universitaria y jurado de preparatorios",
+      "Asesoría y consultoría a empresas",
+    ],
   },
   {
     name: "Diana Carolina Leal Neira",
@@ -336,40 +342,40 @@ export const companyPackages = [
 ];
 
 export const firmProfile =
-  "Leal Abogados nace ante la necesidad del cliente de que quien defienda sus derechos lo haga con compromiso real, transparencia y firmeza. La firma entiende que detrás de cada caso existen situaciones personales, familiares y patrimoniales que requieren no solo atención jurídica formal, sino un trabajo combativo, estratégico y eficaz.";
+  "Leal Abogados nace ante la necesidad del cliente de que quien defienda sus derechos lo haga con compromiso real, transparente y guerrero. La firma entiende que detrás de cada caso existen situaciones personales, familiares y patrimoniales que requieren no solo atención jurídica formal, sino un trabajo combativo y eficaz.";
 
 export const firmApproach =
-  "Cada asunto se asume con seriedad, empatía y criterio. Quienes acuden a la firma buscan respaldo, confianza y un equipo legal que realmente se comprometa con su situación; por eso la atención combina claridad, seguimiento y determinación al momento de negociar, reclamar o controvertir judicialmente cuando haga falta.";
+  "Cada caso se asume con seriedad, empatía y firmeza, entendiendo que no existen causas pequeñas ni perdidas. La firma se compromete realmente con sus clientes bajo una idea central: firmeza al defender, compromiso hasta el final.";
 
 export const firmMission =
-  "Ejercer el derecho como una forma de acompañar a personas, familias y empresas en momentos importantes de sus vidas, brindándoles respaldo, orientación y tranquilidad mediante una asesoría cercana, honesta y profesional.";
+  "En Leal Abogados Compañía creemos que ejercer el derecho va más allá de llevar un proceso o resolver un problema jurídico. Nuestro compromiso es acompañar a personas, familias y empresas en momentos importantes de sus vidas, brindándoles respaldo, orientación y tranquilidad a través de una asesoría y acompañamiento cercano, honesto y profesional. Trabajamos cada caso con responsabilidad, compromiso y sentido humano, entendiendo que detrás de cada situación existen preocupaciones, decisiones difíciles y personas que necesitan ser apoyadas y defendidas con osadía hasta el final.";
 
 export const firmVision =
-  "Consolidarse como una firma jurídica de alto reconocimiento nacional e internacional, destacada por su experiencia, la solidez de su equipo profesional y la confianza que genera en cada cliente.";
+  "En Leal Abogados Compañía nos proyectamos como una firma jurídica de alto reconocimiento a nivel nacional e internacional, destacada por su compromiso, la solidez de su equipo profesional y la confianza que genera en cada cliente. Nuestra visión es consolidarnos como un referente en respaldo jurídico serio, transparente y comprometido, manteniendo los valores que nos identifican.";
 
 export const institutionalValues: InstitutionalValue[] = [
   {
     title: "Compromiso",
-    text: "Cada proceso se asume con responsabilidad, lealtad y entrega, acompañando al cliente con valentía y respaldo real.",
+    text: "Asumimos cada proceso con responsabilidad, lealtad y entrega, acompañando a nuestros clientes con valentía y respaldo real.",
   },
   {
     title: "Eficacia",
-    text: "La gestión jurídica se orienta a obtener soluciones efectivas, útiles y favorables para cada situación.",
+    text: "Nos orientamos a obtener soluciones reales y favorables para nuestros clientes.",
   },
   {
     title: "Confiabilidad",
-    text: "La trayectoria de la firma busca sostener una asistencia jurídica humana, estratégica, clara y transparente.",
+    text: "Contamos con una trayectoria sólida, humana y confiable que nos permite brindar acompañamiento jurídico estratégico y eficaz.",
   },
 ];
 
 export const generalObjective =
-  "Defender y proteger los derechos e intereses de quienes depositan su confianza en la firma, asumiendo cada caso con compromiso, eficacia y confiabilidad.";
+  "Defender con firmeza los derechos e intereses de quienes depositan su confianza en nuestra firma, asumiendo cada caso con compromiso, eficacia y confiabilidad.";
 
 export const specificObjectives = [
-  "Brindar una atención clara y personalizada a cada cliente.",
-  "Ofrecer soluciones jurídicas efectivas y estratégicas.",
-  "Mantener una comunicación honesta y constante en cada etapa del proceso.",
-  "Mantenerse a la vanguardia en la práctica jurídica.",
+  "Brindar una atención clara y cierta a cada cliente.",
+  "Ofrecer soluciones jurídicas estratégicas y efectivas.",
+  "Mantener una comunicación honesta y permanente en cada etapa del proceso.",
+  "Estar a la vanguardia en la práctica jurídica.",
 ];
 
 export const consultationChecklist: ConversionItem[] = [
