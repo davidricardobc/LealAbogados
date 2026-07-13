@@ -31,11 +31,11 @@ export default function AboutPage() {
         description="Leal Abogados Compañía defiende derechos e intereses con compromiso real, atención transparente y una forma de trabajo combativa, eficaz y humana."
         secondaryHref="/contacto"
         secondaryLabel="Hablar con la firma"
-        visualAlt="Retrato profesional de Juan Berley Leal Bernal, fundador de Leal Abogados"
-        visualClassName="bg-[#eef0ed]"
-        visualFit="contain"
+        visualAlt="Dossier jurídico de Leal Abogados Compañía con identidad de marca"
+        visualClassName="bg-inkSoft"
+        visualFit="cover"
         visualPosition="object-center"
-        visualSrc="/assets/juan-berley-leal-bernal-oficial.png"
+        visualSrc="/assets/leal-hero-logo-original.png"
       />
 
       <section className="bg-white px-5 py-20 sm:px-6 lg:px-8">
@@ -66,19 +66,9 @@ export default function AboutPage() {
           <div className="mt-12 max-w-5xl">
             {teamProfiles.map((profile) => (
               <article
-                className="grid overflow-hidden border border-ink/10 bg-white shadow-[0_24px_70px_rgba(7,7,7,0.04)] lg:grid-cols-[0.42fr_0.58fr]"
+                className="grid overflow-hidden border border-ink/10 bg-white shadow-[0_24px_70px_rgba(7,7,7,0.04)] lg:grid-cols-[0.58fr_0.42fr]"
                 key={profile.name}
               >
-                <div className="relative min-h-80 bg-ink sm:min-h-96">
-                  <Image
-                    alt="Dossier jurídico de Leal Abogados Compañía con identidad de marca"
-                    className="object-cover"
-                    fill
-                    sizes="(min-width: 1024px) 420px, 100vw"
-                    src="/assets/leal-hero-logo-original.png"
-                  />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,7,0.02),rgba(7,7,7,0.24))]" />
-                </div>
                 <div className="p-7 sm:p-9 lg:flex lg:flex-col lg:justify-center lg:p-10">
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-red">{profile.role}</p>
                   <h2 className="mt-4 font-serif text-3xl font-semibold text-ink sm:text-4xl">{profile.name}</h2>
@@ -91,6 +81,16 @@ export default function AboutPage() {
                       </li>
                     ))}
                   </ul>
+                </div>
+                <div className="relative min-h-[34rem] bg-ink sm:min-h-[38rem] lg:order-last">
+                  <Image
+                    alt={`Retrato profesional de ${profile.name}, ${profile.role}`}
+                    className="object-cover object-[center_16%]"
+                    fill
+                    sizes="(min-width: 1024px) 420px, 100vw"
+                    src={profile.portrait ?? "/assets/juan-berley-leal-bernal.png"}
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,7,0.02),rgba(7,7,7,0.18))]" />
                 </div>
               </article>
             ))}
