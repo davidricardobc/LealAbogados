@@ -44,7 +44,7 @@ export function StructuredData() {
         "@id": `${siteConfig.url}/quienes-somos#juan-berley-leal-bernal`,
         name: siteConfig.founder,
         jobTitle: founder?.role ?? "Fundador · Abogado litigante",
-        image: `${siteConfig.url}/assets/juan-berley-leal-bernal.png`,
+        image: `${siteConfig.url}/assets/juan-berley-leal-bernal-oficial.png`,
         worksFor: {
           "@id": `${siteConfig.url}/#organization`,
         },

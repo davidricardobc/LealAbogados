@@ -95,7 +95,7 @@ export const teamProfiles: TeamProfile[] = [
   {
     name: "Juan Berley Leal Bernal",
     role: "Fundador · Abogado litigante",
-    portrait: "/assets/juan-berley-leal-bernal.png",
+    portrait: "/assets/juan-berley-leal-bernal-oficial.png",
     summary:
       "Especialista en Derechos Humanos y conciliador extrajudicial en Derecho. Además de su amplia experiencia en litigio, se ha desempeñado como docente universitario en pregrado y posgrado, jurado de preparatorios, asesor y consultor de empresas.",
     highlights: [

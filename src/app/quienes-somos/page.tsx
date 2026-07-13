@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
@@ -32,9 +31,10 @@ export default function AboutPage() {
         secondaryHref="/contacto"
         secondaryLabel="Hablar con la firma"
         visualAlt="Retrato profesional de Juan Berley Leal Bernal, fundador de Leal Abogados"
-        visualClassName="bg-inkSoft"
+        visualClassName="bg-[#eef0ed]"
+        visualFit="contain"
         visualPosition="object-center"
-        visualSrc="/assets/juan-berley-leal-bernal.png"
+        visualSrc="/assets/juan-berley-leal-bernal-oficial.png"
       />
 
       <section className="bg-white px-5 py-20 sm:px-6 lg:px-8">
@@ -65,29 +65,18 @@ export default function AboutPage() {
           <div className="mt-12 max-w-5xl">
             {teamProfiles.map((profile) => (
               <article
-                className="grid overflow-hidden border border-ink/10 bg-white shadow-[0_24px_70px_rgba(7,7,7,0.04)] lg:grid-cols-[0.46fr_0.54fr]"
+                className="overflow-hidden border border-ink/10 bg-white p-7 shadow-[0_24px_70px_rgba(7,7,7,0.04)] sm:p-9 lg:p-10"
                 key={profile.name}
               >
-                {profile.portrait ? (
-                  <div className="relative aspect-[3/4] bg-[linear-gradient(180deg,#f7f5f2,#ece8e3)] lg:min-h-[34rem]">
-                    <Image
-                      alt={`Retrato profesional de ${profile.name}`}
-                      className="object-contain object-center p-3 sm:p-5"
-                      fill
-                      sizes="(min-width: 1024px) 420px, 100vw"
-                      src={profile.portrait}
-                    />
-                  </div>
-                ) : null}
-                <div className="p-7 lg:flex lg:flex-col lg:justify-center lg:p-10">
+                <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-red">{profile.role}</p>
-                  <h2 className="mt-4 font-serif text-3xl font-semibold text-ink">{profile.name}</h2>
-                  <p className="mt-5 text-sm leading-7 text-muted">{profile.summary}</p>
-                  <ul className="mt-6 space-y-3">
+                  <h2 className="mt-4 font-serif text-3xl font-semibold text-ink sm:text-4xl">{profile.name}</h2>
+                  <p className="mt-5 max-w-3xl text-base leading-8 text-muted">{profile.summary}</p>
+                  <ul className="mt-8 grid gap-4 sm:grid-cols-3">
                     {profile.highlights.map((item) => (
-                      <li className="flex gap-3 text-sm text-ink/76" key={item}>
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-brand-red" />
-                        {item}
+                      <li className="border-t border-ink/10 pt-4 text-sm leading-6 text-ink/76" key={item}>
+                        <span className="mb-4 block h-px w-10 bg-brand-red" />
+                        <span>{item}</span>
                       </li>
                     ))}
                   </ul>
