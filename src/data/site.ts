@@ -104,13 +104,6 @@ export const teamProfiles: TeamProfile[] = [
       "Asesoría y consultoría a empresas",
     ],
   },
-  {
-    name: "Diana Carolina Leal Neira",
-    role: "Gerencia general",
-    summary:
-      "Administradora de Empresas con experiencia en sector financiero, gestión de calidad y procesos. Lidera una experiencia de cliente responsable, moderna y enfocada en la mejora continua.",
-    highlights: ["Atención personalizada", "Gestión de calidad", "Mejora continua y procesos"],
-  },
 ];
 
 export const valuePillars = [
@@ -345,13 +338,13 @@ export const firmProfile =
   "Leal Abogados nace ante la necesidad del cliente de que quien defienda sus derechos lo haga con compromiso real, transparente y guerrero. La firma entiende que detrás de cada caso existen situaciones personales, familiares y patrimoniales que requieren no solo atención jurídica formal, sino un trabajo combativo y eficaz.";
 
 export const firmApproach =
-  "Cada caso se asume con seriedad, empatía y firmeza, entendiendo que no existen causas pequeñas ni perdidas. La firma se compromete realmente con sus clientes bajo una idea central: firmeza al defender, compromiso hasta el final.";
+  "Cada caso se asume con seriedad, empatía y firmeza, entendiendo que no existen causas pequeñas ni perdidas. La firma se compromete realmente con sus clientes bajo una idea central: Firmeza al defender, compromiso hasta el final.";
 
 export const firmMission =
   "En Leal Abogados Compañía creemos que ejercer el derecho va más allá de llevar un proceso o resolver un problema jurídico. Nuestro compromiso es acompañar a personas, familias y empresas en momentos importantes de sus vidas, brindándoles respaldo, orientación y tranquilidad a través de una asesoría y acompañamiento cercano, honesto y profesional. Trabajamos cada caso con responsabilidad, compromiso y sentido humano, entendiendo que detrás de cada situación existen preocupaciones, decisiones difíciles y personas que necesitan ser apoyadas y defendidas con osadía hasta el final.";
 
 export const firmVision =
-  "En Leal Abogados Compañía nos proyectamos como una firma jurídica de alto reconocimiento a nivel nacional e internacional, destacada por su compromiso, la solidez de su equipo profesional y la confianza que genera en cada cliente. Nuestra visión es consolidarnos como un referente en respaldo jurídico serio, transparente y comprometido, manteniendo los valores que nos identifican.";
+  "En Leal Abogados Compañía nos proyectamos como una firma jurídica de alto reconocimiento a nivel nacional e internacional, destacada por su compromiso, su criterio profesional y la confianza que genera en cada cliente. Nuestra visión es consolidarnos como un referente en respaldo jurídico serio, transparente y comprometido, manteniendo los valores que nos identifican.";
 
 export const institutionalValues: InstitutionalValue[] = [
   {

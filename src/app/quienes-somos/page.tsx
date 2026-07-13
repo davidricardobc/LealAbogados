@@ -27,7 +27,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        title="Firmeza al defender. Compromiso hasta el final."
+        title="Firmeza al defender, compromiso hasta el final."
         description="Leal Abogados Compañía defiende derechos e intereses con compromiso real, atención transparente y una forma de trabajo combativa, eficaz y humana."
         secondaryHref="/contacto"
         secondaryLabel="Hablar con la firma"
@@ -56,9 +56,9 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             title="Liderazgo de la firma"
-            description="La confianza nace cuando el cliente identifica quién dirige la defensa y qué experiencia respalda cada decisión jurídica."
+            description="La confianza nace cuando el cliente identifica quién dirige la defensa y qué experiencia respalda cada decisión jurídica, sin exponer información personal innecesaria."
           />
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
+          <div className="mt-12 max-w-4xl">
             {teamProfiles.map((profile) => (
               <article className="overflow-hidden border border-ink/10 bg-white shadow-[0_24px_70px_rgba(7,7,7,0.04)]" key={profile.name}>
                 {profile.portrait ? (

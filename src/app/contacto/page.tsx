@@ -18,7 +18,7 @@ export default function ContactPage() {
     <>
       <PageHero
         title="Contacto directo para iniciar una consulta bien preparada."
-        description="Comparte el contexto inicial del caso y el equipo podrá orientar el siguiente paso de forma ágil desde cualquier lugar de Colombia: consulta, revisión del caso, acción legal o acompañamiento empresarial."
+        description="Comparte el contexto inicial del caso y la firma podrá orientar el siguiente paso de forma ágil desde cualquier lugar de Colombia: consulta, revisión del caso, acción legal o acompañamiento empresarial."
         secondaryHref="/consulta-juridica"
         secondaryLabel="Ver consulta"
       />
