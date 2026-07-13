@@ -21,6 +21,8 @@ export default function PracticeAreasPage() {
         description="Cada área parte de una consulta inicial para entender el caso, valorar riesgos y elegir una ruta proporcional: prevención, trámite, reclamación, tutela o proceso."
         secondaryHref="/consulta-juridica"
         secondaryLabel="Ver consulta"
+        visualAlt="Dossier jurídico con documentos y estrategia legal de Leal Abogados"
+        visualSrc="/assets/leal-hero-logo-original.png"
       />
 
       <section className="bg-white px-5 py-20 sm:px-6 lg:px-8">

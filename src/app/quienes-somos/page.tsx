@@ -31,6 +31,10 @@ export default function AboutPage() {
         description="Leal Abogados Compañía defiende derechos e intereses con compromiso real, atención transparente y una forma de trabajo combativa, eficaz y humana."
         secondaryHref="/contacto"
         secondaryLabel="Hablar con la firma"
+        visualAlt="Retrato profesional de Juan Berley Leal Bernal, fundador de Leal Abogados"
+        visualClassName="bg-inkSoft"
+        visualPosition="object-center"
+        visualSrc="/assets/juan-berley-leal-bernal.png"
       />
 
       <section className="bg-white px-5 py-20 sm:px-6 lg:px-8">

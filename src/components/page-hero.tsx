@@ -1,5 +1,7 @@
+import Image from "next/image";
 import { ButtonLink } from "@/components/button-link";
 import { whatsappUrl } from "@/data/site";
+import { cn } from "@/lib/utils";
 
 type PageHeroProps = {
   title: string;
@@ -7,6 +9,11 @@ type PageHeroProps = {
   primaryLabel?: string;
   secondaryLabel?: string;
   secondaryHref?: string;
+  visualAlt?: string;
+  visualClassName?: string;
+  visualFit?: "cover" | "contain";
+  visualPosition?: string;
+  visualSrc?: string;
 };
 
 export function PageHero({
@@ -15,6 +22,11 @@ export function PageHero({
   primaryLabel = "Agendar consulta",
   secondaryLabel = "Contactar",
   secondaryHref = "/contacto",
+  visualAlt = "Dossier jurídico de Leal Abogados Compañía",
+  visualClassName,
+  visualFit = "cover",
+  visualPosition = "object-center",
+  visualSrc = "/assets/leal-hero-logo-original.png",
 }: PageHeroProps) {
   return (
     <section className="relative isolate overflow-hidden bg-ink text-white">
@@ -34,7 +46,26 @@ export function PageHero({
             </ButtonLink>
           </div>
         </div>
-        <div className="hidden min-h-64 border border-white/12 bg-[url('/assets/leal-editorial-accent.png')] bg-cover bg-center shadow-[0_34px_90px_rgba(0,0,0,0.36)] lg:block" />
+        <div
+          className={cn(
+            "relative min-h-72 overflow-hidden border border-white/12 bg-inkSoft shadow-[0_34px_90px_rgba(0,0,0,0.36)] sm:min-h-80 lg:min-h-96",
+            visualClassName,
+          )}
+        >
+          <Image
+            alt={visualAlt}
+            className={cn(
+              "h-full w-full",
+              visualFit === "contain" ? "object-contain p-4 sm:p-6" : "object-cover",
+              visualPosition,
+            )}
+            fill
+            priority
+            sizes="(min-width: 1024px) 38vw, 100vw"
+            src={visualSrc}
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(7,7,7,0.08),rgba(7,7,7,0.24))]" />
+        </div>
       </div>
     </section>
   );

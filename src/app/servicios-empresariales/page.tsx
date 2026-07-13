@@ -22,6 +22,9 @@ export default function EnterpriseServicesPage() {
         description="Servicios para respaldar decisiones laborales, ordenar frentes sensibles y responder con más criterio antes de que un asunto escale."
         secondaryHref="/contacto"
         secondaryLabel="Solicitar contacto"
+        visualAlt="Mesa de consultoría jurídica empresarial con documentos de soporte preventivo"
+        visualPosition="object-center"
+        visualSrc="/assets/leal-enterprise-consulting.png"
       />
 
       <section className="bg-white px-5 py-20 sm:px-6 lg:px-8">
