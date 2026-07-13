@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
@@ -65,10 +66,19 @@ export default function AboutPage() {
           <div className="mt-12 max-w-5xl">
             {teamProfiles.map((profile) => (
               <article
-                className="overflow-hidden border border-ink/10 bg-white p-7 shadow-[0_24px_70px_rgba(7,7,7,0.04)] sm:p-9 lg:p-10"
+                className="grid overflow-hidden border border-ink/10 bg-white shadow-[0_24px_70px_rgba(7,7,7,0.04)] lg:grid-cols-[0.38fr_0.62fr]"
                 key={profile.name}
               >
-                <div>
+                <div className="relative min-h-96 bg-ink">
+                  <Image
+                    alt="Retrato formal de Juan Berley Leal Bernal en contexto jurídico"
+                    className="object-contain object-bottom p-4 sm:p-6"
+                    fill
+                    sizes="(min-width: 1024px) 380px, 100vw"
+                    src="/assets/juan-berley-leal-bernal.png"
+                  />
+                </div>
+                <div className="p-7 sm:p-9 lg:flex lg:flex-col lg:justify-center lg:p-10">
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-red">{profile.role}</p>
                   <h2 className="mt-4 font-serif text-3xl font-semibold text-ink sm:text-4xl">{profile.name}</h2>
                   <p className="mt-5 max-w-3xl text-base leading-8 text-muted">{profile.summary}</p>
