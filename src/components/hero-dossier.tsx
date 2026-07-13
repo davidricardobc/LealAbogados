@@ -9,7 +9,7 @@ export function HeroDossier() {
         fill
         loading="eager"
         priority
-        src="/assets/leal-hero-main.png"
+        src="/assets/leal-hero-logo-original.png"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,7,7,0.18),rgba(7,7,7,0)_48%,rgba(7,7,7,0.34))]" />
       <div className="absolute left-4 top-4 border border-white/14 bg-black/45 px-3 py-2 backdrop-blur-md sm:left-5 sm:top-5 sm:px-4 sm:py-3">
