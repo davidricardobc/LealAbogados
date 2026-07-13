@@ -66,17 +66,18 @@ export default function AboutPage() {
           <div className="mt-12 max-w-5xl">
             {teamProfiles.map((profile) => (
               <article
-                className="grid overflow-hidden border border-ink/10 bg-white shadow-[0_24px_70px_rgba(7,7,7,0.04)] lg:grid-cols-[0.38fr_0.62fr]"
+                className="grid overflow-hidden border border-ink/10 bg-white shadow-[0_24px_70px_rgba(7,7,7,0.04)] lg:grid-cols-[0.42fr_0.58fr]"
                 key={profile.name}
               >
-                <div className="relative min-h-96 bg-ink">
+                <div className="relative min-h-80 bg-ink sm:min-h-96">
                   <Image
-                    alt="Retrato formal de Juan Berley Leal Bernal en contexto jurídico"
-                    className="object-contain object-bottom p-4 sm:p-6"
+                    alt="Dossier jurídico de Leal Abogados Compañía con identidad de marca"
+                    className="object-cover"
                     fill
-                    sizes="(min-width: 1024px) 380px, 100vw"
-                    src="/assets/juan-berley-leal-bernal.png"
+                    sizes="(min-width: 1024px) 420px, 100vw"
+                    src="/assets/leal-hero-logo-original.png"
                   />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,7,0.02),rgba(7,7,7,0.24))]" />
                 </div>
                 <div className="p-7 sm:p-9 lg:flex lg:flex-col lg:justify-center lg:p-10">
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-red">{profile.role}</p>
