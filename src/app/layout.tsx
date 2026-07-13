@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { StructuredData } from "@/components/structured-data";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
 
@@ -41,11 +42,20 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: "Leal Abogados | Consulta jurídica estratégica",
     description: siteConfig.description,
+    images: [
+      {
+        url: "/assets/leal-hero-logo-original.png",
+        width: 1448,
+        height: 1086,
+        alt: "Dossier jurídico de Leal Abogados Compañía",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Leal Abogados | Consulta jurídica estratégica",
     description: siteConfig.description,
+    images: ["/assets/leal-hero-logo-original.png"],
   },
   robots: {
     index: true,
@@ -57,6 +67,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="es-CO">
       <body>
+        <StructuredData />
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

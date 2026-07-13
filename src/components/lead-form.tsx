@@ -1,3 +1,6 @@
+"use client";
+
+import type { FormEvent } from "react";
 import { practiceAreas, siteConfig } from "@/data/site";
 import { conversionEvents } from "@/lib/conversion";
 
@@ -5,15 +8,48 @@ type LeadFormProps = {
   context: string;
 };
 
+const urgencyLabels: Record<string, string> = {
+  inmediata: "Necesito orientación inmediata",
+  "esta-semana": "Esta semana",
+  preventiva: "Es preventivo, puedo programar",
+};
+
+const channelLabels: Record<string, string> = {
+  whatsapp: "WhatsApp",
+  llamada: "Llamada",
+  correo: "Correo",
+};
+
 export function LeadForm({ context }: LeadFormProps) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const areaSlug = String(formData.get("practice_area") ?? "");
+    const urgency = String(formData.get("urgency") ?? "");
+    const preferredChannel = String(formData.get("preferred_channel") ?? "");
+    const selectedArea = practiceAreas.find((area) => area.slug === areaSlug)?.title ?? areaSlug;
+    const message = [
+      "Hola, quiero agendar una consulta jurídica con Leal Abogados.",
+      `Nombre: ${formData.get("name") || ""}`,
+      `Teléfono: ${formData.get("phone") || ""}`,
+      `Correo: ${formData.get("email") || "No indicado"}`,
+      `Área del caso: ${selectedArea || "No indicada"}`,
+      `Urgencia: ${urgencyLabels[urgency] ?? "No indicada"}`,
+      `Canal preferido: ${channelLabels[preferredChannel] ?? "No indicado"}`,
+      `Resumen: ${formData.get("case_summary") || ""}`,
+    ].join("\n");
+
+    window.open(`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+  }
+
   return (
     <form
-      action="#"
       className="border border-ink/10 bg-white p-5 shadow-2xl shadow-ink/8 sm:p-7"
       data-event="lead_form_view"
       data-crm-ready="true"
       data-form-context={context}
-      method="post"
+      onSubmit={handleSubmit}
     >
       <input name="lead_source" type="hidden" value={context} />
       <input name="utm_source" type="hidden" value="" />
@@ -105,14 +141,14 @@ export function LeadForm({ context }: LeadFormProps) {
       <button
         className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-sm bg-brand-red px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(166,46,46,0.22)] transition hover:bg-brand-redDark active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-red sm:w-auto"
         data-event={conversionEvents.leadFormSubmit}
-        data-event-label="Enviar solicitud de consulta"
+        data-event-label="Preparar mensaje de consulta"
         data-event-location={context}
         type="submit"
       >
-        Enviar solicitud de consulta
+        Preparar mensaje por WhatsApp
       </button>
       <p className="mt-4 text-xs leading-6 text-muted">
-        Formulario preparado para integración futura con CRM, analítica y automatizaciones.
+        Al continuar se abrirá WhatsApp con la información organizada para que la firma pueda revisar mejor el caso.
       </p>
     </form>
   );

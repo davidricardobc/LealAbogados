@@ -58,21 +58,24 @@ export default function AboutPage() {
             title="Liderazgo de la firma"
             description="La confianza nace cuando el cliente identifica quién dirige la defensa y qué experiencia respalda cada decisión jurídica, sin exponer información personal innecesaria."
           />
-          <div className="mt-12 max-w-4xl">
+          <div className="mt-12 max-w-5xl">
             {teamProfiles.map((profile) => (
-              <article className="overflow-hidden border border-ink/10 bg-white shadow-[0_24px_70px_rgba(7,7,7,0.04)]" key={profile.name}>
+              <article
+                className="grid overflow-hidden border border-ink/10 bg-white shadow-[0_24px_70px_rgba(7,7,7,0.04)] lg:grid-cols-[0.46fr_0.54fr]"
+                key={profile.name}
+              >
                 {profile.portrait ? (
-                  <div className="relative aspect-[4/3] bg-ink/5">
+                  <div className="relative aspect-[3/4] bg-[linear-gradient(180deg,#f7f5f2,#ece8e3)] lg:min-h-[34rem]">
                     <Image
                       alt={`Retrato profesional de ${profile.name}`}
-                      className="object-cover object-center"
+                      className="object-contain object-center p-3 sm:p-5"
                       fill
-                      sizes="(min-width: 768px) 50vw, 100vw"
+                      sizes="(min-width: 1024px) 420px, 100vw"
                       src={profile.portrait}
                     />
                   </div>
                 ) : null}
-                <div className="p-7">
+                <div className="p-7 lg:flex lg:flex-col lg:justify-center lg:p-10">
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-red">{profile.role}</p>
                   <h2 className="mt-4 font-serif text-3xl font-semibold text-ink">{profile.name}</h2>
                   <p className="mt-5 text-sm leading-7 text-muted">{profile.summary}</p>
