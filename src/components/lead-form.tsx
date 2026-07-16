@@ -20,6 +20,41 @@ const channelLabels: Record<string, string> = {
   correo: "Correo",
 };
 
+function getAttributionLines(context: string) {
+  const lines = [`Origen interno: ${context}`];
+
+  if (typeof window === "undefined") {
+    return lines;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const source = params.get("utm_source");
+  const medium = params.get("utm_medium");
+  const campaign = params.get("utm_campaign");
+  const term = params.get("utm_term");
+  const content = params.get("utm_content");
+
+  lines.push(`Página: ${window.location.pathname}`);
+
+  if (source || medium || campaign) {
+    lines.push(`Campaña: ${[source, medium, campaign].filter(Boolean).join(" / ")}`);
+  }
+
+  if (term) {
+    lines.push(`Término: ${term}`);
+  }
+
+  if (content) {
+    lines.push(`Contenido: ${content}`);
+  }
+
+  if (document.referrer) {
+    lines.push(`Referencia: ${document.referrer}`);
+  }
+
+  return lines;
+}
+
 export function LeadForm({ context }: LeadFormProps) {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,6 +73,7 @@ export function LeadForm({ context }: LeadFormProps) {
       `Urgencia: ${urgencyLabels[urgency] ?? "No indicada"}`,
       `Canal preferido: ${channelLabels[preferredChannel] ?? "No indicado"}`,
       `Resumen: ${formData.get("case_summary") || ""}`,
+      ...getAttributionLines(context),
     ].join("\n");
 
     window.open(`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");

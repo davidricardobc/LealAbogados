@@ -1,5 +1,6 @@
 export const conversionEvents = {
   whatsappClick: "whatsapp_click",
+  phoneClick: "phone_click",
   consultationPageClick: "consultation_page_click",
   leadFormSubmit: "lead_form_submit",
 } as const;

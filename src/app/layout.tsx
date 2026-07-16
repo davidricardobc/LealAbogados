@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MobileContactBar } from "@/components/mobile-contact-bar";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StructuredData } from "@/components/structured-data";
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />
+        <MobileContactBar />
       </body>
     </html>
   );
