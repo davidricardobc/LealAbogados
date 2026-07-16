@@ -51,8 +51,8 @@ export const siteConfig = {
   whatsappNumber: "573152849591",
   email: "contacto@lealabogados.co",
   address: "Colombia",
-  instagram: "https://www.instagram.com/lealabogados2015",
-  instagramHandle: "@lealabogados2015",
+  instagram: "https://www.instagram.com/lealabogadosoficial",
+  instagramHandle: "@lealabogadosoficial",
   facebookLabel: "Abogado LEAL",
   facebookUrl: "",
   founder: "Juan Berley Leal Bernal",
@@ -74,7 +74,7 @@ export const navItems = [
 export const socialProfiles: SocialProfile[] = [
   {
     label: "Instagram",
-    handle: "@lealabogados2015",
+    handle: siteConfig.instagramHandle,
     href: siteConfig.instagram,
   },
   {
