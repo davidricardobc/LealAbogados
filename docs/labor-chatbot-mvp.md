@@ -137,7 +137,7 @@ Version 1 simple:
 
 - Frontend: widget web en Next.js.
 - API interna: `/api/chat-laboral`.
-- Modelo: OpenAI API con prompt de sistema, herramientas internas y modo JSON para clasificacion del lead.
+- Modelo: AI server-side con OpenAI Responses API o Gemini Interactions API, prompt de sistema, salida estructurada JSON y fallback deterministico si no hay API key o si falla el proveedor.
 - Base de conocimiento: archivos curados en Markdown/JSON dentro del repo o en una tabla externa.
 - Lead handoff: WhatsApp prellenado y registro en CRM/n8n.
 - Analitica: eventos de apertura, mensajes, clasificacion, click WhatsApp, agendamiento.
@@ -158,8 +158,30 @@ Version 2 escalable:
 - `LeadQualification`: estructura interna para clasificar caso.
 - `POST /api/chat-laboral`: orquesta prompt, contexto y respuesta.
 - `POST /api/leads`: guarda o envia lead a n8n/CRM.
+- `lib/legal/labor-ai.ts`: capa AI server-side para comprender contexto, redactar mejor, respetar guardrails y devolver clasificacion estructurada.
 - `lib/legal/labor-knowledge.ts`: fuentes internas, disclaimers y categorias.
 - `lib/legal/lead-scoring.ts`: urgencia, valor, riesgo y proximo paso.
+
+## Configuracion AI
+
+Variables de entorno:
+
+```env
+LABOR_AI_PROVIDER=gemini
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4.1-mini
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-3.5-flash
+```
+
+Reglas de operacion:
+
+- La llave nunca debe exponerse al navegador.
+- El endpoint `/api/chat-laboral` llama la AI desde servidor.
+- Si falta una llave AI valida, el chat responde con el motor deterministico de respaldo.
+- La AI debe devolver JSON estructurado para evitar respuestas fuera del flujo comercial/legal.
+- El modelo puede cambiarse por ambiente con `OPENAI_MODEL` o `GEMINI_MODEL` sin tocar codigo.
+- El proveedor puede fijarse con `LABOR_AI_PROVIDER=openai` o `LABOR_AI_PROVIDER=gemini`; si no se fija y hay Gemini, el sistema lo usa primero.
 
 ## Modelo de lead
 

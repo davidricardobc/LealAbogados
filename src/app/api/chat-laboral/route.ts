@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { buildWhatsappUrl } from "@/data/site";
-import { evaluateLaborConversation, type LaborChatMessage } from "@/lib/legal/labor-chat";
+import { evaluateLaborConversationWithAi } from "@/lib/legal/labor-ai";
+import { type LaborChatMessage } from "@/lib/legal/labor-chat";
 
 type ChatPayload = {
   messages?: LaborChatMessage[];
@@ -14,10 +15,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "messages_required" }, { status: 400 });
   }
 
-  const result = evaluateLaborConversation(messages);
+  const result = await evaluateLaborConversationWithAi(messages);
 
   return NextResponse.json({
     ...result,
+    aiEnabled: Boolean(process.env.OPENAI_API_KEY?.trim() || process.env.GEMINI_API_KEY?.trim()),
     whatsappUrl: buildWhatsappUrl(result.whatsappMessage),
   });
 }

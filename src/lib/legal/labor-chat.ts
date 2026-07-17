@@ -212,7 +212,7 @@ const highSignals = [
   "carta",
 ];
 
-const expertPayment: LaborExpertPayment = {
+export const expertPayment: LaborExpertPayment = {
   amountCop: 10000,
   formattedAmount: "$10.000 COP",
   method: "Nequi",
@@ -503,7 +503,7 @@ function buildCtaLabel(phase: LaborChatPhase, urgency: LaborUrgency) {
   return urgency === "critica" ? "Hablar con un abogado" : "Agendar por WhatsApp";
 }
 
-function buildWhatsappMessage(lead: LaborLead, phase: LaborChatPhase) {
+export function buildWhatsappMessage(lead: LaborLead, phase: LaborChatPhase) {
   const baseMessage = [
     "Hola, quiero agendar una consulta laboral con Leal Abogados.",
     `Tema: ${caseLabelByType[lead.caseType]}.`,

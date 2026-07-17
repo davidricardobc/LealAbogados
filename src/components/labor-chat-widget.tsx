@@ -167,7 +167,7 @@ export function LaborChatWidget() {
             ))}
             {isSending ? (
               <div className="mr-auto max-w-[88%] rounded-sm border border-ink/8 bg-white px-4 py-3 text-sm text-muted shadow-sm">
-                Revisando señales del caso...
+                Analizando el contexto del caso...
               </div>
             ) : null}
             <div ref={endRef} />
