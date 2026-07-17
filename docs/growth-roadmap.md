@@ -27,6 +27,8 @@
 - Crear estados de lead: nuevo, contactado, consulta agendada, convertido, descartado.
 - Automatizar recordatorio de documentos antes de la consulta.
 - Medir tasa de consulta agendada y tasa de escalamiento.
+- Implementar chatbot laboral MVP para orientar, calificar y escalar casos a consulta.
+- Medir conversaciones laborales, urgencia detectada, handoff a WhatsApp y consulta agendada.
 
 ## Paso 5: Optimizacion
 

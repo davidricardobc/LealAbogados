@@ -135,3 +135,23 @@
   - `preferred_channel`.
   - `case_summary`.
   - `utm_source`, `utm_medium`, `utm_campaign`.
+
+## Fase 7: Chatbot laboral
+
+- Primer asistente especializado: derecho laboral colombiano.
+- Objetivo: orientar de forma general, calificar casos y llevar a consulta con abogado cuando corresponda.
+- Alcance inicial:
+  - Despido, liquidacion, prestaciones, acoso laboral, estabilidad laboral reforzada, contrato realidad, accidente o enfermedad laboral, jornada, salario y prevencion empresarial.
+- Guardrails:
+  - No reemplaza asesoria legal personalizada.
+  - No garantiza resultados.
+  - No inventa normas, plazos ni jurisprudencia.
+  - Escala a abogado cuando hay urgencia, documentos, fechas, terminos, tutela, indemnizacion o estrategia.
+- Arquitectura:
+  - Widget web.
+  - API interna.
+  - Prompt servidor.
+  - Base de conocimiento curada.
+  - Handoff a WhatsApp/n8n/CRM.
+  - Eventos de medicion.
+- Documento operativo: `docs/labor-chatbot-mvp.md`.
