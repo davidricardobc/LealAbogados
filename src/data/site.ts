@@ -49,7 +49,7 @@ export const siteConfig = {
     "Firma jurídica colombiana con más de 18 años de experiencia en asesoría, representación y acompañamiento legal estratégico para personas, familias y empresas.",
   phone: "+57 315 284 9591",
   whatsappNumber: "573152849591",
-  email: "contacto@lealabogados.co",
+  email: "contactolealabogados@gmail.com",
   address: "Colombia",
   instagram: "https://www.instagram.com/lealabogadosoficial",
   instagramHandle: "@lealabogadosoficial",
