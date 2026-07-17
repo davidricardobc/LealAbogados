@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion, useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { ButtonLink } from "@/components/button-link";
 import { Logo } from "@/components/logo";
@@ -10,9 +11,15 @@ import { navItems, whatsappUrl } from "@/data/site";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const reduceMotion = useReducedMotion();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/94 text-white backdrop-blur-xl">
+    <motion.header
+      animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      className="sticky top-0 z-50 border-b border-white/10 bg-ink/94 text-white backdrop-blur-xl"
+      initial={reduceMotion ? undefined : { opacity: 0, y: -10 }}
+      transition={reduceMotion ? undefined : { duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-5 sm:h-24 sm:px-6 lg:px-8">
         <Logo inverse />
 
@@ -29,7 +36,8 @@ export function SiteHeader() {
                 key={item.href}
               >
                 {item.label}
-                <span
+                <motion.span
+                  layoutId={isActive ? "active-nav-line" : undefined}
                   className={cn(
                     "absolute -bottom-2 left-0 h-px bg-brand-red transition-all",
                     isActive ? "w-full opacity-100" : "w-6 opacity-0",
@@ -81,6 +89,6 @@ export function SiteHeader() {
           </div>
         </details>
       </div>
-    </header>
+    </motion.header>
   );
 }

@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useReducedMotion } from "motion/react";
 import { MailIcon, WhatsAppIcon } from "@/components/icons";
 import { siteConfig, whatsappUrl } from "@/data/site";
 import { conversionEvents } from "@/lib/conversion";
@@ -7,10 +10,17 @@ const emailHref = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
 )}&body=${encodeURIComponent("Hola, quiero recibir orientación jurídica sobre mi caso.")}`;
 
 export function MobileContactBar() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <>
       <div className="h-[4.75rem] md:hidden" aria-hidden="true" />
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-ink/10 bg-white/96 px-4 py-3 shadow-[0_-18px_44px_rgba(7,7,7,0.16)] backdrop-blur md:hidden">
+      <motion.div
+        animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-ink/10 bg-white/96 px-4 py-3 shadow-[0_-18px_44px_rgba(7,7,7,0.16)] backdrop-blur md:hidden"
+        initial={reduceMotion ? undefined : { opacity: 0, y: 18 }}
+        transition={reduceMotion ? undefined : { duration: 0.48, ease: [0.22, 1, 0.36, 1], delay: 0.16 }}
+      >
         <div className="mx-auto grid max-w-md grid-cols-2 gap-3">
           <a
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm border border-ink/14 bg-white px-4 text-sm font-semibold text-ink transition active:translate-y-px"
@@ -35,7 +45,7 @@ export function MobileContactBar() {
             <span>WhatsApp</span>
           </a>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
