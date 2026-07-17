@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { ButtonLink } from "@/components/button-link";
 import { ConsultationBrief } from "@/components/consultation-brief";
@@ -7,6 +8,35 @@ import { Reveal, RevealFrame, Stagger, StaggerItem } from "@/components/motion-p
 import { ProcessSteps } from "@/components/process-steps";
 import { SectionHeader } from "@/components/section-header";
 import { companyPackages, enterpriseServices, practiceAreas, whatsappLinks } from "@/data/site";
+
+export const metadata: Metadata = {
+  title: "Abogados en Colombia para consulta jurídica estratégica",
+  description:
+    "Leal Abogados Compañía brinda consulta jurídica estratégica en Colombia para derecho de familia, laboral, civil, sucesiones, tutelas y servicios legales empresariales.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Leal Abogados | Consulta jurídica estratégica en Colombia",
+    description:
+      "Asesoría y representación legal para personas, familias y empresas en Colombia, con atención remota y criterio jurídico claro.",
+    url: "/",
+    images: [
+      {
+        url: "/assets/leal-og-launch.png",
+        width: 1200,
+        height: 630,
+        alt: "Leal Abogados Compañía, consulta jurídica estratégica en Colombia",
+      },
+    ],
+  },
+  twitter: {
+    title: "Leal Abogados | Consulta jurídica estratégica en Colombia",
+    description:
+      "Asesoría y representación legal para personas, familias y empresas en Colombia.",
+    images: ["/assets/leal-og-launch.png"],
+  },
+};
 
 const trustPoints = [
   { value: "18 años", label: "de experiencia en asesoría, litigio y acompañamiento jurídico." },

@@ -5,11 +5,18 @@ import { SectionHeader } from "@/components/section-header";
 import { practiceAreas } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Áreas de práctica",
+  title: "Áreas de práctica jurídica en Colombia",
   description:
-    "Áreas de práctica de Leal Abogados: familia, sucesiones, laboral, seguridad social, civil, tutelas, trámites notariales y soporte empresarial.",
+    "Abogados en Colombia para derecho de familia, sucesiones, laboral, seguridad social, derecho civil, tutelas, trámites notariales y soporte jurídico empresarial.",
   alternates: {
     canonical: "/areas-de-practica",
+  },
+  openGraph: {
+    title: "Áreas de práctica jurídica | Leal Abogados",
+    description:
+      "Consulta y acompañamiento legal en familia, laboral, civil, sucesiones, seguridad social, tutelas y servicios empresariales.",
+    url: "/areas-de-practica",
+    images: ["/assets/leal-og-launch.png"],
   },
 };
 

@@ -8,11 +8,18 @@ import { SectionHeader } from "@/components/section-header";
 import { journeySteps, whatsappLinks } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Consulta jurídica",
+  title: "Consulta jurídica online en Colombia",
   description:
-    "Consulta jurídica estratégica para revisar hechos, valorar riesgos y definir si el caso debe escalar a tutela, reclamación, proceso o acompañamiento preventivo.",
+    "Agenda una consulta jurídica online en Colombia para revisar hechos, valorar riesgos y definir si tu caso debe escalar a tutela, reclamación, proceso o prevención legal.",
   alternates: {
     canonical: "/consulta-juridica",
+  },
+  openGraph: {
+    title: "Consulta jurídica online | Leal Abogados",
+    description:
+      "Consulta legal estratégica para ordenar el caso, revisar documentos y definir una ruta de acción con criterio jurídico.",
+    url: "/consulta-juridica",
+    images: ["/assets/leal-og-launch.png"],
   },
 };
 

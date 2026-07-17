@@ -6,11 +6,18 @@ import { SectionHeader } from "@/components/section-header";
 import { companyPackages, enterpriseScenarios, enterpriseServices, whatsappLinks } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Servicios empresariales",
+  title: "Servicios jurídicos empresariales en Colombia",
   description:
-    "Servicios jurídicos empresariales para reglamento interno de trabajo, contratación laboral, seguridad social, riesgos laborales y acompañamiento preventivo mensual.",
+    "Abogados para empresas en Colombia: reglamento interno de trabajo, contratación laboral, seguridad social, riesgos laborales y acompañamiento jurídico preventivo.",
   alternates: {
     canonical: "/servicios-empresariales",
+  },
+  openGraph: {
+    title: "Servicios jurídicos empresariales | Leal Abogados",
+    description:
+      "Soporte legal preventivo para empresas: contratación laboral, reglamento interno, seguridad social, riesgos laborales y acompañamiento mensual.",
+    url: "/servicios-empresariales",
+    images: ["/assets/leal-og-launch.png"],
   },
 };
 

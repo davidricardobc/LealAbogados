@@ -6,10 +6,17 @@ import { SectionHeader } from "@/components/section-header";
 import { siteConfig, socialProfiles, whatsappLinks } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Contacto",
-  description: "Contacta a Leal Abogados para agendar una consulta jurídica o solicitar soporte legal empresarial.",
+  title: "Contacto y agendamiento de consulta jurídica",
+  description: "Contacta a Leal Abogados para agendar una consulta jurídica en Colombia o solicitar soporte legal empresarial por WhatsApp, correo o formulario.",
   alternates: {
     canonical: "/contacto",
+  },
+  openGraph: {
+    title: "Contacto | Leal Abogados",
+    description:
+      "Agenda una consulta jurídica o solicita soporte legal empresarial con Leal Abogados Compañía.",
+    url: "/contacto",
+    images: ["/assets/leal-og-launch.png"],
   },
 };
 

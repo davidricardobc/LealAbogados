@@ -1,7 +1,8 @@
-import { practiceAreas, siteConfig, teamProfiles } from "@/data/site";
+import { enterpriseServices, practiceAreas, siteConfig, socialProfiles, teamProfiles } from "@/data/site";
 
 export function StructuredData() {
   const founder = teamProfiles[0];
+  const publicSocialUrls = socialProfiles.map((profile) => profile.href).filter(Boolean);
   const graph = {
     "@context": "https://schema.org",
     "@graph": [
@@ -15,10 +16,20 @@ export function StructuredData() {
         description: siteConfig.description,
         email: siteConfig.email,
         telephone: siteConfig.phone,
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            contactType: "customer service",
+            telephone: siteConfig.phone,
+            email: siteConfig.email,
+            availableLanguage: ["es-CO"],
+            areaServed: "CO",
+          },
+        ],
         founder: {
           "@id": `${siteConfig.url}/quienes-somos#juan-berley-leal-bernal`,
         },
-        sameAs: [siteConfig.instagram].filter(Boolean),
+        ...(publicSocialUrls.length > 0 ? { sameAs: publicSocialUrls } : {}),
       },
       {
         "@type": "LegalService",
@@ -31,13 +42,50 @@ export function StructuredData() {
           "@type": "Country",
           name: "Colombia",
         },
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: "CO",
+        },
         availableLanguage: ["es-CO"],
         telephone: siteConfig.phone,
         email: siteConfig.email,
+        knowsAbout: [
+          "Derecho de familia",
+          "Derecho laboral",
+          "Seguridad social",
+          "Derecho civil",
+          "Sucesiones",
+          "Tutelas",
+          "Servicios jurídicos empresariales",
+        ],
         parentOrganization: {
           "@id": `${siteConfig.url}/#organization`,
         },
         serviceType: practiceAreas.map((area) => area.title),
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Servicios jurídicos",
+          itemListElement: [
+            ...practiceAreas.map((area) => ({
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: area.title,
+                description: area.summary,
+                url: `${siteConfig.url}/areas-de-practica#${area.slug}`,
+              },
+            })),
+            ...enterpriseServices.map((service) => ({
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: service.title,
+                description: service.summary,
+                url: `${siteConfig.url}/servicios-empresariales`,
+              },
+            })),
+          ],
+        },
       },
       {
         "@type": "Person",

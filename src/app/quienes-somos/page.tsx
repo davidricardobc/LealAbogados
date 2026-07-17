@@ -15,11 +15,18 @@ import {
 } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Quiénes somos",
+  title: "Quiénes somos: Leal Abogados Compañía",
   description:
-    "Perfil institucional de Leal Abogados Compañía, su liderazgo, misión, visión, valores y objetivos.",
+    "Conoce el perfil institucional de Leal Abogados Compañía, firma jurídica colombiana liderada por Juan Berley Leal Bernal.",
   alternates: {
     canonical: "/quienes-somos",
+  },
+  openGraph: {
+    title: "Quiénes somos | Leal Abogados Compañía",
+    description:
+      "Perfil institucional, liderazgo, valores y enfoque de trabajo de Leal Abogados Compañía.",
+    url: "/quienes-somos",
+    images: ["/assets/leal-og-launch.png"],
   },
 };
 
