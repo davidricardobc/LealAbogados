@@ -87,6 +87,42 @@ export function WhatsAppIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function ChatIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" {...props}>
+      <path
+        d="M5.2 5.8c0-1 0.8-1.8 1.8-1.8h10c1 0 1.8.8 1.8 1.8v7.4c0 1-.8 1.8-1.8 1.8h-5.1l-4.5 4v-4H7c-1 0-1.8-.8-1.8-1.8V5.8Z"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.6"
+      />
+      <path d="M8.8 8.6h6.4M8.8 11.6h4.8" stroke="currentColor" strokeLinecap="round" strokeWidth="1.6" />
+    </svg>
+  );
+}
+
+export function SendIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" {...props}>
+      <path
+        d="M4 11.7 19.5 4.5 16 19.5l-3.8-5.8m-8.2-2 8.2 2m0 0 7.3-9.2"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.7"
+      />
+    </svg>
+  );
+}
+
+export function XIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" {...props}>
+      <path d="m7 7 10 10M17 7 7 17" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
+    </svg>
+  );
+}
+
 export function MarkIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 44 44" aria-hidden="true" fill="none" {...props}>
