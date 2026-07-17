@@ -11,17 +11,19 @@ export function SiteFooter() {
           <p className="mt-6 max-w-md text-sm leading-7 text-white/68">
             Firma jurídica colombiana orientada a consulta, representación y acompañamiento legal estratégico para personas, familias y empresas.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/72">
-            {socialProfiles.map((profile) =>
-              profile.href ? (
-                <a className="transition hover:text-white" href={profile.href} key={profile.label} rel="noreferrer" target="_blank">
-                  {profile.label} · {profile.handle}
-                </a>
-              ) : (
-                <span key={profile.label}>{profile.label} · {profile.handle}</span>
-              ),
-            )}
-          </div>
+          {socialProfiles.length > 0 ? (
+            <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/72">
+              {socialProfiles.map((profile) =>
+                profile.href ? (
+                  <a className="transition hover:text-white" href={profile.href} key={profile.label} rel="noreferrer" target="_blank">
+                    {profile.label} · {profile.handle}
+                  </a>
+                ) : (
+                  <span key={profile.label}>{profile.label} · {profile.handle}</span>
+                ),
+              )}
+            </div>
+          ) : null}
         </div>
 
         <div>

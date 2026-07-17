@@ -37,29 +37,33 @@ export default function ContactPage() {
               <p className="font-semibold text-ink">{siteConfig.email}</p>
               <p className="pt-3 text-sm text-muted">Dominio</p>
               <p className="font-semibold text-ink">{siteConfig.domain}</p>
-              <p className="pt-3 text-sm text-muted">Redes sociales</p>
-              <div className="flex flex-wrap gap-3 pt-1">
-                {socialProfiles.map((profile) =>
-                  profile.href ? (
-                    <a
-                      className="inline-flex items-center rounded-sm border border-ink/12 px-4 py-2 text-sm font-semibold text-ink transition hover:border-brand-red hover:text-brand-red"
-                      href={profile.href}
-                      key={profile.label}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      {profile.label} · {profile.handle}
-                    </a>
-                  ) : (
-                    <span
-                      className="inline-flex items-center rounded-sm border border-ink/12 px-4 py-2 text-sm font-semibold text-ink"
-                      key={profile.label}
-                    >
-                      {profile.label} · {profile.handle}
-                    </span>
-                  ),
-                )}
-              </div>
+              {socialProfiles.length > 0 ? (
+                <>
+                  <p className="pt-3 text-sm text-muted">Redes sociales</p>
+                  <div className="flex flex-wrap gap-3 pt-1">
+                    {socialProfiles.map((profile) =>
+                      profile.href ? (
+                        <a
+                          className="inline-flex items-center rounded-sm border border-ink/12 px-4 py-2 text-sm font-semibold text-ink transition hover:border-brand-red hover:text-brand-red"
+                          href={profile.href}
+                          key={profile.label}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          {profile.label} · {profile.handle}
+                        </a>
+                      ) : (
+                        <span
+                          className="inline-flex items-center rounded-sm border border-ink/12 px-4 py-2 text-sm font-semibold text-ink"
+                          key={profile.label}
+                        >
+                          {profile.label} · {profile.handle}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </>
+              ) : null}
               <div className="pt-4">
                 <ButtonLink external href={whatsappUrl}>
                   Escribir por WhatsApp

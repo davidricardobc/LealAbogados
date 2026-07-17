@@ -71,18 +71,7 @@ export const navItems = [
   { label: "Empresas", href: "/servicios-empresariales" },
 ];
 
-export const socialProfiles: SocialProfile[] = [
-  {
-    label: "Instagram",
-    handle: siteConfig.instagramHandle,
-    href: siteConfig.instagram,
-  },
-  {
-    label: "Facebook",
-    handle: "Abogado LEAL",
-    href: siteConfig.facebookUrl || undefined,
-  },
-];
+export const socialProfiles: SocialProfile[] = [];
 
 export const trustHighlights = [
   "Más de 18 años de experiencia.",
