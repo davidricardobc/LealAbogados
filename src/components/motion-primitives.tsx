@@ -17,12 +17,12 @@ type StaggerProps = {
 };
 
 const revealVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
 };
 
 const subtleScaleVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.985 },
+  hidden: { opacity: 0, y: 22, scale: 0.975 },
   visible: { opacity: 1, scale: 1 },
 };
 
@@ -37,8 +37,8 @@ export function Reveal({ children, className, delay = 0 }: RevealProps) {
     <motion.div
       className={className}
       initial="hidden"
-      viewport={{ once: true, amount: 0.28 }}
-      transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1], delay }}
+      viewport={{ once: true, amount: 0.12, margin: "0px 0px -72px 0px" }}
+      transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1], delay }}
       variants={revealVariants}
       whileInView="visible"
     >
@@ -58,8 +58,8 @@ export function RevealFrame({ children, className, delay = 0 }: RevealProps) {
     <motion.div
       className={className}
       initial="hidden"
-      viewport={{ once: true, amount: 0.32 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay }}
+      viewport={{ once: true, amount: 0.12, margin: "0px 0px -72px 0px" }}
+      transition={{ duration: 0.86, ease: [0.22, 1, 0.36, 1], delay }}
       variants={subtleScaleVariants}
       whileInView="visible"
     >
@@ -79,13 +79,13 @@ export function Stagger({ children, className, delay = 0 }: StaggerProps) {
     <motion.div
       className={className}
       initial="hidden"
-      viewport={{ once: true, amount: 0.22 }}
+      viewport={{ once: true, amount: 0.1, margin: "0px 0px -72px 0px" }}
       variants={{
         hidden: {},
         visible: {
           transition: {
             delayChildren: delay,
-            staggerChildren: 0.08,
+            staggerChildren: 0.11,
           },
         },
       }}
@@ -100,7 +100,7 @@ export function StaggerItem({ children, className }: StaggerProps) {
   return (
     <motion.div
       className={cn("motion-safe:will-change-transform", className)}
-      transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
       variants={revealVariants}
     >
       {children}
