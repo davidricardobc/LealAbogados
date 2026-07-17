@@ -45,10 +45,10 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: "/assets/leal-hero-logo-original.png",
-        width: 1448,
-        height: 1086,
-        alt: "Dossier jurídico de Leal Abogados Compañía",
+        url: "/assets/leal-og-launch.png",
+        width: 1200,
+        height: 630,
+        alt: "Consulta jurídica estratégica de Leal Abogados Compañía",
       },
     ],
   },
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Leal Abogados | Consulta jurídica estratégica",
     description: siteConfig.description,
-    images: ["/assets/leal-hero-logo-original.png"],
+    images: ["/assets/leal-og-launch.png"],
   },
   robots: {
     index: true,
