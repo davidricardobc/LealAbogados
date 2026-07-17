@@ -5,7 +5,7 @@ import { CtaBand } from "@/components/cta-band";
 import { ShieldIcon } from "@/components/icons";
 import { ProcessSteps } from "@/components/process-steps";
 import { SectionHeader } from "@/components/section-header";
-import { companyPackages, enterpriseServices, practiceAreas, teamProfiles, valuePillars, whatsappUrl } from "@/data/site";
+import { companyPackages, enterpriseServices, practiceAreas, whatsappUrl } from "@/data/site";
 
 const trustPoints = [
   { value: "18 años", label: "de experiencia en asesoría, litigio y acompañamiento jurídico." },
@@ -157,46 +157,6 @@ export default function Home() {
           />
           <div className="mt-12">
             <ProcessSteps />
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white px-5 py-24 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeader
-            title="Trayectoria visible. Atención directa. Criterio legal."
-            description="La confianza se construye con experiencia, comunicación clara y decisiones tomadas con soporte jurídico."
-          />
-          <div className="mt-12 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="grid gap-6 md:grid-cols-2">
-              {teamProfiles.map((profile) => (
-                <article className="border-t border-ink/12 bg-white pt-7" key={profile.name}>
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-red">{profile.role}</p>
-                  <h3 className="mt-4 font-serif text-3xl font-semibold text-ink">{profile.name}</h3>
-                  <p className="mt-4 text-sm leading-7 text-muted">{profile.summary}</p>
-                  <ul className="mt-6 space-y-3">
-                    {profile.highlights.map((item) => (
-                      <li className="flex gap-3 text-sm text-ink/76" key={item}>
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-brand-red" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
-            <div className="bg-smoke p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-red">Lo que sostiene la marca</p>
-              <h3 className="mt-4 font-serif text-3xl font-semibold text-ink">Compromiso, estrategia y confianza.</h3>
-              <div className="mt-8 space-y-5">
-                {valuePillars.map((item) => (
-                  <article className="border-t border-ink/10 pt-5" key={item.title}>
-                    <h4 className="font-serif text-2xl font-semibold text-ink">{item.title}</h4>
-                    <p className="mt-3 text-sm leading-7 text-muted">{item.text}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
