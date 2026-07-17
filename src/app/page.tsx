@@ -29,25 +29,25 @@ const proofMarkers = [
 export default function Home() {
   return (
     <>
-      <section className="relative isolate min-h-[calc(84svh-5rem)] overflow-hidden bg-ink text-white">
+      <section className="relative isolate min-h-[calc(86svh-4.75rem)] overflow-hidden bg-ink text-white sm:min-h-[calc(84svh-5rem)]">
         <Image
           alt="Firma de documentos legales en una oficina sobria"
-          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-[62%_center] sm:object-center"
           fill
           priority
           sizes="100vw"
           src="/assets/leal-hero-editorial-v3.png"
         />
-        <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#070707_0%,rgba(7,7,7,0.94)_28%,rgba(7,7,7,0.62)_58%,rgba(7,7,7,0.12)_100%)]" />
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(7,7,7,0.86)_0%,rgba(7,7,7,0.78)_48%,rgba(7,7,7,0.62)_100%)] sm:bg-[linear-gradient(90deg,#070707_0%,rgba(7,7,7,0.94)_28%,rgba(7,7,7,0.62)_58%,rgba(7,7,7,0.12)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-52 bg-[linear-gradient(180deg,rgba(7,7,7,0),#070707)]" />
-        <div className="section-shell flex min-h-[calc(84svh-5rem)] items-center py-16 md:py-20">
+        <div className="section-shell flex min-h-[calc(86svh-4.75rem)] items-center py-12 sm:min-h-[calc(84svh-5rem)] md:py-20">
           <div className="max-w-3xl">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-white/58">Leal Abogados Compañía</p>
+            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-white/62 sm:tracking-[0.28em]">Leal Abogados Compañía</p>
             <div className="mb-7 h-px w-20 bg-brand-red" />
-            <h1 className="max-w-3xl text-balance font-serif text-4xl font-semibold leading-[0.98] tracking-normal sm:text-6xl lg:text-7xl">
+            <h1 className="max-w-3xl text-balance font-serif text-[2.85rem] font-semibold leading-[0.98] tracking-normal sm:text-6xl lg:text-7xl">
               Defensa legal con criterio, firmeza y estrategia.
             </h1>
-            <p className="mt-7 max-w-xl text-base leading-7 text-white/76 sm:text-lg sm:leading-8">
+            <p className="mt-7 max-w-xl text-[1.05rem] leading-8 text-white/78 sm:text-lg sm:leading-8">
               Consulta jurídica seria para decidir si conviene reclamar, negociar, prevenir o iniciar una acción.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">

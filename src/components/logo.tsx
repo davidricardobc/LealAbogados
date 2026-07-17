@@ -25,7 +25,7 @@ export function Logo({ inverse = false, className, imageClassName, size = "heade
         alt="Leal Abogados Compañía"
         className={cn(
           "w-auto object-contain",
-          size === "footer" ? "h-36 sm:h-40 lg:h-44" : "h-16 sm:h-20 lg:h-[5.4rem]",
+          size === "footer" ? "h-36 sm:h-40 lg:h-44" : "h-14 sm:h-20 lg:h-[5.4rem]",
           imageClassName,
         )}
         height={1402}

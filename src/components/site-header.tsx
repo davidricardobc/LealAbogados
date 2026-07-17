@@ -13,7 +13,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/94 text-white backdrop-blur-xl">
-      <div className="mx-auto flex h-[5.75rem] max-w-7xl items-center justify-between px-5 sm:h-24 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-5 sm:h-24 sm:px-6 lg:px-8">
         <Logo inverse />
 
         <nav aria-label="Navegación principal" className="hidden items-center gap-8 lg:flex">
@@ -50,7 +50,7 @@ export function SiteHeader() {
         </div>
 
         <details className="group relative lg:hidden">
-          <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-sm border border-white/15 text-white transition hover:border-brand-red hover:text-brand-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-red">
+          <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-sm border border-white/15 text-white transition hover:border-brand-red hover:text-brand-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-red">
             <span className="sr-only">Abrir menú</span>
             <MenuIcon className="h-5 w-5" />
           </summary>

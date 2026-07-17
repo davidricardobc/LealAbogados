@@ -34,8 +34,8 @@ export default function AboutPage() {
         visualAlt="Dossier jurídico de Leal Abogados Compañía con identidad de marca"
         visualClassName="bg-inkSoft"
         visualFit="cover"
-        visualPosition="object-center"
-        visualSrc="/assets/leal-hero-logo-original.png"
+        visualPosition="object-[center_24%]"
+        visualSrc="/assets/juan-berley-leal-bernal-oficial.png"
       />
 
       <section className="bg-white px-5 py-20 sm:px-6 lg:px-8">
