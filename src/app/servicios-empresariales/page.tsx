@@ -3,7 +3,7 @@ import { ButtonLink } from "@/components/button-link";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
-import { companyPackages, enterpriseScenarios, enterpriseServices, whatsappUrl } from "@/data/site";
+import { companyPackages, enterpriseScenarios, enterpriseServices, whatsappLinks } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Servicios empresariales",
@@ -83,7 +83,7 @@ export default function EnterpriseServicesPage() {
               description="Estas modalidades sirven como base de conversación y deben cerrarse según volumen de consultas, complejidad jurídica y frecuencia real del soporte requerido."
             />
             <div className="mt-8">
-              <ButtonLink external href={whatsappUrl}>
+              <ButtonLink external href={whatsappLinks.enterprise}>
                 Solicitar orientación empresarial
               </ButtonLink>
             </div>

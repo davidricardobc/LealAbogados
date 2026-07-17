@@ -3,7 +3,7 @@ import { ButtonLink } from "@/components/button-link";
 import { LeadForm } from "@/components/lead-form";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
-import { siteConfig, socialProfiles, whatsappUrl } from "@/data/site";
+import { siteConfig, socialProfiles, whatsappLinks } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -65,7 +65,7 @@ export default function ContactPage() {
                 </>
               ) : null}
               <div className="pt-4">
-                <ButtonLink external href={whatsappUrl}>
+                <ButtonLink external href={whatsappLinks.contact}>
                   Escribir por WhatsApp
                 </ButtonLink>
               </div>

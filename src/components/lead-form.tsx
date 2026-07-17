@@ -16,7 +16,7 @@ const urgencyLabels: Record<string, string> = {
 
 const channelLabels: Record<string, string> = {
   whatsapp: "WhatsApp",
-  llamada: "Llamada",
+  reunion: "Reunión coordinada",
   correo: "Correo",
 };
 
@@ -160,7 +160,7 @@ export function LeadForm({ context }: LeadFormProps) {
           >
             <option value="">Selecciona una opción</option>
             <option value="whatsapp">WhatsApp</option>
-            <option value="llamada">Llamada</option>
+            <option value="reunion">Reunión coordinada</option>
             <option value="correo">Correo</option>
           </select>
         </label>

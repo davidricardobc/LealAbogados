@@ -5,7 +5,7 @@ import { CtaBand } from "@/components/cta-band";
 import { LeadForm } from "@/components/lead-form";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
-import { journeySteps, whatsappUrl } from "@/data/site";
+import { journeySteps, whatsappLinks } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Consulta jurídica",
@@ -78,7 +78,7 @@ export default function ConsultationPage() {
               description="WhatsApp reduce fricción cuando el caso es urgente. El formulario ayuda a preparar la información inicial del caso y los soportes relevantes desde cualquier lugar de Colombia."
             />
             <div className="mt-8">
-              <ButtonLink external href={whatsappUrl}>
+              <ButtonLink external href={whatsappLinks.consultation}>
                 Agendar por WhatsApp
               </ButtonLink>
             </div>

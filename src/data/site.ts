@@ -64,6 +64,17 @@ export const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${en
   siteConfig.consultationMessage,
 )}`;
 
+export function buildWhatsappUrl(message = siteConfig.consultationMessage) {
+  return `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+
+export const whatsappLinks = {
+  general: buildWhatsappUrl("Hola, quiero agendar una consulta jurídica con Leal Abogados. Mi caso está relacionado con: "),
+  consultation: buildWhatsappUrl("Hola, quiero agendar una consulta jurídica con Leal Abogados. Quiero revisar mi caso y definir una ruta de acción."),
+  enterprise: buildWhatsappUrl("Hola, quiero orientación jurídica empresarial con Leal Abogados. Me interesa revisar una situación preventiva o laboral de mi empresa."),
+  contact: buildWhatsappUrl("Hola, quiero contactar a Leal Abogados para iniciar una consulta jurídica."),
+};
+
 export const navItems = [
   { label: "Inicio", href: "/" },
   { label: "Quiénes somos", href: "/quienes-somos" },

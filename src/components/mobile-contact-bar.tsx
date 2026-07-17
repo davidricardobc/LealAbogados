@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { MailIcon, WhatsAppIcon } from "@/components/icons";
-import { siteConfig, whatsappUrl } from "@/data/site";
+import { siteConfig, whatsappLinks } from "@/data/site";
 import { conversionEvents } from "@/lib/conversion";
 
 const emailHref = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
@@ -37,7 +37,7 @@ export function MobileContactBar() {
             data-event={conversionEvents.whatsappClick}
             data-event-label="WhatsApp"
             data-event-location="mobile-sticky"
-            href={whatsappUrl}
+            href={whatsappLinks.general}
             rel="noreferrer"
             target="_blank"
           >

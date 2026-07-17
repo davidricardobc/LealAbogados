@@ -7,7 +7,7 @@ import { ButtonLink } from "@/components/button-link";
 import { Logo } from "@/components/logo";
 import { MenuIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
-import { navItems, whatsappUrl } from "@/data/site";
+import { navItems, whatsappLinks } from "@/data/site";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -52,7 +52,7 @@ export function SiteHeader() {
           <ButtonLink href="/consulta-juridica" variant="primary">
             Agendar consulta
           </ButtonLink>
-          <ButtonLink external href={whatsappUrl} variant="ghost" className="text-white hover:bg-white/8 hover:text-white">
+          <ButtonLink external href={whatsappLinks.general} variant="ghost" className="text-white hover:bg-white/8 hover:text-white">
             WhatsApp
           </ButtonLink>
         </div>
@@ -82,7 +82,7 @@ export function SiteHeader() {
               <ButtonLink className="mt-3 w-full" href="/consulta-juridica">
                 Agendar consulta
               </ButtonLink>
-              <ButtonLink className="mt-2 w-full text-white hover:bg-white/8 hover:text-white" external href={whatsappUrl} variant="ghost">
+              <ButtonLink className="mt-2 w-full text-white hover:bg-white/8 hover:text-white" external href={whatsappLinks.general} variant="ghost">
                 WhatsApp
               </ButtonLink>
             </nav>

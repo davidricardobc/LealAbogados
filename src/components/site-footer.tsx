@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { navItems, siteConfig, socialProfiles, whatsappUrl } from "@/data/site";
+import { navItems, siteConfig, socialProfiles, whatsappLinks } from "@/data/site";
 
 export function SiteFooter() {
   return (
@@ -47,7 +47,7 @@ export function SiteFooter() {
             <li>{siteConfig.domain}</li>
             <li>{siteConfig.address}</li>
             <li>
-              <a className="text-white underline decoration-brand-red underline-offset-4" href={whatsappUrl} rel="noreferrer" target="_blank">
+              <a className="text-white underline decoration-brand-red underline-offset-4" href={whatsappLinks.consultation} rel="noreferrer" target="_blank">
                 Agendar consulta por WhatsApp
               </a>
             </li>

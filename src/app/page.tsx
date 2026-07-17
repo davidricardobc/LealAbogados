@@ -6,7 +6,7 @@ import { ShieldIcon } from "@/components/icons";
 import { Reveal, RevealFrame, Stagger, StaggerItem } from "@/components/motion-primitives";
 import { ProcessSteps } from "@/components/process-steps";
 import { SectionHeader } from "@/components/section-header";
-import { companyPackages, enterpriseServices, practiceAreas, whatsappUrl } from "@/data/site";
+import { companyPackages, enterpriseServices, practiceAreas, whatsappLinks } from "@/data/site";
 
 const trustPoints = [
   { value: "18 años", label: "de experiencia en asesoría, litigio y acompañamiento jurídico." },
@@ -52,7 +52,7 @@ export default function Home() {
               Consulta jurídica seria para decidir si conviene reclamar, negociar, prevenir o iniciar una acción.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink external href={whatsappUrl} variant="primary" eventLocation="hero-v2">
+              <ButtonLink external href={whatsappLinks.consultation} variant="primary" eventLocation="hero-v2">
                 Agendar consulta
               </ButtonLink>
             </div>
@@ -91,7 +91,7 @@ export default function Home() {
               La consulta no es un trámite. Es el filtro para ordenar hechos, medir riesgos y actuar con intención.
             </p>
             <div className="mt-8">
-              <ButtonLink external href={whatsappUrl} variant="secondary" eventLocation="home-consulta-editorial">
+              <ButtonLink external href={whatsappLinks.consultation} variant="secondary" eventLocation="home-consulta-editorial">
                 Agendar consulta
               </ButtonLink>
             </div>
@@ -138,7 +138,7 @@ export default function Home() {
               Una buena consulta separa lo urgente de lo importante y convierte un problema disperso en próximos pasos.
             </p>
             <div className="mt-8">
-              <ButtonLink external href={whatsappUrl} variant="dark" eventLocation="consultation-band-v2">
+              <ButtonLink external href={whatsappLinks.consultation} variant="dark" eventLocation="consultation-band-v2">
                 Agendar consulta
               </ButtonLink>
             </div>
