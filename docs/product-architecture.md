@@ -147,6 +147,10 @@
   - No garantiza resultados.
   - No inventa normas, plazos ni jurisprudencia.
   - Escala a abogado cuando hay urgencia, documentos, fechas, terminos, tutela, indemnizacion o estrategia.
+- Flujo comercial:
+  - Primero pregunta datos minimos para entender rol, hechos, fechas, ciudad, vinculacion y pruebas.
+  - Luego entrega una orientacion inicial clara.
+  - Antes de respuesta experta escrita, solicita consignacion de $10.000 COP por Nequi y comprobante por WhatsApp.
 - Arquitectura:
   - Widget web.
   - API interna.

@@ -148,7 +148,7 @@ export function LaborChatWidget() {
                 <XIcon className="h-4 w-4" />
               </button>
             </div>
-            <p className="mt-3 text-xs leading-5 text-white/58">MVP cerrado a derecho laboral colombiano.</p>
+            <p className="mt-3 text-xs leading-5 text-white/58">Derecho laboral colombiano.</p>
           </header>
 
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto bg-smoke px-4 py-4">
@@ -158,7 +158,7 @@ export function LaborChatWidget() {
                   "max-w-[88%] rounded-sm px-4 py-3 text-sm leading-6 shadow-sm",
                   message.role === "user"
                     ? "ml-auto bg-brand-red text-white"
-                    : "mr-auto border border-ink/8 bg-white text-ink",
+                    : "mr-auto whitespace-pre-line border border-ink/8 bg-white text-ink",
                 )}
                 key={message.id}
               >
@@ -195,6 +195,26 @@ export function LaborChatWidget() {
                 </button>
               ))}
             </div>
+
+            {lastResponse?.paymentRequired && lastResponse.payment ? (
+              <div className="mb-3 border border-brand-red/20 bg-brand-red/[0.06] px-3 py-3 text-sm text-ink">
+                <p className="font-semibold">{lastResponse.payment.title}</p>
+                <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+                  <div className="border border-ink/8 bg-white px-2 py-2">
+                    <span className="block text-muted">Valor</span>
+                    <strong>{lastResponse.payment.formattedAmount}</strong>
+                  </div>
+                  <div className="border border-ink/8 bg-white px-2 py-2">
+                    <span className="block text-muted">Medio</span>
+                    <strong>{lastResponse.payment.method}</strong>
+                  </div>
+                </div>
+                <p className="mt-2 text-xs leading-5 text-muted">
+                  Nequi: <strong className="text-ink">{lastResponse.payment.nequiNumber}</strong>. Luego envia el
+                  comprobante por WhatsApp para preparar la respuesta.
+                </p>
+              </div>
+            ) : null}
 
             {lastResponse?.whatsappUrl ? (
               <a

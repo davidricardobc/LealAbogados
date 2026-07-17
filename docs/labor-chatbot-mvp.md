@@ -78,7 +78,13 @@ Regla tecnica: el modelo no debe responder sobre cambios recientes sin recuperar
    - Indicar posibles rutas: reclamacion, conciliacion, Ministerio, tutela, demanda laboral, prevencion empresarial.
    - No calcular montos exactos sin datos completos; si se calcula, marcar como estimado.
 
-5. Conversion
+5. Respuesta experta por escrito
+   - Antes de ofrecer un documento o respuesta experta, el bot debe haber pedido los datos minimos del caso.
+   - El bot puede dar orientacion inicial gratuita, pero no debe entregar concepto experto escrito sin pago.
+   - Valor MVP: consignacion de $10.000 COP por Nequi.
+   - Despues del pago, el usuario debe enviar comprobante por WhatsApp junto con resumen y documentos disponibles.
+
+6. Conversion
    - Si el caso es urgente o juridicamente sensible: recomendar consulta.
    - Si el usuario esta listo: pedir nombre, telefono, ciudad, resumen, disponibilidad.
    - Generar mensaje WhatsApp prellenado o crear lead en CRM.
@@ -185,7 +191,8 @@ type LaborLead = {
     | "whatsapp"
     | "reunir_documentos"
     | "orientacion_general"
-    | "urgente_abogado";
+    | "urgente_abogado"
+    | "pago_respuesta_experta";
   consentToContact: boolean;
   sourcePage?: string;
   utm?: Record<string, string>;
@@ -221,6 +228,8 @@ CTA recomendado:
 - Conversaciones iniciadas.
 - Porcentaje que llega a clasificacion.
 - Porcentaje que acepta WhatsApp/agendamiento.
+- Porcentaje que solicita respuesta experta por escrito.
+- Respuestas expertas pagadas por Nequi.
 - Tiempo promedio hasta CTA.
 - Casos urgentes detectados.
 - Leads laborales por fuente.

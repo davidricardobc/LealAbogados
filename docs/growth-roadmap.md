@@ -28,7 +28,7 @@
 - Automatizar recordatorio de documentos antes de la consulta.
 - Medir tasa de consulta agendada y tasa de escalamiento.
 - Implementar chatbot laboral MVP para orientar, calificar y escalar casos a consulta.
-- Medir conversaciones laborales, urgencia detectada, handoff a WhatsApp y consulta agendada.
+- Medir conversaciones laborales, urgencia detectada, solicitud de respuesta experta, pago Nequi, handoff a WhatsApp y consulta agendada.
 
 ## Paso 5: Optimizacion
 
