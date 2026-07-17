@@ -120,7 +120,7 @@ export default function Home() {
       </section>
 
       <section className="relative overflow-hidden bg-ink px-5 py-24 text-white sm:px-6 lg:px-8">
-        <div className="absolute inset-y-0 right-0 w-[52%] bg-[url('/assets/leal-enterprise-consulting.png')] bg-cover bg-center opacity-22" />
+        <div className="absolute inset-y-0 right-0 w-[52%] bg-[url('/assets/leal-enterprise-prevention-v2.png')] bg-cover bg-center opacity-22" />
         <div className="absolute inset-y-0 right-0 w-3/4 bg-[linear-gradient(90deg,#070707,rgba(7,7,7,0.9),rgba(7,7,7,0.18))]" />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
@@ -170,7 +170,7 @@ export default function Home() {
               alt="Dossier de estrategia jurídica para soporte preventivo empresarial"
               className="h-full min-h-[28rem] w-full object-cover"
               height={760}
-              src="/assets/leal-enterprise-consulting.png"
+              src="/assets/leal-enterprise-prevention-v2.png"
               width={980}
             />
           </div>

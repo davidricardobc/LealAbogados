@@ -24,7 +24,7 @@ export default function EnterpriseServicesPage() {
         secondaryLabel="Solicitar contacto"
         visualAlt="Mesa de consultoría jurídica empresarial con documentos de soporte preventivo"
         visualPosition="object-center"
-        visualSrc="/assets/leal-enterprise-consulting.png"
+        visualSrc="/assets/leal-enterprise-prevention-v2.png"
       />
 
       <section className="bg-white px-5 py-20 sm:px-6 lg:px-8">
