@@ -42,6 +42,15 @@ export type LaborLead = {
   flags: string[];
 };
 
+type ConversationFacts = {
+  hasDate: boolean;
+  hasCity: boolean;
+  hasContract: boolean;
+  hasDocuments: boolean;
+  hasPaymentIntent: boolean;
+  hasPaymentProofSignal: boolean;
+};
+
 export type LaborChatResult = {
   reply: string;
   lead: LaborLead;
@@ -235,16 +244,21 @@ export function evaluateLaborConversation(messages: LaborChatMessage[]): LaborCh
   const selectedRule = pickCaseRule(searchableText);
   const role = pickRole(searchableText);
   const urgency = pickUrgency(searchableText, selectedRule.type);
-  const missingFields = pickMissingFields(searchableText);
+  const facts = pickConversationFacts(searchableText);
+  const missingFields = pickMissingFields(facts);
   const flags = pickFlags(searchableText);
   const shouldEscalate = urgency === "critica" || urgency === "alta" || selectedRule.type !== "otro";
   const clarifyingQuestions = buildClarifyingQuestions({
+    facts,
     role,
     missingFields,
     selectedRule,
   });
   const phase = pickPhase({
+    facts,
     latestSearchableText,
+    role,
+    selectedRule,
     clarifyingQuestions,
   });
   const paymentRequired = phase === "orientacion_inicial" || phase === "pago_experto" || phase === "comprobante";
@@ -260,7 +274,7 @@ export function evaluateLaborConversation(messages: LaborChatMessage[]): LaborCh
     role,
     caseType: selectedRule.type,
     urgency,
-    summary: buildSummary(latestUserText || fullText),
+    summary: buildSummary(fullText || latestUserText),
     documents: selectedRule.documents,
     missingFields,
     recommendedNextStep,
@@ -330,21 +344,28 @@ function pickUrgency(text: string, caseType: LaborCaseType): LaborUrgency {
   return "baja";
 }
 
-function pickMissingFields(text: string) {
-  const missingFields: string[] = [];
-  const hasDate =
-    /\b\d{1,2}[/-]\d{1,2}([/-]\d{2,4})?\b/.test(text) ||
-    /(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ayer|hoy|manana|esta semana|semana pasada|mes pasado|hace \d+)/.test(
-      text,
-    );
-  const hasCity = /(bogota|medellin|cali|barranquilla|cartagena|bucaramanga|villavicencio|colombia|ciudad|departamento)/.test(text);
-  const hasContract = /(contrato|verbal|indefinido|fijo|obra labor|prestacion de servicios|ops)/.test(text);
-  const hasDocuments = /(carta|liquidacion|desprendible|correo|chat|contrato|incapacidad|certificacion|prueba)/.test(text);
+function pickConversationFacts(text: string): ConversationFacts {
+  return {
+    hasDate:
+      /\b\d{1,2}[/-]\d{1,2}([/-]\d{2,4})?\b/.test(text) ||
+      /(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ayer|hoy|manana|esta semana|semana pasada|mes pasado|hace \d+|hace un|hace una|desde hace|desde el|desde la|llevo \d+)/.test(
+        text,
+      ),
+    hasCity: /(bogota|medellin|cali|barranquilla|cartagena|bucaramanga|villavicencio|colombia|ciudad|departamento)/.test(text),
+    hasContract: /(contrato|verbal|indefinido|fijo|obra labor|prestacion de servicios|ops|nomina|empleado|trabajador|contratista)/.test(text),
+    hasDocuments: /(carta|liquidacion|desprendible|correo|chat|contrato|incapacidad|certificacion|prueba|soporte|documento)/.test(text),
+    hasPaymentIntent: /(concepto|respuesta experta|documento|abogado revise|pagar|consignar|nequi|quiero la respuesta|valor)/.test(text),
+    hasPaymentProofSignal: /(comprobante|consigne|consignacion|pague|pagado|transferi|transferencia|ya hice|ya pague|nequi)/.test(text),
+  };
+}
 
-  if (!hasDate) missingFields.push("fecha clave");
-  if (!hasCity) missingFields.push("ciudad");
-  if (!hasContract) missingFields.push("tipo de vinculacion");
-  if (!hasDocuments) missingFields.push("documentos o pruebas");
+function pickMissingFields(facts: ConversationFacts) {
+  const missingFields: string[] = [];
+
+  if (!facts.hasDate) missingFields.push("fecha clave");
+  if (!facts.hasCity) missingFields.push("ciudad");
+  if (!facts.hasContract) missingFields.push("tipo de vinculacion");
+  if (!facts.hasDocuments) missingFields.push("documentos o pruebas");
 
   return missingFields.slice(0, 3);
 }
@@ -362,36 +383,55 @@ function pickFlags(text: string) {
 }
 
 function pickPhase({
+  facts,
   latestSearchableText,
+  role,
+  selectedRule,
   clarifyingQuestions,
 }: {
+  facts: ConversationFacts;
   latestSearchableText: string;
+  role: LaborRole;
+  selectedRule: CaseRule;
   clarifyingQuestions: string[];
 }): LaborChatPhase {
   if (!latestSearchableText || /^(hola|buenas|buenos dias|buenas tardes|buenas noches)$/.test(latestSearchableText)) {
     return "saludo";
   }
 
-  if (/(comprobante|consigne|consignacion|pague|pagado|transferi|transferencia|ya hice|nequi)/.test(latestSearchableText)) {
+  if (facts.hasPaymentProofSignal) {
     return "comprobante";
   }
 
-  if (clarifyingQuestions.length) {
+  if (facts.hasPaymentIntent) {
+    return "pago_experto";
+  }
+
+  const hasCoreContext = selectedRule.type !== "otro" && role !== "desconocido" && facts.hasDate;
+  const hasPartialCase = selectedRule.type !== "otro" || role !== "desconocido";
+
+  if (hasCoreContext) {
+    return "orientacion_inicial";
+  }
+
+  if (clarifyingQuestions.length && !hasPartialCase) {
     return "preguntas";
   }
 
-  if (/(concepto|respuesta experta|documento|abogado revise|pagar|consignar|nequi)/.test(latestSearchableText)) {
-    return "pago_experto";
+  if (clarifyingQuestions.length && !facts.hasDate) {
+    return "preguntas";
   }
 
   return "orientacion_inicial";
 }
 
 function buildClarifyingQuestions({
+  facts,
   role,
   missingFields,
   selectedRule,
 }: {
+  facts: ConversationFacts;
   role: LaborRole;
   missingFields: string[];
   selectedRule: CaseRule;
@@ -404,25 +444,29 @@ function buildClarifyingQuestions({
 
   if (selectedRule.type === "otro") {
     questions.push("¿Que paso exactamente: despido, liquidacion, acoso, accidente, horas extra u otro tema laboral?");
+  } else if (!facts.hasDate) {
+    questions.push("¿Cuando ocurrio o desde cuando viene pasando?");
+  } else {
+    questions.push(selectedRule.followUp);
   }
 
-  if (missingFields.includes("fecha clave")) {
+  if (selectedRule.type === "otro" && missingFields.includes("fecha clave")) {
     questions.push("¿Cuando ocurrio o desde cuando viene pasando?");
   }
 
-  if (missingFields.includes("ciudad")) {
+  if (questions.length < 2 && missingFields.includes("ciudad")) {
     questions.push("¿En que ciudad o departamento de Colombia ocurre?");
   }
 
-  if (missingFields.includes("tipo de vinculacion")) {
+  if (questions.length < 2 && missingFields.includes("tipo de vinculacion")) {
     questions.push("¿Tu vinculacion era contrato escrito, verbal, termino fijo, indefinido, obra labor o prestacion de servicios?");
   }
 
-  if (missingFields.includes("documentos o pruebas")) {
+  if (questions.length < 2 && missingFields.includes("documentos o pruebas")) {
     questions.push("¿Tienes algun soporte: contrato, carta, liquidacion, chats, correos, desprendibles o incapacidades?");
   }
 
-  return questions.slice(0, 3);
+  return Array.from(new Set(questions)).slice(0, 2);
 }
 
 function buildReply({
@@ -447,7 +491,7 @@ function buildReply({
   }
 
   if (phase === "preguntas") {
-    return `Te entiendo. Antes de darte una respuesta clara necesito ordenar estos datos:\n\n${formatNumberedList(clarifyingQuestions)}\n\nCon eso puedo decirte la ruta inicial y si conviene que lo revise un abogado especializado.`;
+    return `Te entiendo. Ya tengo una parte del caso, pero me falta este dato para darte una ruta clara:\n\n${formatNumberedList(clarifyingQuestions)}\n\nRespondeme eso en una frase y avanzo con la orientacion inicial.`;
   }
 
   const urgencyLine =
@@ -457,7 +501,40 @@ function buildReply({
         ? "Por lo que cuentas, si conviene revisar el caso con abogado antes de tomar decisiones."
         : "Todavia falta contexto para saber si hay una ruta juridica concreta.";
 
-  return `Respuesta inicial clara:\n\n1. Tema probable: ${selectedRule.label}.\n2. Lo importante: ${selectedRule.route}\n3. Urgencia: ${urgencyLabelByType[lead.urgency]}. ${urgencyLine}\n4. Documentos utiles: ${formatList(selectedRule.documents.slice(0, 4))}.\n\nPara recibir la respuesta experta por escrito, primero realiza una consignacion de ${expertPayment.formattedAmount} por ${expertPayment.method} al ${expertPayment.nequiNumber}. Luego envia el comprobante por WhatsApp con el resumen del caso.\n\nEsta orientacion es general y no reemplaza la revision del abogado con documentos, fechas y pruebas.`;
+  const missingContext = lead.missingFields.length
+    ? `\n\nMe ayudaria confirmar despues: ${formatList(lead.missingFields)}. No detengo la orientacion por eso, pero esos datos afinan la respuesta del abogado.`
+    : "";
+  const caseGuidance = buildCaseGuidance(lead, selectedRule);
+
+  return `Respuesta inicial clara:\n\n1. Lo que entiendo: estas consultando por ${selectedRule.label} desde el perfil de ${roleLabelByType[lead.role]}.\n2. Lectura inicial: ${caseGuidance}\n3. Ruta sugerida: ${selectedRule.route}\n4. Urgencia: ${urgencyLabelByType[lead.urgency]}. ${urgencyLine}\n5. Documentos utiles: ${formatList(selectedRule.documents.slice(0, 4))}.${missingContext}\n\nPara recibir la respuesta experta por escrito, primero realiza una consignacion de ${expertPayment.formattedAmount} por ${expertPayment.method} al ${expertPayment.nequiNumber}. Luego envia el comprobante por WhatsApp con el resumen del caso.\n\nEsta orientacion es general y no reemplaza la revision del abogado con documentos, fechas y pruebas.`;
+}
+
+function buildCaseGuidance(lead: LaborLead, selectedRule: CaseRule) {
+  if (lead.caseType === "despido") {
+    return "hay que revisar si la terminacion tuvo soporte, si hubo justa causa, si la liquidacion corresponde y si existe alguna proteccion especial.";
+  }
+
+  if (lead.caseType === "liquidacion") {
+    return "la clave es comparar fecha de ingreso, retiro, salario base y pagos recibidos para detectar diferencias reclamables.";
+  }
+
+  if (lead.caseType === "acoso") {
+    return "conviene ordenar hechos, fechas, testigos y pruebas antes de presentar quejas o tomar decisiones que puedan afectar el caso.";
+  }
+
+  if (lead.caseType === "estabilidad_reforzada") {
+    return "hay senales sensibles de salud, fuero o proteccion especial; la prioridad es revisar si la empresa conocia la situacion y que documentos existen.";
+  }
+
+  if (lead.caseType === "contrato_realidad") {
+    return "si habia horario, subordinacion y pagos periodicos, podria existir una discusion sobre relacion laboral real.";
+  }
+
+  if (lead.caseType === "preventivo_empresa") {
+    return "antes de sancionar, despedir o cambiar condiciones, la empresa debe medir riesgo, soportes y debido proceso.";
+  }
+
+  return selectedRule.route;
 }
 
 function buildQuickReplies(lead: LaborLead, selectedRule: CaseRule, phase: LaborChatPhase) {

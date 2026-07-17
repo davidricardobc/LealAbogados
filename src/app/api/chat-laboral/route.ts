@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     ...result,
-    aiEnabled: Boolean(process.env.OPENAI_API_KEY?.trim() || process.env.GEMINI_API_KEY?.trim()),
+    aiEnabled: Boolean(process.env.OPENAI_API_KEY?.trim() || process.env.GEMINI_API_KEY?.trim() || process.env.LABOR_N8N_WEBHOOK_URL?.trim()),
     whatsappUrl: buildWhatsappUrl(result.whatsappMessage),
   });
 }

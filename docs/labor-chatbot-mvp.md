@@ -137,7 +137,7 @@ Version 1 simple:
 
 - Frontend: widget web en Next.js.
 - API interna: `/api/chat-laboral`.
-- Modelo: AI server-side con OpenAI Responses API o Gemini Interactions API, prompt de sistema, salida estructurada JSON y fallback deterministico si no hay API key o si falla el proveedor.
+- Modelo: AI server-side con OpenAI Responses API, Gemini Interactions API o webhook n8n, prompt de sistema, salida estructurada JSON y fallback deterministico si no hay API key o si falla el proveedor.
 - Base de conocimiento: archivos curados en Markdown/JSON dentro del repo o en una tabla externa.
 - Lead handoff: WhatsApp prellenado y registro en CRM/n8n.
 - Analitica: eventos de apertura, mensajes, clasificacion, click WhatsApp, agendamiento.
@@ -168,6 +168,7 @@ Variables de entorno:
 
 ```env
 LABOR_AI_PROVIDER=gemini
+LABOR_N8N_WEBHOOK_URL=
 OPENAI_API_KEY=
 OPENAI_MODEL=gpt-4.1-mini
 GEMINI_API_KEY=
@@ -181,7 +182,9 @@ Reglas de operacion:
 - Si falta una llave AI valida, el chat responde con el motor deterministico de respaldo.
 - La AI debe devolver JSON estructurado para evitar respuestas fuera del flujo comercial/legal.
 - El modelo puede cambiarse por ambiente con `OPENAI_MODEL` o `GEMINI_MODEL` sin tocar codigo.
-- El proveedor puede fijarse con `LABOR_AI_PROVIDER=openai` o `LABOR_AI_PROVIDER=gemini`; si no se fija y hay Gemini, el sistema lo usa primero.
+- El proveedor puede fijarse con `LABOR_AI_PROVIDER=openai`, `LABOR_AI_PROVIDER=gemini` o `LABOR_AI_PROVIDER=n8n`.
+- Si se usa n8n, `LABOR_N8N_WEBHOOK_URL` debe apuntar a un webhook que reciba `messages`, `systemPrompt`, `conversationPrompt` y `fallback`, y devuelva JSON con `reply`, `phase`, `quickReplies` y `lead`.
+- Regla de conversacion: no repetir preguntas ya respondidas; cuando existan perfil, tema laboral y fecha aproximada, avanzar a orientacion inicial y pago de respuesta experta.
 
 ## Modelo de lead
 

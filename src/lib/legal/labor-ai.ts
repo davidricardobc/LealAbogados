@@ -45,6 +45,7 @@ const openAiModel = process.env.OPENAI_MODEL?.trim() || "gpt-4.1-mini";
 const geminiModel = process.env.GEMINI_MODEL?.trim() || "gemini-3.5-flash";
 const openAiEndpoint = "https://api.openai.com/v1/responses";
 const geminiEndpoint = "https://generativelanguage.googleapis.com/v1beta/interactions";
+const n8nWebhookUrl = process.env.LABOR_N8N_WEBHOOK_URL?.trim();
 
 const validRoles = new Set<LaborRole>(["trabajador", "empleador", "empresa", "otro", "desconocido"]);
 const validCaseTypes = new Set<LaborCaseType>([
@@ -70,8 +71,17 @@ export async function evaluateLaborConversationWithAi(messages: LaborChatMessage
   const geminiKey = process.env.GEMINI_API_KEY?.trim();
   const preferredProvider = process.env.LABOR_AI_PROVIDER?.trim().toLowerCase();
 
-  if (!openAiKey && !geminiKey) {
+  if (!openAiKey && !geminiKey && !n8nWebhookUrl) {
     return fallback;
+  }
+
+  if (preferredProvider === "n8n" && n8nWebhookUrl) {
+    try {
+      const aiDraft = await requestN8nDraft({ fallback, messages, webhookUrl: n8nWebhookUrl });
+      return mergeAiDraft(fallback, aiDraft);
+    } catch (error) {
+      console.error("labor_chat_n8n_failed", error);
+    }
   }
 
   if (preferredProvider === "openai" && openAiKey) {
@@ -101,7 +111,64 @@ export async function evaluateLaborConversationWithAi(messages: LaborChatMessage
     }
   }
 
+  if (n8nWebhookUrl) {
+    try {
+      const aiDraft = await requestN8nDraft({ fallback, messages, webhookUrl: n8nWebhookUrl });
+      return mergeAiDraft(fallback, aiDraft);
+    } catch (error) {
+      console.error("labor_chat_n8n_failed", error);
+    }
+  }
+
   return fallback;
+}
+
+async function requestN8nDraft({
+  fallback,
+  messages,
+  webhookUrl,
+}: {
+  fallback: LaborChatResult;
+  messages: LaborChatMessage[];
+  webhookUrl: string;
+}) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12_000);
+
+  try {
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        source: "leal_labor_chat",
+        messages: messages.slice(-10),
+        systemPrompt: buildSystemPrompt(fallback),
+        conversationPrompt: buildConversationPrompt(messages, fallback),
+        fallback,
+      }),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`n8n request failed: ${response.status}`);
+    }
+
+    const payload = (await response.json()) as AiDraft | { data?: AiDraft; output?: AiDraft; reply?: unknown };
+
+    if ("data" in payload && payload.data) {
+      return payload.data;
+    }
+
+    if ("output" in payload && payload.output) {
+      return payload.output;
+    }
+
+    return payload as AiDraft;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 async function requestOpenAiDraft({
@@ -200,7 +267,7 @@ async function requestGeminiDraft({
   messages: LaborChatMessage[];
 }) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 25_000);
+  const timeout = setTimeout(() => controller.abort(), 12_000);
 
   try {
     const response = await fetch(geminiEndpoint, {
@@ -240,8 +307,11 @@ function buildSystemPrompt(fallback: LaborChatResult) {
     "Evita conclusiones categoricas como 'es ilegal', 'se gana', 'es falta grave' o 'tienes derecho seguro'. Usa lenguaje prudente: 'podria', 'puede existir riesgo', 'hay senales de', 'conviene revisar'.",
     "Especialidad actual: derecho laboral colombiano. Si preguntan por otra area, dilo con amabilidad y orienta a agendar por WhatsApp.",
     "Estilo: humano, directo, facil de entender, con criterio. Usa frases cortas y evita tono robotico.",
-    "Si faltan datos importantes, haz maximo 3 preguntas concretas antes de dar una conclusion. Prioriza: rol, fecha, tipo de vinculacion, ciudad, documentos/pruebas y que pide resolver.",
+    "Regla de avance: no repitas una pregunta si el historial ya contiene una respuesta parcial. Reconoce lo entendido y pregunta solo el dato indispensable que falta.",
+    "Haz maximo 1 o 2 preguntas por turno. Si ya conoces perfil, tema y una fecha aproximada, no sigas interrogando: entrega orientacion inicial y deja los demas datos como pendientes utiles.",
+    "Cuando preguntes, explica en una frase por que ese dato cambia la ruta. Evita bloques genericos de 3 preguntas repetidas.",
     "Si ya hay contexto suficiente, entrega una orientacion inicial en 3 a 5 puntos: lectura del caso, riesgos o senales importantes, documentos, siguiente paso.",
+    "La respuesta debe llevar a algun punto: agendar consulta, reunir documentos, pagar respuesta experta, enviar comprobante o aclarar un unico dato critico.",
     "Antes de entregar una respuesta experta por escrito o documento/concepto preparado por abogado, exige el pago: $10.000 COP por Nequi al 315 284 9591 y pide enviar comprobante por WhatsApp.",
     "Nunca digas que el pago ya fue confirmado. Si el usuario dice que pago, pide comprobante por WhatsApp.",
     "Devuelve solo JSON valido con: reply, phase, quickReplies y lead.",
@@ -258,14 +328,18 @@ function buildSystemPrompt(fallback: LaborChatResult) {
 function buildConversationPrompt(messages: LaborChatMessage[], fallback: LaborChatResult) {
   return JSON.stringify({
     conversation: messages.slice(-10),
+    latestUserMessage: messages.filter((message) => message.role === "user").at(-1)?.content ?? "",
     fallbackLead: fallback.lead,
     fallbackPhase: fallback.phase,
+    fallbackReply: fallback.reply,
     payment: fallback.payment,
     outputRules: {
       reply: "Texto final que vera el usuario. Debe estar en espanol colombiano natural.",
       phase: "saludo, preguntas, orientacion_inicial, pago_experto o comprobante.",
       quickReplies: "Botones cortos de siguiente paso, maximo 4.",
       lead: "Clasificacion del caso y resumen para CRM/WhatsApp.",
+      progression:
+        "Si fallbackPhase es preguntas pero el historial ya trae perfil, tema laboral y fecha aproximada, cambia a orientacion_inicial. No te quedes repitiendo preguntas.",
     },
   });
 }
