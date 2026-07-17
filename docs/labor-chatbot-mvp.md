@@ -78,11 +78,11 @@ Regla tecnica: el modelo no debe responder sobre cambios recientes sin recuperar
    - Indicar posibles rutas: reclamacion, conciliacion, Ministerio, tutela, demanda laboral, prevencion empresarial.
    - No calcular montos exactos sin datos completos; si se calcula, marcar como estimado.
 
-5. Respuesta experta por escrito
-   - Antes de ofrecer un documento o respuesta experta, el bot debe haber pedido los datos minimos del caso.
-   - El bot puede dar orientacion inicial gratuita, pero no debe entregar concepto experto escrito sin pago.
-   - Valor MVP: consignacion de $10.000 COP por Nequi.
-   - Despues del pago, el usuario debe enviar comprobante por WhatsApp junto con resumen y documentos disponibles.
+5. Agendamiento con abogado
+   - Antes de recomendar consulta, el bot debe haber pedido los datos minimos del caso.
+   - El bot da orientacion inicial gratuita, ordena hechos y explica por que conviene hablar con un abogado.
+   - No cobra, no pide consignaciones y no promete documento experto en este MVP.
+   - El cierre debe llevar al usuario a WhatsApp con resumen, urgencia, perfil y documentos sugeridos.
 
 6. Conversion
    - Si el caso es urgente o juridicamente sensible: recomendar consulta.
@@ -184,7 +184,7 @@ Reglas de operacion:
 - El modelo puede cambiarse por ambiente con `OPENAI_MODEL` o `GEMINI_MODEL` sin tocar codigo.
 - El proveedor puede fijarse con `LABOR_AI_PROVIDER=openai`, `LABOR_AI_PROVIDER=gemini` o `LABOR_AI_PROVIDER=n8n`.
 - Si se usa n8n, `LABOR_N8N_WEBHOOK_URL` debe apuntar a un webhook que reciba `messages`, `systemPrompt`, `conversationPrompt` y `fallback`, y devuelva JSON con `reply`, `phase`, `quickReplies` y `lead`.
-- Regla de conversacion: no repetir preguntas ya respondidas; cuando existan perfil, tema laboral y fecha aproximada, avanzar a orientacion inicial y pago de respuesta experta.
+- Regla de conversacion: no repetir preguntas ya respondidas; cuando existan perfil, tema laboral y fecha aproximada, avanzar a orientacion inicial y agendamiento.
 
 ## Modelo de lead
 
@@ -216,8 +216,7 @@ type LaborLead = {
     | "whatsapp"
     | "reunir_documentos"
     | "orientacion_general"
-    | "urgente_abogado"
-    | "pago_respuesta_experta";
+    | "urgente_abogado";
   consentToContact: boolean;
   sourcePage?: string;
   utm?: Record<string, string>;
@@ -253,8 +252,8 @@ CTA recomendado:
 - Conversaciones iniciadas.
 - Porcentaje que llega a clasificacion.
 - Porcentaje que acepta WhatsApp/agendamiento.
-- Porcentaje que solicita respuesta experta por escrito.
-- Respuestas expertas pagadas por Nequi.
+- Porcentaje que hace clic en WhatsApp despues de la orientacion.
+- Porcentaje que envia resumen completo para agendar.
 - Tiempo promedio hasta CTA.
 - Casos urgentes detectados.
 - Leads laborales por fuente.

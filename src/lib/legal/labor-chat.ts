@@ -16,15 +16,14 @@ export type LaborCaseType =
 
 export type LaborUrgency = "baja" | "media" | "alta" | "critica";
 
-export type LaborChatPhase = "saludo" | "preguntas" | "orientacion_inicial" | "pago_experto" | "comprobante";
+export type LaborChatPhase = "saludo" | "preguntas" | "orientacion_inicial" | "agendamiento";
 
 export type LaborRecommendedNextStep =
   | "consulta"
   | "whatsapp"
   | "reunir_documentos"
   | "orientacion_general"
-  | "urgente_abogado"
-  | "pago_respuesta_experta";
+  | "urgente_abogado";
 
 export type LaborChatMessage = {
   role: "user" | "assistant";
@@ -47,8 +46,7 @@ type ConversationFacts = {
   hasCity: boolean;
   hasContract: boolean;
   hasDocuments: boolean;
-  hasPaymentIntent: boolean;
-  hasPaymentProofSignal: boolean;
+  hasSchedulingIntent: boolean;
 };
 
 export type LaborChatResult = {
@@ -59,17 +57,7 @@ export type LaborChatResult = {
   ctaLabel: string;
   shouldEscalate: boolean;
   paymentRequired: boolean;
-  payment?: LaborExpertPayment;
   whatsappMessage: string;
-};
-
-export type LaborExpertPayment = {
-  amountCop: number;
-  formattedAmount: string;
-  method: "Nequi";
-  nequiNumber: string;
-  title: string;
-  instructions: string[];
 };
 
 type CaseRule = {
@@ -221,19 +209,6 @@ const highSignals = [
   "carta",
 ];
 
-export const expertPayment: LaborExpertPayment = {
-  amountCop: 10000,
-  formattedAmount: "$10.000 COP",
-  method: "Nequi",
-  nequiNumber: "315 284 9591",
-  title: "Respuesta experta laboral por escrito",
-  instructions: [
-    "Realiza la consignacion por Nequi.",
-    "Envia el comprobante por WhatsApp.",
-    "Incluye el resumen del caso y los documentos que tengas.",
-  ],
-};
-
 export function evaluateLaborConversation(messages: LaborChatMessage[]): LaborChatResult {
   const userMessages = messages.filter((message) => message.role === "user");
   const latestUserText = userMessages.at(-1)?.content.trim() ?? "";
@@ -261,10 +236,7 @@ export function evaluateLaborConversation(messages: LaborChatMessage[]): LaborCh
     selectedRule,
     clarifyingQuestions,
   });
-  const paymentRequired = phase === "orientacion_inicial" || phase === "pago_experto" || phase === "comprobante";
-  const recommendedNextStep: LaborRecommendedNextStep = paymentRequired
-    ? "pago_respuesta_experta"
-    : urgency === "critica"
+  const recommendedNextStep: LaborRecommendedNextStep = urgency === "critica"
       ? "urgente_abogado"
       : shouldEscalate
         ? "consulta"
@@ -296,8 +268,7 @@ export function evaluateLaborConversation(messages: LaborChatMessage[]): LaborCh
     quickReplies: buildQuickReplies(lead, selectedRule, phase),
     ctaLabel: buildCtaLabel(phase, urgency),
     shouldEscalate,
-    paymentRequired,
-    payment: paymentRequired ? expertPayment : undefined,
+    paymentRequired: false,
     whatsappMessage: buildWhatsappMessage(lead, phase),
   };
 }
@@ -354,8 +325,10 @@ function pickConversationFacts(text: string): ConversationFacts {
     hasCity: /(bogota|medellin|cali|barranquilla|cartagena|bucaramanga|villavicencio|colombia|ciudad|departamento)/.test(text),
     hasContract: /(contrato|verbal|indefinido|fijo|obra labor|prestacion de servicios|ops|nomina|empleado|trabajador|contratista)/.test(text),
     hasDocuments: /(carta|liquidacion|desprendible|correo|chat|contrato|incapacidad|certificacion|prueba|soporte|documento)/.test(text),
-    hasPaymentIntent: /(concepto|respuesta experta|documento|abogado revise|pagar|consignar|nequi|quiero la respuesta|valor)/.test(text),
-    hasPaymentProofSignal: /(comprobante|consigne|consignacion|pague|pagado|transferi|transferencia|ya hice|ya pague|nequi)/.test(text),
+    hasSchedulingIntent:
+      /(agenda|agendar|cita|consulta|reunion|reunirme|hablar con abogado|whatsapp|llamar|contactar|precio|valor|pagar|consignar|nequi|comprobante|respuesta experta)/.test(
+        text,
+      ),
   };
 }
 
@@ -399,12 +372,8 @@ function pickPhase({
     return "saludo";
   }
 
-  if (facts.hasPaymentProofSignal) {
-    return "comprobante";
-  }
-
-  if (facts.hasPaymentIntent) {
-    return "pago_experto";
+  if (facts.hasSchedulingIntent) {
+    return "agendamiento";
   }
 
   const hasCoreContext = selectedRule.type !== "otro" && role !== "desconocido" && facts.hasDate;
@@ -486,8 +455,8 @@ function buildReply({
     return "Hola. Te puedo orientar de forma general en derecho laboral colombiano y ayudarte a saber si conviene agendar una consulta. No reemplazo la revision de un abogado, pero si puedo ordenar el caso.\n\nPara empezar: ¿eres trabajador, empleador o empresa, y que situacion necesitas revisar?";
   }
 
-  if (phase === "comprobante") {
-    return `Perfecto. Para avanzar con la respuesta experta, envia el comprobante por WhatsApp junto con el resumen del caso.\n\nValor: ${expertPayment.formattedAmount}\nMedio: ${expertPayment.method}\nNequi: ${expertPayment.nequiNumber}\n\nCuando se confirme el pago y la informacion, el equipo preparara la respuesta experta por escrito.`;
+  if (phase === "agendamiento") {
+    return "Perfecto. El siguiente paso es agendar una consulta con un abogado laboral para revisar documentos, fechas y pruebas.\n\nTe sugiero enviar por WhatsApp un resumen corto del caso, tu ciudad, fechas clave y los documentos que tengas. Con eso el equipo puede decirte como avanzar sin que pierdas tiempo repitiendo todo desde cero.";
   }
 
   if (phase === "preguntas") {
@@ -506,7 +475,7 @@ function buildReply({
     : "";
   const caseGuidance = buildCaseGuidance(lead, selectedRule);
 
-  return `Respuesta inicial clara:\n\n1. Lo que entiendo: estas consultando por ${selectedRule.label} desde el perfil de ${roleLabelByType[lead.role]}.\n2. Lectura inicial: ${caseGuidance}\n3. Ruta sugerida: ${selectedRule.route}\n4. Urgencia: ${urgencyLabelByType[lead.urgency]}. ${urgencyLine}\n5. Documentos utiles: ${formatList(selectedRule.documents.slice(0, 4))}.${missingContext}\n\nPara recibir la respuesta experta por escrito, primero realiza una consignacion de ${expertPayment.formattedAmount} por ${expertPayment.method} al ${expertPayment.nequiNumber}. Luego envia el comprobante por WhatsApp con el resumen del caso.\n\nEsta orientacion es general y no reemplaza la revision del abogado con documentos, fechas y pruebas.`;
+  return `Respuesta inicial clara:\n\n1. Lo que entiendo: estas consultando por ${selectedRule.label} desde el perfil de ${roleLabelByType[lead.role]}.\n2. Lectura inicial: ${caseGuidance}\n3. Ruta sugerida: ${selectedRule.route}\n4. Urgencia: ${urgencyLabelByType[lead.urgency]}. ${urgencyLine}\n5. Documentos utiles: ${formatList(selectedRule.documents.slice(0, 4))}.${missingContext}\n\nMi recomendacion es agendar una consulta con un abogado laboral para revisar documentos, fechas y pruebas antes de tomar decisiones. Esta orientacion es general y no reemplaza la revision personalizada del caso.`;
 }
 
 function buildCaseGuidance(lead: LaborLead, selectedRule: CaseRule) {
@@ -540,19 +509,11 @@ function buildCaseGuidance(lead: LaborLead, selectedRule: CaseRule) {
 function buildQuickReplies(lead: LaborLead, selectedRule: CaseRule, phase: LaborChatPhase) {
   const replies = new Set<string>();
 
-  if (phase === "pago_experto" || phase === "orientacion_inicial") {
-    replies.add("Quiero respuesta experta");
-    replies.add("Ya hice la consignacion");
-    replies.add("Prefiero agendar consulta");
-    replies.add("Tengo mas documentos");
-
-    return Array.from(replies);
-  }
-
-  if (phase === "comprobante") {
-    replies.add("Enviar comprobante por WhatsApp");
-    replies.add("Tengo otro documento");
+  if (phase === "agendamiento" || phase === "orientacion_inicial") {
     replies.add("Quiero agendar consulta");
+    replies.add("Tengo mas documentos");
+    replies.add("Necesito hablar con abogado");
+    replies.add("Quiero seguir contando el caso");
 
     return Array.from(replies);
   }
@@ -573,35 +534,27 @@ function buildQuickReplies(lead: LaborLead, selectedRule: CaseRule, phase: Labor
 }
 
 function buildCtaLabel(phase: LaborChatPhase, urgency: LaborUrgency) {
-  if (phase === "comprobante") return "Enviar comprobante por WhatsApp";
-  if (phase === "pago_experto" || phase === "orientacion_inicial") return "Enviar caso y comprobante";
+  if (phase === "agendamiento" || phase === "orientacion_inicial") return "Agendar consulta por WhatsApp";
   if (phase === "preguntas") return "Completar datos por WhatsApp";
 
   return urgency === "critica" ? "Hablar con un abogado" : "Agendar por WhatsApp";
 }
 
 export function buildWhatsappMessage(lead: LaborLead, phase: LaborChatPhase) {
+  const summary = stripPaymentLanguage(lead.summary);
   const baseMessage = [
     "Hola, quiero agendar una consulta laboral con Leal Abogados.",
     `Tema: ${caseLabelByType[lead.caseType]}.`,
     `Urgencia: ${urgencyLabelByType[lead.urgency]}.`,
     `Perfil: ${roleLabelByType[lead.role]}.`,
-    `Resumen: ${lead.summary || "Pendiente de ampliar en consulta"}.`,
+    `Resumen: ${summary || "Pendiente de ampliar en consulta"}.`,
     lead.flags.length ? `Senales sensibles: ${formatList(lead.flags)}.` : "",
     lead.documents.length ? `Documentos sugeridos para revisar: ${formatList(lead.documents)}.` : "",
     "Fuente: chatbot laboral web.",
   ];
 
-  if (phase === "pago_experto" || phase === "orientacion_inicial") {
-    baseMessage.splice(
-      1,
-      0,
-      `Quiero recibir la respuesta experta por escrito. Entiendo que debo consignar ${expertPayment.formattedAmount} por ${expertPayment.method} al ${expertPayment.nequiNumber} y enviar el comprobante.`,
-    );
-  }
-
-  if (phase === "comprobante") {
-    baseMessage.splice(1, 0, `Ya realice o voy a enviar el comprobante de ${expertPayment.formattedAmount} por ${expertPayment.method}.`);
+  if (phase === "agendamiento" || phase === "orientacion_inicial") {
+    baseMessage.splice(1, 0, "Quiero agendar una consulta para revisar mi caso con un abogado laboral.");
   }
 
   return baseMessage
@@ -617,6 +570,14 @@ function buildSummary(text: string) {
   }
 
   return cleanText.length > 220 ? `${cleanText.slice(0, 217)}...` : cleanText;
+}
+
+function stripPaymentLanguage(text: string) {
+  return text
+    .replace(/\b(quiero|deseo)?\s*(pagar|consignar|transferir)\b[^.?!\n]*/gi, "")
+    .replace(/\b(nequi|comprobante|respuesta experta pagada)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function formatList(items: string[]) {

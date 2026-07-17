@@ -196,26 +196,6 @@ export function LaborChatWidget() {
               ))}
             </div>
 
-            {lastResponse?.paymentRequired && lastResponse.payment ? (
-              <div className="mb-3 border border-brand-red/20 bg-brand-red/[0.06] px-3 py-3 text-sm text-ink">
-                <p className="font-semibold">{lastResponse.payment.title}</p>
-                <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
-                  <div className="border border-ink/8 bg-white px-2 py-2">
-                    <span className="block text-muted">Valor</span>
-                    <strong>{lastResponse.payment.formattedAmount}</strong>
-                  </div>
-                  <div className="border border-ink/8 bg-white px-2 py-2">
-                    <span className="block text-muted">Medio</span>
-                    <strong>{lastResponse.payment.method}</strong>
-                  </div>
-                </div>
-                <p className="mt-2 text-xs leading-5 text-muted">
-                  Nequi: <strong className="text-ink">{lastResponse.payment.nequiNumber}</strong>. Luego envia el
-                  comprobante por WhatsApp para preparar la respuesta.
-                </p>
-              </div>
-            ) : null}
-
             {lastResponse?.whatsappUrl ? (
               <a
                 className="mb-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-sm bg-brand-red px-4 text-sm font-semibold text-white transition hover:bg-brand-redDark"

@@ -2,7 +2,6 @@ import {
   caseLabelByType,
   buildWhatsappMessage,
   evaluateLaborConversation,
-  expertPayment,
   roleLabelByType,
   urgencyLabelByType,
   type LaborCaseType,
@@ -63,7 +62,7 @@ const validCaseTypes = new Set<LaborCaseType>([
   "otro",
 ]);
 const validUrgencies = new Set<LaborUrgency>(["baja", "media", "alta", "critica"]);
-const validPhases = new Set<LaborChatPhase>(["saludo", "preguntas", "orientacion_inicial", "pago_experto", "comprobante"]);
+const validPhases = new Set<LaborChatPhase>(["saludo", "preguntas", "orientacion_inicial", "agendamiento"]);
 
 export async function evaluateLaborConversationWithAi(messages: LaborChatMessage[]): Promise<LaborChatResult> {
   const fallback = evaluateLaborConversation(messages);
@@ -301,9 +300,9 @@ async function requestGeminiDraft({
 function buildSystemPrompt(fallback: LaborChatResult) {
   return [
     "Eres el asistente laboral de Leal Abogados en Colombia.",
-    "Tu trabajo es entender el contexto, hacer preguntas utiles y orientar de forma clara para convertir buenos casos en consulta o respuesta experta pagada.",
+    "Tu trabajo es entender el contexto, hacer preguntas utiles y orientar de forma clara para convertir buenos casos en consulta con abogado laboral.",
     "No eres abogado del usuario, no reemplazas revision legal personalizada, no prometes resultados y no inventas normas, articulos, cuantias exactas ni terminos si no tienes datos suficientes.",
-    "No menciones indemnizaciones exactas, dias de salario, articulos o formulas de calculo en la orientacion inicial. Eso queda para la respuesta experta con documentos.",
+    "No menciones indemnizaciones exactas, dias de salario, articulos o formulas de calculo en la orientacion inicial. Eso queda para la revision personalizada con documentos.",
     "Evita conclusiones categoricas como 'es ilegal', 'se gana', 'es falta grave' o 'tienes derecho seguro'. Usa lenguaje prudente: 'podria', 'puede existir riesgo', 'hay senales de', 'conviene revisar'.",
     "Especialidad actual: derecho laboral colombiano. Si preguntan por otra area, dilo con amabilidad y orienta a agendar por WhatsApp.",
     "Estilo: humano, directo, facil de entender, con criterio. Usa frases cortas y evita tono robotico.",
@@ -311,16 +310,16 @@ function buildSystemPrompt(fallback: LaborChatResult) {
     "Haz maximo 1 o 2 preguntas por turno. Si ya conoces perfil, tema y una fecha aproximada, no sigas interrogando: entrega orientacion inicial y deja los demas datos como pendientes utiles.",
     "Cuando preguntes, explica en una frase por que ese dato cambia la ruta. Evita bloques genericos de 3 preguntas repetidas.",
     "Si ya hay contexto suficiente, entrega una orientacion inicial en 3 a 5 puntos: lectura del caso, riesgos o senales importantes, documentos, siguiente paso.",
-    "La respuesta debe llevar a algun punto: agendar consulta, reunir documentos, pagar respuesta experta, enviar comprobante o aclarar un unico dato critico.",
-    "Antes de entregar una respuesta experta por escrito o documento/concepto preparado por abogado, exige el pago: $10.000 COP por Nequi al 315 284 9591 y pide enviar comprobante por WhatsApp.",
-    "Nunca digas que el pago ya fue confirmado. Si el usuario dice que pago, pide comprobante por WhatsApp.",
+    "La respuesta debe llevar a algun punto: agendar consulta, reunir documentos para la consulta, enviar resumen por WhatsApp o aclarar un unico dato critico.",
+    "No cobres, no pidas consignaciones y no ofrezcas documento pagado. Por ahora el objetivo comercial es motivar una reunion con abogado.",
+    "Si el usuario pregunta por precio, dile que el equipo puede confirmarlo por WhatsApp segun el tipo de revision que necesite.",
     "Devuelve solo JSON valido con: reply, phase, quickReplies y lead.",
     `Clasificacion base del sistema: ${JSON.stringify({
       phase: fallback.phase,
       caseType: caseLabelByType[fallback.lead.caseType],
       urgency: urgencyLabelByType[fallback.lead.urgency],
       role: roleLabelByType[fallback.lead.role],
-      paymentRequired: fallback.paymentRequired,
+      goal: "orientacion gratuita inicial y agendamiento",
     })}`,
   ].join("\n");
 }
@@ -332,14 +331,13 @@ function buildConversationPrompt(messages: LaborChatMessage[], fallback: LaborCh
     fallbackLead: fallback.lead,
     fallbackPhase: fallback.phase,
     fallbackReply: fallback.reply,
-    payment: fallback.payment,
     outputRules: {
       reply: "Texto final que vera el usuario. Debe estar en espanol colombiano natural.",
-      phase: "saludo, preguntas, orientacion_inicial, pago_experto o comprobante.",
+      phase: "saludo, preguntas, orientacion_inicial o agendamiento.",
       quickReplies: "Botones cortos de siguiente paso, maximo 4.",
       lead: "Clasificacion del caso y resumen para CRM/WhatsApp.",
       progression:
-        "Si fallbackPhase es preguntas pero el historial ya trae perfil, tema laboral y fecha aproximada, cambia a orientacion_inicial. No te quedes repitiendo preguntas.",
+        "Si fallbackPhase es preguntas pero el historial ya trae perfil, tema laboral y fecha aproximada, cambia a orientacion_inicial o agendamiento. No te quedes repitiendo preguntas.",
     },
   });
 }
@@ -383,7 +381,6 @@ function parseJsonDraft(text: string): AiDraft {
 function mergeAiDraft(fallback: LaborChatResult, draft: AiDraft): LaborChatResult {
   const lead = mergeLeadDraft(fallback.lead, draft.lead);
   const phase = stringInSet(draft.phase, validPhases) ?? fallback.phase;
-  const paymentRequired = phase === "orientacion_inicial" || phase === "pago_experto" || phase === "comprobante";
   const quickReplies = sanitizeStringArray(draft.quickReplies, 4, fallback.quickReplies);
   const reply =
     typeof draft.reply === "string" && draft.reply.trim().length > 20
@@ -396,8 +393,7 @@ function mergeAiDraft(fallback: LaborChatResult, draft: AiDraft): LaborChatResul
     lead,
     phase,
     quickReplies,
-    paymentRequired,
-    payment: paymentRequired ? fallback.payment ?? expertPayment : undefined,
+    paymentRequired: false,
     shouldEscalate: lead.urgency === "critica" || lead.urgency === "alta" || lead.caseType !== "otro",
     whatsappMessage: buildWhatsappMessage(lead, phase),
   };
