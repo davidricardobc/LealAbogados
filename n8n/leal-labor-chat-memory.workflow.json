@@ -1,0 +1,84 @@
+{
+  "name": "Leal Labor Chat Memory",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "leal-labor-chat",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "8a8a00f6-6ebd-4f26-b8f6-7a3b7bd1f4a1",
+      "name": "Labor Chat Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "leal-labor-chat"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body ?? $input.first().json;\nconst currentLead = body.currentLead ?? body.fallback?.lead ?? {};\nconst latestUserMessage = [...(body.messages ?? [])].reverse().find((message) => message.role === 'user')?.content ?? '';\n\nconst score = Number(currentLead.confidence ?? 0);\nconst hasSchedulingIntent = Boolean(currentLead.schedulingIntent) || /agend|cita|consulta|whatsapp|llamar|reunion/i.test(latestUserMessage);\nconst temperature = hasSchedulingIntent || score >= 70 ? 'caliente' : score >= 40 ? 'tibio' : 'frio';\nconst phase = hasSchedulingIntent || temperature === 'caliente' ? 'agendamiento' : (body.fallback?.phase ?? 'orientacion_inicial');\n\nconst lead = {\n  ...currentLead,\n  temperature,\n  schedulingIntent: hasSchedulingIntent,\n  confidence: Math.max(score, temperature === 'caliente' ? 75 : temperature === 'tibio' ? 45 : 20),\n};\n\nconst profile = lead.role && lead.role !== 'desconocido' ? lead.role : 'perfil por confirmar';\nconst topic = lead.caseType && lead.caseType !== 'otro' ? lead.caseType.replaceAll('_', ' ') : 'consulta laboral';\nconst city = lead.city ? ` en ${lead.city}` : '';\nconst nextQuestion = lead.phone ? '' : '\\n\\nSi quieres que el equipo te contacte mas facil, dejame tu nombre y celular o pasa directo a WhatsApp.';\n\nreturn [{\n  json: {\n    reply: `Te entiendo. Ya tengo ubicado el caso como ${topic}, desde el perfil de ${profile}${city}.\\n\\nLa mejor ruta ahora es que un abogado laboral revise fechas, documentos y pruebas antes de que tomes decisiones. Voy a dejar el resumen listo para WhatsApp y asi no tienes que repetir todo desde cero.${nextQuestion}`,\n    phase,\n    quickReplies: ['Quiero agendar consulta', 'Tengo documentos', 'Necesito hablar con abogado', 'Quiero seguir contando el caso'],\n    lead,\n  },\n}];"
+      },
+      "id": "84e5c45c-9c63-42aa-9b04-d2d467a9133f",
+      "name": "Preparar lead y respuesta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        260,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "8d90f171-0cd9-4be5-8b70-a6a0255f78f0",
+      "name": "Responder al chat",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        520,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Labor Chat Webhook": {
+      "main": [
+        [
+          {
+            "node": "Preparar lead y respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar lead y respuesta": {
+      "main": [
+        [
+          {
+            "node": "Responder al chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e5db52a3-a8ad-431d-a155-2ea73ba16dcc",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

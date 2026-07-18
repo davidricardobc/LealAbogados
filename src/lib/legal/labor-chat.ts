@@ -18,6 +18,8 @@ export type LaborUrgency = "baja" | "media" | "alta" | "critica";
 
 export type LaborChatPhase = "saludo" | "preguntas" | "orientacion_inicial" | "agendamiento";
 
+export type LaborLeadTemperature = "frio" | "tibio" | "caliente";
+
 export type LaborRecommendedNextStep =
   | "consulta"
   | "whatsapp"
@@ -31,6 +33,16 @@ export type LaborChatMessage = {
 };
 
 export type LaborLead = {
+  sessionId?: string;
+  name?: string;
+  phone?: string;
+  city?: string;
+  keyDates: string[];
+  employmentType?: string;
+  relationStatus?: "activo" | "terminado" | "desconocido";
+  schedulingIntent: boolean;
+  temperature: LaborLeadTemperature;
+  confidence: number;
   role: LaborRole;
   caseType: LaborCaseType;
   urgency: LaborUrgency;
@@ -41,12 +53,16 @@ export type LaborLead = {
   flags: string[];
 };
 
+export type LaborLeadProfile = Partial<LaborLead>;
+
 type ConversationFacts = {
   hasDate: boolean;
   hasCity: boolean;
   hasContract: boolean;
   hasDocuments: boolean;
   hasSchedulingIntent: boolean;
+  hasName: boolean;
+  hasPhone: boolean;
 };
 
 export type LaborChatResult = {
@@ -67,6 +83,15 @@ type CaseRule = {
   documents: string[];
   route: string;
   followUp: string;
+};
+
+type PickedLeadDetails = {
+  name?: string;
+  phone?: string;
+  city?: string;
+  keyDates: string[];
+  employmentType?: string;
+  relationStatus?: LaborLead["relationStatus"];
 };
 
 const caseRules: CaseRule[] = [
@@ -176,7 +201,17 @@ const roleSignals: Array<{ role: LaborRole; keywords: string[] }> = [
   { role: "empleador", keywords: ["soy empleador", "empleador", "quiero despedir", "quiero sancionar"] },
   {
     role: "trabajador",
-    keywords: ["soy trabajador", "soy empleado", "me despidieron", "trabajo en", "mi jefe", "mi empresa no me"],
+    keywords: [
+      "soy trabajador",
+      "soy trbajdor",
+      "soy trabajdor",
+      "soy empleado",
+      "empleado",
+      "me despidieron",
+      "trabajo en",
+      "mi jefe",
+      "mi empresa no me",
+    ],
   },
 ];
 
@@ -209,17 +244,19 @@ const highSignals = [
   "carta",
 ];
 
-export function evaluateLaborConversation(messages: LaborChatMessage[]): LaborChatResult {
+export function evaluateLaborConversation(messages: LaborChatMessage[], leadProfile?: LaborLeadProfile): LaborChatResult {
+  const profile = sanitizeLeadProfile(leadProfile);
   const userMessages = messages.filter((message) => message.role === "user");
   const latestUserText = userMessages.at(-1)?.content.trim() ?? "";
   const fullText = userMessages.map((message) => message.content).join(" ");
   const searchableText = normalizeText(fullText);
   const latestSearchableText = normalizeText(latestUserText);
 
-  const selectedRule = pickCaseRule(searchableText);
-  const role = pickRole(searchableText);
-  const urgency = pickUrgency(searchableText, selectedRule.type);
-  const facts = pickConversationFacts(searchableText);
+  const selectedRule = pickCaseRule(searchableText, profile.caseType);
+  const role = pickRole(searchableText, profile.role);
+  const urgency = pickUrgency(searchableText, selectedRule.type, profile.urgency);
+  const leadDetails = pickLeadDetails(fullText);
+  const facts = pickConversationFacts(searchableText, profile, leadDetails);
   const missingFields = pickMissingFields(facts);
   const flags = pickFlags(searchableText);
   const shouldEscalate = urgency === "critica" || urgency === "alta" || selectedRule.type !== "otro";
@@ -238,11 +275,14 @@ export function evaluateLaborConversation(messages: LaborChatMessage[]): LaborCh
   });
   const recommendedNextStep: LaborRecommendedNextStep = urgency === "critica"
       ? "urgente_abogado"
+      : facts.hasSchedulingIntent
+        ? "whatsapp"
       : shouldEscalate
         ? "consulta"
         : "orientacion_general";
 
-  const lead: LaborLead = {
+  const lead = enrichLeadProfile({
+    profile,
     role,
     caseType: selectedRule.type,
     urgency,
@@ -251,7 +291,9 @@ export function evaluateLaborConversation(messages: LaborChatMessage[]): LaborCh
     missingFields,
     recommendedNextStep,
     flags,
-  };
+    leadDetails,
+    facts,
+  });
 
   const reply = buildReply({
     lead,
@@ -273,15 +315,23 @@ export function evaluateLaborConversation(messages: LaborChatMessage[]): LaborCh
   };
 }
 
-function pickCaseRule(text: string) {
+function pickCaseRule(text: string, previousCaseType?: LaborCaseType) {
   const scoredRules = caseRules
     .map((rule) => ({
       rule,
-      score: rule.keywords.reduce((score, keyword) => score + (text.includes(normalizeText(keyword)) ? 1 : 0), 0),
+      score: rule.keywords.reduce((score, keyword) => score + (hasKeyword(text, keyword) ? 1 : 0), 0),
     }))
     .sort((a, b) => b.score - a.score);
 
-  return scoredRules[0]?.score ? scoredRules[0].rule : fallbackRule;
+  if (scoredRules[0]?.score) {
+    return scoredRules[0].rule;
+  }
+
+  if (previousCaseType && previousCaseType !== "otro") {
+    return caseRules.find((rule) => rule.type === previousCaseType) ?? fallbackRule;
+  }
+
+  return fallbackRule;
 }
 
 const fallbackRule: CaseRule = {
@@ -293,13 +343,14 @@ const fallbackRule: CaseRule = {
   followUp: "¿Eres trabajador, empleador o empresa, y que paso exactamente?",
 };
 
-function pickRole(text: string): LaborRole {
-  const match = roleSignals.find((signal) => signal.keywords.some((keyword) => text.includes(normalizeText(keyword))));
+function pickRole(text: string, previousRole?: LaborRole): LaborRole {
+  const match = roleSignals.find((signal) => signal.keywords.some((keyword) => hasKeyword(text, keyword)));
 
-  return match?.role ?? "desconocido";
+  return match?.role ?? previousRole ?? "desconocido";
 }
 
-function pickUrgency(text: string, caseType: LaborCaseType): LaborUrgency {
+function pickUrgency(text: string, caseType: LaborCaseType, previousUrgency?: LaborUrgency): LaborUrgency {
+  const detectedUrgency = (() => {
   if (criticalSignals.some((signal) => text.includes(normalizeText(signal)))) {
     return "critica";
   }
@@ -313,22 +364,33 @@ function pickUrgency(text: string, caseType: LaborCaseType): LaborUrgency {
   }
 
   return "baja";
+  })();
+
+  return pickHigherUrgency(previousUrgency, detectedUrgency);
 }
 
-function pickConversationFacts(text: string): ConversationFacts {
+function pickConversationFacts(text: string, profile: LaborLeadProfile, leadDetails: PickedLeadDetails): ConversationFacts {
   return {
     hasDate:
+      Boolean(profile.keyDates?.length || leadDetails.keyDates.length) ||
       /\b\d{1,2}[/-]\d{1,2}([/-]\d{2,4})?\b/.test(text) ||
       /(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ayer|hoy|manana|esta semana|semana pasada|mes pasado|hace \d+|hace un|hace una|desde hace|desde el|desde la|llevo \d+)/.test(
         text,
       ),
-    hasCity: /(bogota|medellin|cali|barranquilla|cartagena|bucaramanga|villavicencio|colombia|ciudad|departamento)/.test(text),
-    hasContract: /(contrato|verbal|indefinido|fijo|obra labor|prestacion de servicios|ops|nomina|empleado|trabajador|contratista)/.test(text),
+    hasCity:
+      Boolean(profile.city || leadDetails.city) ||
+      /(bogota|medellin|cali|barranquilla|cartagena|bucaramanga|villavicencio|colombia|ciudad|departamento)/.test(text),
+    hasContract:
+      Boolean(profile.employmentType || leadDetails.employmentType) ||
+      /(contrato|verbal|indefinido|fijo|obra labor|prestacion de servicios|ops|nomina|empleado|trabajador|contratista)/.test(text),
     hasDocuments: /(carta|liquidacion|desprendible|correo|chat|contrato|incapacidad|certificacion|prueba|soporte|documento)/.test(text),
     hasSchedulingIntent:
+      Boolean(profile.schedulingIntent) ||
       /(agenda|agendar|cita|consulta|reunion|reunirme|hablar con abogado|whatsapp|llamar|contactar|precio|valor|pagar|consignar|nequi|comprobante|respuesta experta)/.test(
         text,
       ),
+    hasName: Boolean(profile.name || leadDetails.name),
+    hasPhone: Boolean(profile.phone || leadDetails.phone),
   };
 }
 
@@ -343,6 +405,184 @@ function pickMissingFields(facts: ConversationFacts) {
   return missingFields.slice(0, 3);
 }
 
+function sanitizeLeadProfile(profile?: LaborLeadProfile): LaborLeadProfile {
+  if (!profile || typeof profile !== "object") {
+    return {};
+  }
+
+  return {
+    sessionId: sanitizeShortText(profile.sessionId, 80),
+    name: sanitizeShortText(profile.name, 80),
+    phone: sanitizeShortText(profile.phone, 40),
+    city: sanitizeShortText(profile.city, 80),
+    keyDates: sanitizeStringList(profile.keyDates, 5),
+    employmentType: sanitizeShortText(profile.employmentType, 80),
+    relationStatus: profile.relationStatus,
+    schedulingIntent: Boolean(profile.schedulingIntent),
+    temperature: profile.temperature,
+    confidence: typeof profile.confidence === "number" ? Math.min(Math.max(profile.confidence, 0), 100) : undefined,
+    role: profile.role,
+    caseType: profile.caseType,
+    urgency: profile.urgency,
+    summary: sanitizeShortText(profile.summary, 260),
+    documents: sanitizeStringList(profile.documents, 8),
+    missingFields: sanitizeStringList(profile.missingFields, 6),
+    recommendedNextStep: profile.recommendedNextStep,
+    flags: sanitizeStringList(profile.flags, 8),
+  };
+}
+
+function pickLeadDetails(text: string): PickedLeadDetails {
+  const normalized = normalizeText(text);
+
+  return {
+    name: pickName(text),
+    phone: pickPhone(text),
+    city: pickCity(normalized),
+    keyDates: pickKeyDates(normalized),
+    employmentType: pickEmploymentType(normalized),
+    relationStatus: pickRelationStatus(normalized),
+  };
+}
+
+function enrichLeadProfile({
+  profile,
+  role,
+  caseType,
+  urgency,
+  summary,
+  documents,
+  missingFields,
+  recommendedNextStep,
+  flags,
+  leadDetails,
+  facts,
+}: {
+  profile: LaborLeadProfile;
+  role: LaborRole;
+  caseType: LaborCaseType;
+  urgency: LaborUrgency;
+  summary: string;
+  documents: string[];
+  missingFields: string[];
+  recommendedNextStep: LaborRecommendedNextStep;
+  flags: string[];
+  leadDetails: PickedLeadDetails;
+  facts: ConversationFacts;
+}): LaborLead {
+  const mergedFlags = uniqueList([...(profile.flags ?? []), ...flags]).slice(0, 8);
+  const mergedDocuments = uniqueList([...(profile.documents ?? []), ...documents]).slice(0, 8);
+  const keyDates = uniqueList([...(profile.keyDates ?? []), ...leadDetails.keyDates]).slice(0, 5);
+  const leadWithoutScore = {
+    sessionId: profile.sessionId,
+    name: leadDetails.name ?? profile.name,
+    phone: leadDetails.phone ?? profile.phone,
+    city: leadDetails.city ?? profile.city,
+    keyDates,
+    employmentType: leadDetails.employmentType ?? profile.employmentType,
+    relationStatus: leadDetails.relationStatus ?? profile.relationStatus ?? "desconocido",
+    schedulingIntent: facts.hasSchedulingIntent,
+    role,
+    caseType,
+    urgency,
+    summary: summary || profile.summary || "Usuario solicita orientacion laboral inicial.",
+    documents: mergedDocuments.length ? mergedDocuments : documents,
+    missingFields,
+    recommendedNextStep,
+    flags: mergedFlags,
+  };
+  const score = calculateLeadScore(leadWithoutScore);
+
+  return {
+    ...leadWithoutScore,
+    temperature: score >= 70 ? "caliente" : score >= 40 ? "tibio" : "frio",
+    confidence: score,
+  };
+}
+
+function calculateLeadScore(lead: Omit<LaborLead, "temperature" | "confidence">) {
+  let score = 0;
+
+  if (lead.role !== "desconocido") score += 12;
+  if (lead.caseType !== "otro") score += 18;
+  if (lead.keyDates.length) score += 12;
+  if (lead.city) score += 8;
+  if (lead.employmentType) score += 8;
+  if (lead.documents.length) score += 8;
+  if (lead.phone) score += 10;
+  if (lead.name) score += 6;
+  if (lead.schedulingIntent) score += 20;
+  if (lead.urgency === "alta") score += 14;
+  if (lead.urgency === "critica") score += 24;
+  if (lead.flags.length) score += 10;
+
+  return Math.min(score, 100);
+}
+
+function pickName(text: string) {
+  const match = text.match(/\b(?:me llamo|mi nombre es|soy)\s+([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+){0,2})\b/);
+
+  return match?.[1]?.trim();
+}
+
+function pickPhone(text: string) {
+  const match = text.match(/(?:\+?57\s*)?(3\d{2}[\s.-]?\d{3}[\s.-]?\d{4})/);
+
+  return match?.[1]?.replace(/[^\d]/g, "");
+}
+
+function pickCity(text: string) {
+  const cities = [
+    "bogota",
+    "medellin",
+    "cali",
+    "barranquilla",
+    "cartagena",
+    "bucaramanga",
+    "villavicencio",
+    "pereira",
+    "manizales",
+    "ibague",
+    "cucuta",
+    "neiva",
+    "pasto",
+    "tunja",
+    "monteria",
+    "valledupar",
+    "popayan",
+  ];
+  const match = cities.find((city) => text.includes(city));
+
+  return match ? capitalizeWords(match) : undefined;
+}
+
+function pickKeyDates(text: string) {
+  const dates = [
+    ...text.matchAll(/\b\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b/g),
+    ...text.matchAll(/\b(?:ayer|hoy|manana|esta semana|semana pasada|mes pasado|hace \d+\s+(?:dias|semanas|meses|anos)|desde hace \d+\s+(?:dias|semanas|meses|anos))\b/g),
+  ].map((match) => match[0]);
+
+  return uniqueList(dates).slice(0, 5);
+}
+
+function pickEmploymentType(text: string) {
+  if (/prestacion de servicios|ops|contratista/.test(text)) return "prestacion de servicios";
+  if (/termino fijo|contrato fijo/.test(text)) return "contrato a termino fijo";
+  if (/indefinido/.test(text)) return "contrato indefinido";
+  if (/obra labor/.test(text)) return "obra o labor";
+  if (/verbal|de palabra/.test(text)) return "contrato verbal";
+  if (/contrato escrito|contrato laboral|nomina/.test(text)) return "contrato laboral";
+
+  return undefined;
+}
+
+function pickRelationStatus(text: string): LaborLead["relationStatus"] | undefined {
+  if (/sigo trabajando|aun trabajo|todavia trabajo|activo/.test(text)) return "activo";
+  if (/me despidieron|renuncie|termino|ya no trabajo|retire|retiro/.test(text)) return "terminado";
+
+  return undefined;
+}
+
 function pickFlags(text: string) {
   const flags: string[] = [];
 
@@ -353,6 +593,21 @@ function pickFlags(text: string) {
   if (/(audiencia|citacion|ministerio)/.test(text)) flags.push("termino o citacion");
 
   return flags;
+}
+
+function pickHigherUrgency(previousUrgency: LaborUrgency | undefined, detectedUrgency: LaborUrgency) {
+  if (!previousUrgency) {
+    return detectedUrgency;
+  }
+
+  const rank: Record<LaborUrgency, number> = {
+    baja: 1,
+    media: 2,
+    alta: 3,
+    critica: 4,
+  };
+
+  return rank[previousUrgency] > rank[detectedUrgency] ? previousUrgency : detectedUrgency;
 }
 
 function pickPhase({
@@ -435,7 +690,7 @@ function buildClarifyingQuestions({
     questions.push("¿Tienes algun soporte: contrato, carta, liquidacion, chats, correos, desprendibles o incapacidades?");
   }
 
-  return Array.from(new Set(questions)).slice(0, 2);
+  return Array.from(new Set(questions)).slice(0, 1);
 }
 
 function buildReply({
@@ -452,15 +707,21 @@ function buildReply({
   shouldEscalate: boolean;
 }) {
   if (phase === "saludo") {
-    return "Hola. Te puedo orientar de forma general en derecho laboral colombiano y ayudarte a saber si conviene agendar una consulta. No reemplazo la revision de un abogado, pero si puedo ordenar el caso.\n\nPara empezar: ¿eres trabajador, empleador o empresa, y que situacion necesitas revisar?";
+    return "Hola. Te puedo orientar de forma general en derecho laboral colombiano y ayudarte a saber si conviene agendar una consulta. No reemplazo la revision de un abogado, pero si puedo ordenar el caso.\n\nPara empezar, cuentame en una frase que paso y si hablas como trabajador, empleador o empresa.";
   }
 
   if (phase === "agendamiento") {
-    return "Perfecto. El siguiente paso es agendar una consulta con un abogado laboral para revisar documentos, fechas y pruebas.\n\nTe sugiero enviar por WhatsApp un resumen corto del caso, tu ciudad, fechas clave y los documentos que tengas. Con eso el equipo puede decirte como avanzar sin que pierdas tiempo repitiendo todo desde cero.";
+    const contactPrompt = !lead.name || !lead.phone
+      ? "\n\nSi quieres, antes de pasar a WhatsApp dejame tu nombre y celular. Asi el equipo puede ubicarte mas facil y no pierdes tiempo repitiendo la historia."
+      : "";
+
+    return `Perfecto. Ya tengo lo importante para pasar este caso a consulta: perfil ${roleLabelByType[lead.role]}, tema ${caseLabelByType[lead.caseType]} y urgencia ${urgencyLabelByType[lead.urgency]}.\n\nEl siguiente paso es hablar con un abogado laboral para revisar documentos, fechas y pruebas. El mensaje de WhatsApp ya va con el resumen del caso para que el equipo llegue con contexto.${contactPrompt}`;
   }
 
   if (phase === "preguntas") {
-    return `Te entiendo. Ya tengo una parte del caso, pero me falta este dato para darte una ruta clara:\n\n${formatNumberedList(clarifyingQuestions)}\n\nRespondeme eso en una frase y avanzo con la orientacion inicial.`;
+    const understood = buildUnderstoodLine(lead, selectedRule);
+
+    return `${understood}\n\nPara no hacerte repetir, solo necesito este dato clave: ${clarifyingQuestions[0]}\n\nCon eso te doy una ruta inicial y vemos si conviene agendar con abogado.`;
   }
 
   const urgencyLine =
@@ -475,7 +736,31 @@ function buildReply({
     : "";
   const caseGuidance = buildCaseGuidance(lead, selectedRule);
 
-  return `Respuesta inicial clara:\n\n1. Lo que entiendo: estas consultando por ${selectedRule.label} desde el perfil de ${roleLabelByType[lead.role]}.\n2. Lectura inicial: ${caseGuidance}\n3. Ruta sugerida: ${selectedRule.route}\n4. Urgencia: ${urgencyLabelByType[lead.urgency]}. ${urgencyLine}\n5. Documentos utiles: ${formatList(selectedRule.documents.slice(0, 4))}.${missingContext}\n\nMi recomendacion es agendar una consulta con un abogado laboral para revisar documentos, fechas y pruebas antes de tomar decisiones. Esta orientacion es general y no reemplaza la revision personalizada del caso.`;
+  const profileLine = [
+    `perfil: ${roleLabelByType[lead.role]}`,
+    lead.city ? `ciudad: ${lead.city}` : "",
+    lead.keyDates.length ? `fecha: ${lead.keyDates[0]}` : "",
+    lead.employmentType ? `vinculo: ${lead.employmentType}` : "",
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  return `Te escucho. Con lo que cuentas, esto ya no suena como una duda suelta sino como un caso que conviene ordenar bien.\n\n1. Lo que entiendo: ${selectedRule.label} (${profileLine}).\n2. Lectura inicial: ${caseGuidance}\n3. Ruta sugerida: ${selectedRule.route}\n4. Urgencia: ${urgencyLabelByType[lead.urgency]}. ${urgencyLine}\n5. Documentos utiles: ${formatList(selectedRule.documents.slice(0, 4))}.${missingContext}\n\nMi recomendacion es agendar una consulta con un abogado laboral para revisar documentos, fechas y pruebas antes de tomar decisiones. Esta orientacion es general y no reemplaza la revision personalizada del caso.`;
+}
+
+function buildUnderstoodLine(lead: LaborLead, selectedRule: CaseRule) {
+  const parts = [
+    lead.role !== "desconocido" ? `hablas como ${roleLabelByType[lead.role]}` : "",
+    selectedRule.type !== "otro" ? `el tema parece ser ${selectedRule.label}` : "",
+    lead.keyDates.length ? `ubico como fecha clave: ${lead.keyDates[0]}` : "",
+    lead.city ? `en ${lead.city}` : "",
+  ].filter(Boolean);
+
+  if (!parts.length) {
+    return "Te entiendo. Quiero ordenar bien el caso antes de darte una respuesta.";
+  }
+
+  return `Te entiendo. Ya tengo esto claro: ${formatList(parts)}.`;
 }
 
 function buildCaseGuidance(lead: LaborLead, selectedRule: CaseRule) {
@@ -546,7 +831,14 @@ export function buildWhatsappMessage(lead: LaborLead, phase: LaborChatPhase) {
     "Hola, quiero agendar una consulta laboral con Leal Abogados.",
     `Tema: ${caseLabelByType[lead.caseType]}.`,
     `Urgencia: ${urgencyLabelByType[lead.urgency]}.`,
+    `Temperatura del caso: ${lead.temperature}.`,
     `Perfil: ${roleLabelByType[lead.role]}.`,
+    lead.name ? `Nombre: ${lead.name}.` : "",
+    lead.phone ? `Celular: ${lead.phone}.` : "",
+    lead.city ? `Ciudad: ${lead.city}.` : "",
+    lead.keyDates.length ? `Fecha clave: ${formatList(lead.keyDates)}.` : "",
+    lead.employmentType ? `Vinculacion: ${lead.employmentType}.` : "",
+    lead.relationStatus && lead.relationStatus !== "desconocido" ? `Estado de la relacion: ${lead.relationStatus}.` : "",
     `Resumen: ${summary || "Pendiente de ampliar en consulta"}.`,
     lead.flags.length ? `Senales sensibles: ${formatList(lead.flags)}.` : "",
     lead.documents.length ? `Documentos sugeridos para revisar: ${formatList(lead.documents)}.` : "",
@@ -580,14 +872,38 @@ function stripPaymentLanguage(text: string) {
     .trim();
 }
 
+function sanitizeShortText(value: unknown, maxLength: number) {
+  return typeof value === "string" && value.trim() ? value.trim().slice(0, maxLength) : undefined;
+}
+
+function sanitizeStringList(value: unknown, maxItems: number) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return uniqueList(
+    value
+      .filter((item): item is string => typeof item === "string")
+      .map((item) => item.trim())
+      .filter(Boolean),
+  ).slice(0, maxItems);
+}
+
+function uniqueList(items: string[]) {
+  return Array.from(new Set(items.map((item) => item.trim()).filter(Boolean)));
+}
+
+function capitalizeWords(value: string) {
+  return value
+    .split(" ")
+    .map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
+    .join(" ");
+}
+
 function formatList(items: string[]) {
   if (items.length <= 1) return items[0] ?? "";
 
   return `${items.slice(0, -1).join(", ")} y ${items.at(-1)}`;
-}
-
-function formatNumberedList(items: string[]) {
-  return items.map((item, index) => `${index + 1}. ${item}`).join("\n");
 }
 
 function normalizeText(text: string) {
@@ -595,6 +911,20 @@ function normalizeText(text: string) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
+}
+
+function hasKeyword(text: string, keyword: string) {
+  const normalizedKeyword = normalizeText(keyword);
+
+  if (normalizedKeyword.length <= 4 && /^[a-z0-9]+$/.test(normalizedKeyword)) {
+    return new RegExp(`\\b${escapeRegExp(normalizedKeyword)}\\b`).test(text);
+  }
+
+  return text.includes(normalizedKeyword);
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 export const caseLabelByType: Record<LaborCaseType, string> = {

@@ -9,6 +9,7 @@ import {
   type LaborChatPhase,
   type LaborChatResult,
   type LaborLead,
+  type LaborLeadProfile,
   type LaborRole,
   type LaborUrgency,
 } from "@/lib/legal/labor-chat";
@@ -63,9 +64,14 @@ const validCaseTypes = new Set<LaborCaseType>([
 ]);
 const validUrgencies = new Set<LaborUrgency>(["baja", "media", "alta", "critica"]);
 const validPhases = new Set<LaborChatPhase>(["saludo", "preguntas", "orientacion_inicial", "agendamiento"]);
+const validTemperatures = new Set<LaborLead["temperature"]>(["frio", "tibio", "caliente"]);
+const validRelationStatuses = new Set<NonNullable<LaborLead["relationStatus"]>>(["activo", "terminado", "desconocido"]);
 
-export async function evaluateLaborConversationWithAi(messages: LaborChatMessage[]): Promise<LaborChatResult> {
-  const fallback = evaluateLaborConversation(messages);
+export async function evaluateLaborConversationWithAi(
+  messages: LaborChatMessage[],
+  leadProfile?: LaborLeadProfile,
+): Promise<LaborChatResult> {
+  const fallback = evaluateLaborConversation(messages, leadProfile);
   const openAiKey = process.env.OPENAI_API_KEY?.trim();
   const geminiKey = process.env.GEMINI_API_KEY?.trim();
   const preferredProvider = process.env.LABOR_AI_PROVIDER?.trim().toLowerCase();
@@ -76,7 +82,7 @@ export async function evaluateLaborConversationWithAi(messages: LaborChatMessage
 
   if (preferredProvider === "n8n" && n8nWebhookUrl) {
     try {
-      const aiDraft = await requestN8nDraft({ fallback, messages, webhookUrl: n8nWebhookUrl });
+      const aiDraft = await requestN8nDraft({ fallback, leadProfile, messages, webhookUrl: n8nWebhookUrl });
       return mergeAiDraft(fallback, aiDraft);
     } catch (error) {
       console.error("labor_chat_n8n_failed", error);
@@ -85,7 +91,7 @@ export async function evaluateLaborConversationWithAi(messages: LaborChatMessage
 
   if (preferredProvider === "openai" && openAiKey) {
     try {
-      const aiDraft = await requestOpenAiDraft({ apiKey: openAiKey, fallback, messages });
+      const aiDraft = await requestOpenAiDraft({ apiKey: openAiKey, fallback, leadProfile, messages });
       return mergeAiDraft(fallback, aiDraft);
     } catch (error) {
       console.error("labor_chat_openai_failed", error);
@@ -94,7 +100,7 @@ export async function evaluateLaborConversationWithAi(messages: LaborChatMessage
 
   if (geminiKey) {
     try {
-      const aiDraft = await requestGeminiDraft({ apiKey: geminiKey, fallback, messages });
+      const aiDraft = await requestGeminiDraft({ apiKey: geminiKey, fallback, leadProfile, messages });
       return mergeAiDraft(fallback, aiDraft);
     } catch (error) {
       console.error("labor_chat_gemini_failed", error);
@@ -103,7 +109,7 @@ export async function evaluateLaborConversationWithAi(messages: LaborChatMessage
 
   if (openAiKey) {
     try {
-      const aiDraft = await requestOpenAiDraft({ apiKey: openAiKey, fallback, messages });
+      const aiDraft = await requestOpenAiDraft({ apiKey: openAiKey, fallback, leadProfile, messages });
       return mergeAiDraft(fallback, aiDraft);
     } catch (error) {
       console.error("labor_chat_openai_failed", error);
@@ -112,7 +118,7 @@ export async function evaluateLaborConversationWithAi(messages: LaborChatMessage
 
   if (n8nWebhookUrl) {
     try {
-      const aiDraft = await requestN8nDraft({ fallback, messages, webhookUrl: n8nWebhookUrl });
+      const aiDraft = await requestN8nDraft({ fallback, leadProfile, messages, webhookUrl: n8nWebhookUrl });
       return mergeAiDraft(fallback, aiDraft);
     } catch (error) {
       console.error("labor_chat_n8n_failed", error);
@@ -124,10 +130,12 @@ export async function evaluateLaborConversationWithAi(messages: LaborChatMessage
 
 async function requestN8nDraft({
   fallback,
+  leadProfile,
   messages,
   webhookUrl,
 }: {
   fallback: LaborChatResult;
+  leadProfile?: LaborLeadProfile;
   messages: LaborChatMessage[];
   webhookUrl: string;
 }) {
@@ -143,8 +151,10 @@ async function requestN8nDraft({
       body: JSON.stringify({
         source: "leal_labor_chat",
         messages: messages.slice(-10),
+        leadProfile: leadProfile ?? null,
+        currentLead: fallback.lead,
         systemPrompt: buildSystemPrompt(fallback),
-        conversationPrompt: buildConversationPrompt(messages, fallback),
+        conversationPrompt: buildConversationPrompt(messages, fallback, leadProfile),
         fallback,
       }),
       signal: controller.signal,
@@ -173,10 +183,12 @@ async function requestN8nDraft({
 async function requestOpenAiDraft({
   apiKey,
   fallback,
+  leadProfile,
   messages,
 }: {
   apiKey: string;
   fallback: LaborChatResult;
+  leadProfile?: LaborLeadProfile;
   messages: LaborChatMessage[];
 }) {
   const controller = new AbortController();
@@ -198,7 +210,7 @@ async function requestOpenAiDraft({
           },
           {
             role: "user",
-            content: buildConversationPrompt(messages, fallback),
+            content: buildConversationPrompt(messages, fallback, leadProfile),
           },
         ],
         max_output_tokens: 900,
@@ -231,6 +243,15 @@ async function requestOpenAiDraft({
                     caseType: { type: "string", enum: Array.from(validCaseTypes) },
                     urgency: { type: "string", enum: Array.from(validUrgencies) },
                     summary: { type: "string" },
+                    name: { type: "string" },
+                    phone: { type: "string" },
+                    city: { type: "string" },
+                    keyDates: { type: "array", items: { type: "string" }, maxItems: 5 },
+                    employmentType: { type: "string" },
+                    relationStatus: { type: "string", enum: ["activo", "terminado", "desconocido"] },
+                    schedulingIntent: { type: "boolean" },
+                    temperature: { type: "string", enum: ["frio", "tibio", "caliente"] },
+                    confidence: { type: "number" },
                     documents: { type: "array", items: { type: "string" }, maxItems: 6 },
                     missingFields: { type: "array", items: { type: "string" }, maxItems: 4 },
                     flags: { type: "array", items: { type: "string" }, maxItems: 5 },
@@ -259,10 +280,12 @@ async function requestOpenAiDraft({
 async function requestGeminiDraft({
   apiKey,
   fallback,
+  leadProfile,
   messages,
 }: {
   apiKey: string;
   fallback: LaborChatResult;
+  leadProfile?: LaborLeadProfile;
   messages: LaborChatMessage[];
 }) {
   const controller = new AbortController();
@@ -278,7 +301,7 @@ async function requestGeminiDraft({
       body: JSON.stringify({
         model: geminiModel,
         system_instruction: buildSystemPrompt(fallback),
-        input: buildConversationPrompt(messages, fallback),
+        input: buildConversationPrompt(messages, fallback, leadProfile),
         generation_config: {
           thinking_level: "low",
           temperature: 0.35,
@@ -307,11 +330,15 @@ function buildSystemPrompt(fallback: LaborChatResult) {
     "Especialidad actual: derecho laboral colombiano. Si preguntan por otra area, dilo con amabilidad y orienta a agendar por WhatsApp.",
     "Estilo: humano, directo, facil de entender, con criterio. Usa frases cortas y evita tono robotico.",
     "Regla de avance: no repitas una pregunta si el historial ya contiene una respuesta parcial. Reconoce lo entendido y pregunta solo el dato indispensable que falta.",
+    "Memoria conversacional: el campo currentLead representa lo que ya sabes del cliente. Debes usarlo como memoria viva y no volver a preguntar role, city, date, phone, name o caseType si ya estan claros.",
+    "Si el usuario corrige un dato, actualiza el lead. Si solo agrega informacion, conserva lo anterior.",
+    "Venta consultiva: el usuario debe sentirse escuchado. Primero valida brevemente lo que vive, luego ordena hechos y finalmente explica por que una consulta le ahorra riesgo o tiempo.",
     "Haz maximo 1 o 2 preguntas por turno. Si ya conoces perfil, tema y una fecha aproximada, no sigas interrogando: entrega orientacion inicial y deja los demas datos como pendientes utiles.",
     "Cuando preguntes, explica en una frase por que ese dato cambia la ruta. Evita bloques genericos de 3 preguntas repetidas.",
     "Si ya hay contexto suficiente, entrega una orientacion inicial en 3 a 5 puntos: lectura del caso, riesgos o senales importantes, documentos, siguiente paso.",
     "La respuesta debe llevar a algun punto: agendar consulta, reunir documentos para la consulta, enviar resumen por WhatsApp o aclarar un unico dato critico.",
     "No cobres, no pidas consignaciones y no ofrezcas documento pagado. Por ahora el objetivo comercial es motivar una reunion con abogado.",
+    "Cuando el caso sea caliente o el usuario muestre intencion de agendar, pide nombre, telefono o disponibilidad solo si faltan; si no faltan, lleva a WhatsApp.",
     "Si el usuario pregunta por precio, dile que el equipo puede confirmarlo por WhatsApp segun el tipo de revision que necesite.",
     "Devuelve solo JSON valido con: reply, phase, quickReplies y lead.",
     `Clasificacion base del sistema: ${JSON.stringify({
@@ -324,10 +351,12 @@ function buildSystemPrompt(fallback: LaborChatResult) {
   ].join("\n");
 }
 
-function buildConversationPrompt(messages: LaborChatMessage[], fallback: LaborChatResult) {
+function buildConversationPrompt(messages: LaborChatMessage[], fallback: LaborChatResult, leadProfile?: LaborLeadProfile) {
   return JSON.stringify({
     conversation: messages.slice(-10),
     latestUserMessage: messages.filter((message) => message.role === "user").at(-1)?.content ?? "",
+    previousLeadProfile: leadProfile ?? null,
+    currentLead: fallback.lead,
     fallbackLead: fallback.lead,
     fallbackPhase: fallback.phase,
     fallbackReply: fallback.reply,
@@ -336,8 +365,12 @@ function buildConversationPrompt(messages: LaborChatMessage[], fallback: LaborCh
       phase: "saludo, preguntas, orientacion_inicial o agendamiento.",
       quickReplies: "Botones cortos de siguiente paso, maximo 4.",
       lead: "Clasificacion del caso y resumen para CRM/WhatsApp.",
+      memory:
+        "Conserva datos ya capturados. Si currentLead.role es trabajador, no preguntes si es trabajador o empresa. Si currentLead.caseType ya no es otro, no preguntes que tipo de tema es salvo que haya contradiccion.",
       progression:
         "Si fallbackPhase es preguntas pero el historial ya trae perfil, tema laboral y fecha aproximada, cambia a orientacion_inicial o agendamiento. No te quedes repitiendo preguntas.",
+      sales:
+        "Cuando haya urgencia alta/critica, caso concreto, intencion de cita o telefono, sube temperature a caliente y orienta a reunion con abogado sin sonar agresivo.",
     },
   });
 }
@@ -406,14 +439,44 @@ function mergeLeadDraft(fallback: LaborLead, draft: AiDraft["lead"]): LaborLead 
 
   return {
     ...fallback,
-    role: stringInSet(draft.role, validRoles) ?? fallback.role,
-    caseType: stringInSet(draft.caseType, validCaseTypes) ?? fallback.caseType,
-    urgency: stringInSet(draft.urgency, validUrgencies) ?? fallback.urgency,
+    name: typeof draft.name === "string" && draft.name.trim() ? draft.name.trim().slice(0, 80) : fallback.name,
+    phone: typeof draft.phone === "string" && draft.phone.trim() ? draft.phone.trim().slice(0, 40) : fallback.phone,
+    city: typeof draft.city === "string" && draft.city.trim() ? draft.city.trim().slice(0, 80) : fallback.city,
+    keyDates: sanitizeStringArray(draft.keyDates, 5, fallback.keyDates),
+    employmentType:
+      typeof draft.employmentType === "string" && draft.employmentType.trim()
+        ? draft.employmentType.trim().slice(0, 80)
+        : fallback.employmentType,
+    relationStatus: stringInSet(draft.relationStatus, validRelationStatuses) ?? fallback.relationStatus,
+    schedulingIntent: typeof draft.schedulingIntent === "boolean" ? draft.schedulingIntent : fallback.schedulingIntent,
+    temperature: stringInSet(draft.temperature, validTemperatures) ?? fallback.temperature,
+    confidence:
+      typeof draft.confidence === "number" && Number.isFinite(draft.confidence)
+        ? Math.min(Math.max(Math.round(draft.confidence), 0), 100)
+        : fallback.confidence,
+    role: fallback.role !== "desconocido" ? fallback.role : stringInSet(draft.role, validRoles) ?? fallback.role,
+    caseType: fallback.caseType !== "otro" ? fallback.caseType : stringInSet(draft.caseType, validCaseTypes) ?? fallback.caseType,
+    urgency: pickHigherUrgency(fallback.urgency, stringInSet(draft.urgency, validUrgencies)),
     summary: typeof draft.summary === "string" && draft.summary.trim() ? draft.summary.trim().slice(0, 260) : fallback.summary,
     documents: sanitizeStringArray(draft.documents, 6, fallback.documents),
     missingFields: sanitizeStringArray(draft.missingFields, 4, fallback.missingFields),
     flags: sanitizeStringArray(draft.flags, 5, fallback.flags),
   };
+}
+
+function pickHigherUrgency(fallbackUrgency: LaborUrgency, draftUrgency?: LaborUrgency) {
+  if (!draftUrgency) {
+    return fallbackUrgency;
+  }
+
+  const rank: Record<LaborUrgency, number> = {
+    baja: 1,
+    media: 2,
+    alta: 3,
+    critica: 4,
+  };
+
+  return rank[draftUrgency] > rank[fallbackUrgency] ? draftUrgency : fallbackUrgency;
 }
 
 function stringInSet<T extends string>(value: unknown, validValues: Set<T>) {

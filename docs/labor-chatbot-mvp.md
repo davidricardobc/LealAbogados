@@ -138,6 +138,8 @@ Version 1 simple:
 - Frontend: widget web en Next.js.
 - API interna: `/api/chat-laboral`.
 - Modelo: AI server-side con OpenAI Responses API, Gemini Interactions API o webhook n8n, prompt de sistema, salida estructurada JSON y fallback deterministico si no hay API key o si falla el proveedor.
+- Memoria de sesion: `sessionId` y `leadProfile` enviados por el widget en cada turno para conservar rol, tema, ciudad, fechas, tipo de vinculacion, telefono, nombre e intencion de agendar.
+- Perfil comercial: cada respuesta devuelve temperatura del lead (`frio`, `tibio`, `caliente`) y confianza 0-100 para saber cuando insistir en consulta.
 - Base de conocimiento: archivos curados en Markdown/JSON dentro del repo o en una tabla externa.
 - Lead handoff: WhatsApp prellenado y registro en CRM/n8n.
 - Analitica: eventos de apertura, mensajes, clasificacion, click WhatsApp, agendamiento.
@@ -159,8 +161,10 @@ Version 2 escalable:
 - `POST /api/chat-laboral`: orquesta prompt, contexto y respuesta.
 - `POST /api/leads`: guarda o envia lead a n8n/CRM.
 - `lib/legal/labor-ai.ts`: capa AI server-side para comprender contexto, redactar mejor, respetar guardrails y devolver clasificacion estructurada.
+- `lib/legal/labor-chat.ts`: memoria conversacional, extraccion de datos, fallback deterministico, scoring comercial y WhatsApp prellenado.
 - `lib/legal/labor-knowledge.ts`: fuentes internas, disclaimers y categorias.
 - `lib/legal/lead-scoring.ts`: urgencia, valor, riesgo y proximo paso.
+- `n8n/leal-labor-chat-memory.workflow.json`: plantilla importable para webhook n8n que recibe `currentLead`, calcula temperatura y responde con el JSON del chat.
 
 ## Configuracion AI
 
@@ -183,16 +187,24 @@ Reglas de operacion:
 - La AI debe devolver JSON estructurado para evitar respuestas fuera del flujo comercial/legal.
 - El modelo puede cambiarse por ambiente con `OPENAI_MODEL` o `GEMINI_MODEL` sin tocar codigo.
 - El proveedor puede fijarse con `LABOR_AI_PROVIDER=openai`, `LABOR_AI_PROVIDER=gemini` o `LABOR_AI_PROVIDER=n8n`.
-- Si se usa n8n, `LABOR_N8N_WEBHOOK_URL` debe apuntar a un webhook que reciba `messages`, `systemPrompt`, `conversationPrompt` y `fallback`, y devuelva JSON con `reply`, `phase`, `quickReplies` y `lead`.
+- Si se usa n8n, `LABOR_N8N_WEBHOOK_URL` debe apuntar a un webhook que reciba `messages`, `leadProfile`, `currentLead`, `systemPrompt`, `conversationPrompt` y `fallback`, y devuelva JSON con `reply`, `phase`, `quickReplies` y `lead`.
 - Regla de conversacion: no repetir preguntas ya respondidas; cuando existan perfil, tema laboral y fecha aproximada, avanzar a orientacion inicial y agendamiento.
+- Regla de memoria: la AI puede mejorar redaccion y detectar datos nuevos, pero no debe pisar datos duros ya capturados por el motor salvo correccion clara del usuario.
 
 ## Modelo de lead
 
 ```ts
 type LaborLead = {
+  sessionId?: string;
   name?: string;
   phone?: string;
   city?: string;
+  keyDates: string[];
+  employmentType?: string;
+  relationStatus?: "activo" | "terminado" | "desconocido";
+  schedulingIntent: boolean;
+  temperature: "frio" | "tibio" | "caliente";
+  confidence: number;
   role: "trabajador" | "empleador" | "empresa" | "otro" | "desconocido";
   caseType:
     | "despido"
@@ -222,6 +234,26 @@ type LaborLead = {
   utm?: Record<string, string>;
 };
 ```
+
+## Memoria y venta consultiva
+
+El bot debe tratar cada dato entregado como memoria viva de la conversacion:
+
+- Si el usuario dice "soy trabajador", el proximo turno debe continuar desde trabajador.
+- Si dice "me despidieron ayer", ya existen tema y fecha; no debe volver al bloque generico de preguntas.
+- Si agrega ciudad, contrato, nombre o telefono, esos datos deben quedar en `leadProfile`.
+- Si el caso tiene despido, falta de pago, estabilidad reforzada, acoso, accidente, tutela o intencion de cita, la temperatura debe subir.
+- Si el usuario pide agendar o deja telefono, el cierre debe ser directo y humano: confirmar lo entendido, explicar por que conviene consulta y llevar a WhatsApp con resumen.
+
+Ejemplo deseado:
+
+Usuario: "Soy trbajdor"
+
+Bot: "Perfecto, te hablo desde el lado del trabajador. ¿Que paso exactamente?"
+
+Usuario: "Me despidieron ayer y no me pagaron liquidacion"
+
+Bot: "Te escucho. Ya entiendo: trabajador, despido reciente y liquidacion pendiente. Eso conviene revisarlo pronto porque fechas, carta de terminacion y pagos cambian la ruta. Reune contrato, carta, liquidacion y desprendibles. Mi recomendacion es agendar una consulta para revisar documentos antes de tomar decisiones."
 
 ## Prompt base del sistema
 
