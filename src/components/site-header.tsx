@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { ButtonLink } from "@/components/button-link";
 import { Logo } from "@/components/logo";
-import { MenuIcon } from "@/components/icons";
+import { MenuIcon, XIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { navItems, whatsappLinks } from "@/data/site";
 
@@ -59,8 +59,10 @@ export function SiteHeader() {
 
         <details className="group relative lg:hidden">
           <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-sm border border-white/15 text-white transition hover:border-brand-red hover:text-brand-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-red">
-            <span className="sr-only">Abrir menú</span>
-            <MenuIcon className="h-5 w-5" />
+            <span className="sr-only group-open:hidden">Abrir menú</span>
+            <span className="sr-only hidden group-open:inline">Cerrar menú</span>
+            <MenuIcon className="h-5 w-5 group-open:hidden" />
+            <XIcon className="hidden h-5 w-5 group-open:block" />
           </summary>
           <div className="absolute right-0 mt-3 w-[min(88vw,22rem)] border border-white/10 bg-ink p-3 shadow-2xl shadow-black/45">
             <nav className="flex flex-col" aria-label="Navegación móvil">
