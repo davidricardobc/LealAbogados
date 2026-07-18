@@ -92,12 +92,14 @@ export function LaborChatWidget() {
     setIsSending(true);
 
     try {
+      const activeLeadProfile = leadProfile ?? readStoredLeadProfile();
+
       const response = await fetch("/api/chat-laboral", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           sessionId,
-          leadProfile,
+          leadProfile: activeLeadProfile,
           messages: nextMessages.map((message) => ({
             role: message.role,
             content: message.content,

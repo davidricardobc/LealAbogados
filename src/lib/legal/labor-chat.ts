@@ -197,11 +197,12 @@ const caseRules: CaseRule[] = [
 ];
 
 const roleSignals: Array<{ role: LaborRole; keywords: string[] }> = [
-  { role: "empresa", keywords: ["soy empresa", "mi empresa", "somos empresa", "tenemos empleados", "trabajadores", "nomina"] },
-  { role: "empleador", keywords: ["soy empleador", "empleador", "quiero despedir", "quiero sancionar"] },
   {
     role: "trabajador",
     keywords: [
+      "trabajador",
+      "trbajdor",
+      "trabajdor",
       "soy trabajador",
       "soy trbajdor",
       "soy trabajdor",
@@ -213,6 +214,8 @@ const roleSignals: Array<{ role: LaborRole; keywords: string[] }> = [
       "mi empresa no me",
     ],
   },
+  { role: "empresa", keywords: ["soy empresa", "mi empresa", "somos empresa", "tenemos empleados", "tenemos trabajadores", "nomina"] },
+  { role: "empleador", keywords: ["soy empleador", "empleador", "quiero despedir", "quiero sancionar"] },
 ];
 
 const criticalSignals = [
@@ -340,11 +343,11 @@ const fallbackRule: CaseRule = {
   keywords: [],
   documents: ["contrato", "fechas clave", "pagos", "comunicaciones", "documentos recibidos"],
   route: "Primero hay que identificar el tipo de relacion laboral, fechas y documentos disponibles.",
-  followUp: "¿Eres trabajador, empleador o empresa, y que paso exactamente?",
+  followUp: "¿Que paso exactamente y desde cuando viene ocurriendo?",
 };
 
 function pickRole(text: string, previousRole?: LaborRole): LaborRole {
-  const match = roleSignals.find((signal) => signal.keywords.some((keyword) => hasKeyword(text, keyword)));
+  const match = roleSignals.find((signal) => signal.keywords.some((keyword) => hasRoleKeyword(text, keyword)));
 
   return match?.role ?? previousRole ?? "desconocido";
 }
@@ -386,7 +389,7 @@ function pickConversationFacts(text: string, profile: LaborLeadProfile, leadDeta
     hasDocuments: /(carta|liquidacion|desprendible|correo|chat|contrato|incapacidad|certificacion|prueba|soporte|documento)/.test(text),
     hasSchedulingIntent:
       Boolean(profile.schedulingIntent) ||
-      /(agenda|agendar|cita|consulta|reunion|reunirme|hablar con abogado|whatsapp|llamar|contactar|precio|valor|pagar|consignar|nequi|comprobante|respuesta experta)/.test(
+      /(agenda|agendar|cita|consulta|reunion|reunirme|hablar con abogado|whatsapp|llamar|contactar|precio|valor|costo|honorarios)/.test(
         text,
       ),
     hasName: Boolean(profile.name || leadDetails.name),
@@ -471,7 +474,8 @@ function enrichLeadProfile({
   facts: ConversationFacts;
 }): LaborLead {
   const mergedFlags = uniqueList([...(profile.flags ?? []), ...flags]).slice(0, 8);
-  const mergedDocuments = uniqueList([...(profile.documents ?? []), ...documents]).slice(0, 8);
+  const previousDocuments = profile.caseType && profile.caseType !== "otro" ? (profile.documents ?? []) : [];
+  const mergedDocuments = uniqueList([...previousDocuments, ...documents]).slice(0, 8);
   const keyDates = uniqueList([...(profile.keyDates ?? []), ...leadDetails.keyDates]).slice(0, 5);
   const leadWithoutScore = {
     sessionId: profile.sessionId,
@@ -719,6 +723,17 @@ function buildReply({
   }
 
   if (phase === "preguntas") {
+    if (lead.role !== "desconocido" && selectedRule.type === "otro") {
+      const roleContext =
+        lead.role === "trabajador"
+          ? "Perfecto, te hablo desde el lado del trabajador."
+          : lead.role === "empresa" || lead.role === "empleador"
+            ? "Perfecto, te hablo desde el lado del empleador/empresa."
+            : "Perfecto, ya ubico tu perfil.";
+
+      return `${roleContext} Para orientarte bien necesito entender el hecho principal, no hacerte llenar un formulario.\n\nCuentame en una frase: ${clarifyingQuestions[0]}\n\nCon eso te doy una ruta inicial clara y vemos si conviene agendar con abogado laboral.`;
+    }
+
     const understood = buildUnderstoodLine(lead, selectedRule);
 
     return `${understood}\n\nPara no hacerte repetir, solo necesito este dato clave: ${clarifyingQuestions[0]}\n\nCon eso te doy una ruta inicial y vemos si conviene agendar con abogado.`;
@@ -801,6 +816,16 @@ function buildQuickReplies(lead: LaborLead, selectedRule: CaseRule, phase: Labor
     replies.add("Quiero seguir contando el caso");
 
     return Array.from(replies);
+  }
+
+  if (phase === "preguntas" && lead.role !== "desconocido" && selectedRule.type === "otro") {
+    if (lead.role === "trabajador") {
+      return ["Me despidieron", "No me pagaron liquidacion", "Creo que hay acoso", "Tuve un accidente laboral"];
+    }
+
+    if (lead.role === "empresa" || lead.role === "empleador") {
+      return ["Quiero revisar un despido", "Tengo una citacion", "Necesito prevenir un riesgo", "Caso con trabajador"];
+    }
   }
 
   if (lead.role === "desconocido") {
@@ -921,6 +946,16 @@ function hasKeyword(text: string, keyword: string) {
   }
 
   return text.includes(normalizedKeyword);
+}
+
+function hasRoleKeyword(text: string, keyword: string) {
+  const normalizedKeyword = normalizeText(keyword);
+
+  if (/^[a-z0-9]+$/.test(normalizedKeyword)) {
+    return new RegExp(`\\b${escapeRegExp(normalizedKeyword)}\\b`).test(text);
+  }
+
+  return hasKeyword(text, normalizedKeyword);
 }
 
 function escapeRegExp(value: string) {

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { buildWhatsappUrl } from "@/data/site";
 import { evaluateLaborConversationWithAi } from "@/lib/legal/labor-ai";
 import { type LaborChatMessage, type LaborLeadProfile } from "@/lib/legal/labor-chat";
+import { getStoredLaborLead, storeLaborLead } from "@/lib/legal/labor-session-store";
 
 type ChatPayload = {
   sessionId?: string;
@@ -12,15 +13,22 @@ type ChatPayload = {
 export async function POST(request: Request) {
   const payload = (await request.json().catch(() => ({}))) as ChatPayload;
   const messages = sanitizeMessages(payload.messages);
+  const sessionId = sanitizeString(payload.sessionId, 80) ?? sanitizeString(payload.leadProfile?.sessionId, 80);
 
   if (!messages.length) {
     return NextResponse.json({ error: "messages_required" }, { status: 400 });
   }
 
+  const storedLead = sessionId ? getStoredLaborLead(sessionId) : undefined;
   const result = await evaluateLaborConversationWithAi(messages, {
+    ...storedLead,
     ...sanitizeLeadProfile(payload.leadProfile),
-    sessionId: sanitizeString(payload.sessionId, 80) ?? sanitizeString(payload.leadProfile?.sessionId, 80),
+    sessionId,
   });
+
+  if (sessionId) {
+    storeLaborLead(sessionId, result.lead);
+  }
 
   return NextResponse.json({
     ...result,

@@ -415,10 +415,11 @@ function mergeAiDraft(fallback: LaborChatResult, draft: AiDraft): LaborChatResul
   const lead = mergeLeadDraft(fallback.lead, draft.lead);
   const phase = stringInSet(draft.phase, validPhases) ?? fallback.phase;
   const quickReplies = sanitizeStringArray(draft.quickReplies, 4, fallback.quickReplies);
-  const reply =
+  const draftedReply =
     typeof draft.reply === "string" && draft.reply.trim().length > 20
       ? softenLegalCertainty(draft.reply.trim())
       : fallback.reply;
+  const reply = repeatsKnownLeadQuestion(draftedReply, lead) ? fallback.reply : draftedReply;
 
   return {
     ...fallback,
@@ -430,6 +431,24 @@ function mergeAiDraft(fallback: LaborChatResult, draft: AiDraft): LaborChatResul
     shouldEscalate: lead.urgency === "critica" || lead.urgency === "alta" || lead.caseType !== "otro",
     whatsappMessage: buildWhatsappMessage(lead, phase),
   };
+}
+
+function repeatsKnownLeadQuestion(reply: string, lead: LaborLead) {
+  const normalizedReply = normalizeText(reply);
+  const asksKnownRole =
+    lead.role !== "desconocido" &&
+    (normalizedReply.includes("trabajador, empleador o empresa") ||
+      normalizedReply.includes("trabajador, empresa o empleador") ||
+      normalizedReply.includes("hablas como trabajador") ||
+      normalizedReply.includes("eres trabajador") ||
+      normalizedReply.includes("como trabajador, empleador"));
+  const asksKnownCase =
+    lead.caseType !== "otro" &&
+    (normalizedReply.includes("despido, liquidacion, acoso") ||
+      normalizedReply.includes("que situacion necesitas revisar") ||
+      normalizedReply.includes("que paso exactamente"));
+
+  return asksKnownRole || asksKnownCase;
 }
 
 function mergeLeadDraft(fallback: LaborLead, draft: AiDraft["lead"]): LaborLead {
@@ -514,4 +533,11 @@ function softenLegalCertainty(reply: string) {
     .replace(/\bse puede exigir\b/gi, "se podria solicitar")
     .replace(/\bNecesitaremos revisar\b/gi, "Conviene revisar")
     .replace(/\bdecirte exactamente\b/gi, "orientarte con mas precision");
+}
+
+function normalizeText(text: string) {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 }
