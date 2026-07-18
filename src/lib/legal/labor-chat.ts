@@ -197,6 +197,8 @@ const caseRules: CaseRule[] = [
 ];
 
 const roleSignals: Array<{ role: LaborRole; keywords: string[] }> = [
+  { role: "empresa", keywords: ["soy empresa", "mi empresa", "somos empresa", "tenemos empleados", "tenemos trabajadores", "nomina"] },
+  { role: "empleador", keywords: ["soy empleador", "como empleador", "quiero despedir", "quiero sancionar"] },
   {
     role: "trabajador",
     keywords: [
@@ -207,15 +209,19 @@ const roleSignals: Array<{ role: LaborRole; keywords: string[] }> = [
       "soy trbajdor",
       "soy trabajdor",
       "soy empleado",
+      "soy empleada",
       "empleado",
+      "empleada",
       "me despidieron",
+      "me echaron",
+      "trabaje",
       "trabajo en",
       "mi jefe",
       "mi empresa no me",
+      "tuve un accidente laboral",
+      "sufri un accidente laboral",
     ],
   },
-  { role: "empresa", keywords: ["soy empresa", "mi empresa", "somos empresa", "tenemos empleados", "tenemos trabajadores", "nomina"] },
-  { role: "empleador", keywords: ["soy empleador", "empleador", "quiero despedir", "quiero sancionar"] },
 ];
 
 const criticalSignals = [
@@ -347,6 +353,24 @@ const fallbackRule: CaseRule = {
 };
 
 function pickRole(text: string, previousRole?: LaborRole): LaborRole {
+  const directSpeakerMatch = roleSignals.find((signal) =>
+    signal.keywords.some((keyword) => {
+      const normalizedKeyword = normalizeText(keyword);
+
+      return normalizedKeyword.startsWith("soy ") && hasRoleKeyword(text, normalizedKeyword);
+    }),
+  );
+
+  if (directSpeakerMatch) {
+    return directSpeakerMatch.role;
+  }
+
+  const employerIntentMatch = roleSignals.find((signal) => signal.role !== "trabajador" && signal.keywords.some((keyword) => hasRoleKeyword(text, keyword)));
+
+  if (employerIntentMatch) {
+    return employerIntentMatch.role;
+  }
+
   const match = roleSignals.find((signal) => signal.keywords.some((keyword) => hasRoleKeyword(text, keyword)));
 
   return match?.role ?? previousRole ?? "desconocido";
@@ -667,7 +691,7 @@ function buildClarifyingQuestions({
   const questions: string[] = [];
 
   if (role === "desconocido") {
-    questions.push("¿Hablas como trabajador, empleador o empresa?");
+    questions.push("¿Me confirmas desde que lado consultas: trabajador, empleador o area de empresa?");
   }
 
   if (selectedRule.type === "otro") {

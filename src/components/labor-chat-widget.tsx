@@ -216,10 +216,10 @@ export function LaborChatWidget() {
               </div>
             ) : null}
 
-            <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
+            <div className="mb-3 flex flex-wrap gap-2">
               {suggestedReplies.map((reply) => (
                 <button
-                  className="shrink-0 rounded-sm border border-ink/12 bg-white px-3 py-2 text-xs font-semibold text-ink transition hover:border-brand-red hover:text-brand-red"
+                  className="min-h-9 max-w-full rounded-sm border border-ink/12 bg-white px-3 py-2 text-left text-xs font-semibold leading-4 text-ink transition hover:border-brand-red hover:text-brand-red"
                   disabled={isSending}
                   key={reply}
                   onClick={() => void sendMessage(reply)}
