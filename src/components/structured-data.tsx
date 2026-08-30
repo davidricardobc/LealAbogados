@@ -1,4 +1,4 @@
-import { enterpriseServices, practiceAreas, siteConfig, socialProfiles, teamProfiles } from "@/data/site";
+import { enterpriseServices, localMarkets, practiceAreas, serviceSeoPages, siteConfig, socialProfiles, teamProfiles } from "@/data/site";
 
 export function StructuredData() {
   const founder = teamProfiles[0];
@@ -38,10 +38,10 @@ export function StructuredData() {
         url: siteConfig.url,
         image: `${siteConfig.url}/assets/leal-hero-logo-original.png`,
         description: siteConfig.description,
-        areaServed: {
-          "@type": "Country",
-          name: "Colombia",
-        },
+        areaServed: localMarkets.map((market) => ({
+          "@type": market.type,
+          name: market.name,
+        })),
         address: {
           "@type": "PostalAddress",
           addressCountry: "CO",
@@ -57,6 +57,9 @@ export function StructuredData() {
           "Sucesiones",
           "Tutelas",
           "Servicios jurídicos empresariales",
+          "Abogados en Meta",
+          "Abogados en Cundinamarca",
+          "Abogados en Bogotá",
         ],
         parentOrganization: {
           "@id": `${siteConfig.url}/#organization`,
@@ -72,7 +75,7 @@ export function StructuredData() {
                 "@type": "Service",
                 name: area.title,
                 description: area.summary,
-                url: `${siteConfig.url}/areas-de-practica#${area.slug}`,
+                url: `${siteConfig.url}/${serviceSeoPages.find((page) => page.practiceAreaSlug === area.slug)?.slug ?? `areas-de-practica#${area.slug}`}`,
               },
             })),
             ...enterpriseServices.map((service) => ({

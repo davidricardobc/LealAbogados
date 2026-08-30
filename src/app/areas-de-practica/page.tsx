@@ -1,24 +1,27 @@
 import type { Metadata } from "next";
+import { ButtonLink } from "@/components/button-link";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
-import { practiceAreas } from "@/data/site";
+import { practiceAreas, serviceSeoPages } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Áreas de práctica jurídica en Colombia",
+  title: "Áreas de práctica jurídica en Meta, Cundinamarca, Bogotá y Colombia",
   description:
-    "Abogados en Colombia para derecho de familia, sucesiones, laboral, seguridad social, derecho civil, tutelas, trámites notariales y soporte jurídico empresarial.",
+    "Abogados en Meta, Cundinamarca, Bogotá y toda Colombia para derecho de familia, sucesiones, laboral, seguridad social, derecho civil, tutelas y empresas.",
   alternates: {
     canonical: "/areas-de-practica",
   },
   openGraph: {
     title: "Áreas de práctica jurídica | Leal Abogados",
     description:
-      "Consulta y acompañamiento legal en familia, laboral, civil, sucesiones, seguridad social, tutelas y servicios empresariales.",
+      "Consulta y acompañamiento legal en Meta, Cundinamarca, Bogotá y Colombia para familia, laboral, civil, sucesiones, seguridad social, tutelas y empresas.",
     url: "/areas-de-practica",
     images: ["/assets/leal-og-launch.png"],
   },
 };
+
+const serviceUrlByPracticeSlug = new Map(serviceSeoPages.map((page) => [page.practiceAreaSlug, `/${page.slug}`]));
 
 export default function PracticeAreasPage() {
   return (
@@ -37,7 +40,7 @@ export default function PracticeAreasPage() {
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             title="Problemas legales que requieren estructura."
-            description="El objetivo es que el visitante identifique su situación sin sentirse empujado a una promesa exagerada. Primero se aclara; después se decide."
+            description="El objetivo es que el visitante identifique su situación y encuentre la página específica de su caso. Priorizamos Meta, Cundinamarca y Bogotá, con cobertura en toda Colombia."
           />
           <div className="mt-12 grid gap-6">
             {practiceAreas.map((area) => (
@@ -46,6 +49,11 @@ export default function PracticeAreasPage() {
                   <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">Área de práctica</span>
                   <h2 className="mt-4 font-serif text-3xl font-semibold text-ink">{area.title}</h2>
                   <p className="mt-5 text-sm leading-7 text-muted">{area.summary}</p>
+                  <div className="mt-6">
+                    <ButtonLink href={serviceUrlByPracticeSlug.get(area.slug) ?? `/areas-de-practica#${area.slug}`} variant="secondary">
+                      Ver servicio
+                    </ButtonLink>
+                  </div>
                 </div>
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>

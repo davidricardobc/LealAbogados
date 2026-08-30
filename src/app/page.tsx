@@ -7,19 +7,19 @@ import { ShieldIcon } from "@/components/icons";
 import { Reveal, RevealFrame, Stagger, StaggerItem } from "@/components/motion-primitives";
 import { ProcessSteps } from "@/components/process-steps";
 import { SectionHeader } from "@/components/section-header";
-import { companyPackages, enterpriseServices, practiceAreas, whatsappLinks } from "@/data/site";
+import { companyPackages, enterpriseServices, practiceAreas, serviceSeoPages, whatsappLinks } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Abogados en Colombia para consulta jurídica estratégica",
+  title: "Abogados en Meta, Cundinamarca, Bogotá y Colombia",
   description:
-    "Leal Abogados Compañía brinda consulta jurídica estratégica en Colombia para derecho de familia, laboral, civil, sucesiones, tutelas y servicios legales empresariales.",
+    "Leal Abogados Compañía brinda consulta jurídica estratégica en Meta, Cundinamarca, Bogotá y toda Colombia para familia, laboral, civil, sucesiones, tutelas y empresas.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Leal Abogados | Consulta jurídica estratégica en Colombia",
+    title: "Leal Abogados | Abogados en Meta, Cundinamarca, Bogotá y Colombia",
     description:
-      "Asesoría y representación legal para personas, familias y empresas en Colombia, con atención remota y criterio jurídico claro.",
+      "Asesoría y representación legal para personas, familias y empresas en Meta, Cundinamarca, Bogotá y toda Colombia.",
     url: "/",
     images: [
       {
@@ -31,9 +31,9 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: "Leal Abogados | Consulta jurídica estratégica en Colombia",
+    title: "Leal Abogados | Abogados en Meta, Cundinamarca, Bogotá y Colombia",
     description:
-      "Asesoría y representación legal para personas, familias y empresas en Colombia.",
+      "Asesoría y representación legal para personas, familias y empresas en Meta, Cundinamarca, Bogotá y toda Colombia.",
     images: ["/assets/leal-og-launch.png"],
   },
 };
@@ -54,8 +54,10 @@ const consultationOutcomes = [
 const proofMarkers = [
   "Litigio y prevención",
   "Familia, laboral, civil y empresas",
-  "Consulta remota o coordinada",
+  "Meta, Cundinamarca, Bogotá y Colombia",
 ];
+
+const serviceUrlByPracticeSlug = new Map(serviceSeoPages.map((page) => [page.practiceAreaSlug, `/${page.slug}`]));
 
 export default function Home() {
   return (
@@ -142,7 +144,7 @@ export default function Home() {
                 <StaggerItem key={area.slug}>
                   <a
                     className="group block border-t border-ink/12 pt-6 transition hover:border-brand-red"
-                    href={`/areas-de-practica#${area.slug}`}
+                    href={serviceUrlByPracticeSlug.get(area.slug) ?? `/areas-de-practica#${area.slug}`}
                   >
                     <ShieldIcon className="h-7 w-7 text-brand-red" />
                     <h3 className="mt-5 font-serif text-xl font-semibold text-ink">{area.title}</h3>

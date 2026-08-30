@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/data/site";
+import { serviceSeoPages, siteConfig } from "@/data/site";
 
-const lastModified = new Date("2026-07-17T00:00:00-05:00");
+const lastModified = new Date("2026-08-30T00:00:00-05:00");
 
 const routes = [
   { path: "", changeFrequency: "weekly" as const, priority: 1 },
@@ -13,7 +13,13 @@ const routes = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return routes.map((route) => ({
+  const serviceRoutes = serviceSeoPages.map((page) => ({
+    path: `/${page.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: page.slug === "abogado-laboral" || page.slug === "abogados-empresas" ? 0.92 : 0.88,
+  }));
+
+  return [...routes, ...serviceRoutes].map((route) => ({
     url: `${siteConfig.url}${route.path}`,
     lastModified,
     changeFrequency: route.changeFrequency,

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { navItems, siteConfig, socialProfiles, whatsappLinks } from "@/data/site";
+import { navItems, serviceSeoPages, siteConfig, socialProfiles, whatsappLinks } from "@/data/site";
 
 export function SiteFooter() {
   return (
     <footer className="bg-ink text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 md:grid-cols-[1.15fr_0.75fr_0.95fr] lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 md:grid-cols-[1.15fr_0.75fr_0.95fr_0.95fr] lg:px-8">
         <div className="md:pr-8">
           <Logo inverse size="footer" className="border-white/15 bg-black/85 shadow-[0_22px_60px_rgba(0,0,0,0.34)]" />
           <p className="mt-6 max-w-md text-sm leading-7 text-white/68">
@@ -51,6 +51,19 @@ export function SiteFooter() {
                 Agendar consulta por WhatsApp
               </a>
             </li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/48">Servicios</h2>
+          <ul className="mt-5 space-y-3">
+            {serviceSeoPages.map((page) => (
+              <li key={page.slug}>
+                <Link className="text-sm text-white/72 transition hover:text-white" href={`/${page.slug}`}>
+                  {page.title}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

@@ -11,7 +11,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Leal Abogados | Abogados en Colombia y consulta jurídica estratégica",
+    default: "Leal Abogados | Abogados en Meta, Cundinamarca, Bogotá y Colombia",
     template: "%s | Leal Abogados",
   },
   description: siteConfig.description,
@@ -22,6 +22,10 @@ export const metadata: Metadata = {
   keywords: [
     "abogados Colombia",
     "consulta jurídica",
+    "abogados Meta",
+    "abogados Cundinamarca",
+    "abogados Bogotá",
+    "abogado en Villavicencio",
     "derecho laboral",
     "tutela",
     "familia",
@@ -32,6 +36,9 @@ export const metadata: Metadata = {
     "abogado de familia Colombia",
     "abogado laboral Colombia",
     "abogados para empresas Colombia",
+    "abogado laboral Bogotá",
+    "abogado laboral Meta",
+    "abogado de familia Cundinamarca",
   ],
   alternates: {
     canonical: "/",
@@ -46,7 +53,7 @@ export const metadata: Metadata = {
     locale: "es_CO",
     url: siteConfig.url,
     siteName: siteConfig.name,
-    title: "Leal Abogados | Abogados en Colombia y consulta jurídica estratégica",
+    title: "Leal Abogados | Abogados en Meta, Cundinamarca, Bogotá y Colombia",
     description: siteConfig.description,
     images: [
       {
@@ -59,7 +66,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Leal Abogados | Abogados en Colombia y consulta jurídica estratégica",
+    title: "Leal Abogados | Abogados en Meta, Cundinamarca, Bogotá y Colombia",
     description: siteConfig.description,
     images: ["/assets/leal-og-launch.png"],
   },

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 type PageHeroProps = {
   title: string;
   description: string;
+  primaryHref?: string;
   primaryLabel?: string;
   secondaryLabel?: string;
   secondaryHref?: string;
@@ -19,6 +20,7 @@ type PageHeroProps = {
 export function PageHero({
   title,
   description,
+  primaryHref = whatsappLinks.consultation,
   primaryLabel = "Agendar consulta",
   secondaryLabel = "Contactar",
   secondaryHref = "/contacto",
@@ -38,7 +40,7 @@ export function PageHero({
           <h1 className="max-w-4xl text-balance font-serif text-[2.08rem] font-semibold leading-[1.04] tracking-normal sm:text-5xl lg:text-6xl">{title}</h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8">{description}</p>
           <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
-            <ButtonLink external href={whatsappLinks.consultation} variant="primary">
+            <ButtonLink external href={primaryHref} variant="primary">
               {primaryLabel}
             </ButtonLink>
             <ButtonLink href={secondaryHref} variant="ghost" className="text-white hover:bg-white/8 hover:text-white">
